@@ -1,4 +1,4 @@
-[jinkies]: Jinkies
+<a id="jinkies"></a>[Jinkies](#jinkies)
 =======
 
 Jinkies is an application for monitoring remote CI servers and notifying you
