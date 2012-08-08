@@ -6,7 +6,7 @@ of important build events (i.e. breaks and fixes). Rather than send emails
 which may go unnoticed, Jinkies notifications are intended to be attention 
 grabbing. This version of Jinkies supports mp3 and wav files. In future we 
 hope to support video, text to speech, lava lamps, firework displays and 
-moon landings.
+Mars landings.
 
 One of the nice features of Jinkies is that it allows you to "theme" build 
 jobs. In this way you can assign a theme (e.g. "The Simpsons" or 
