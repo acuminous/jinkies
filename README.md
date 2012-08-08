@@ -174,9 +174,9 @@ that represents when your Stand-Up event will fire. You can find more informatio
 ## Custom Events
 If you want to use Jinkies to report other events, you need to POST a request to /api/event with the following parameters...
 
-* target [You can make this whatever you like]
-* event [e.g. Backup Failed - there must be at least one piece of content associated with this event type.]
-* theme [e.g. Scooby Doo]
+* target [e.g. Floor 2]
+* event [e.g. Sandwich Trolley - there must be at least one piece of content associated with this event type.]
+* theme [e.g. Yogi Bear]
 * channel [e.g. audio]
 
 ## <a id="developerNotes"></a>Developer Notes
@@ -184,6 +184,11 @@ Many of the functional tests currently won't work in your environment.
 This is because they expect a Jenkins server at http://build.acuminous.meh:8080 
 to be running and configured with various jobs. At some point we'll get round to 
 either creating a controller with stub responses or try running Rob Fletcher's 
-[Betamax](http://freeside.co/betamax/) library between Jinkies and the build server. 
+[Betamax](http://freeside.co/betamax/) library between Jinkies and our build server. 
 If you want to contribute to Jinkies and our laziness is causing inconvenience, 
 let us know and I'll expedite this.
+
+Finally we hope you enjoy using Jinkies. Thanks for listening...
+
+The Jinkies development team.
+
