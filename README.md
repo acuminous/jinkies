@@ -1,4 +1,4 @@
-# <a id="jinkies"/>Jinkies
+Jinkies
 Jinkies is an application for monitoring remote CI servers and notifying you
 of important build events (i.e. breaks and fixes). Rather than send emails 
 which may go unnoticed, Jinkies notifications are intended to be attention 
@@ -15,7 +15,7 @@ Non CI related events can be posted to Jinkies over HTTP, so it's also
 possible to use it to notify you of infrastructure related events for 
 example.
 
-## <a id="systemRequirements"/>System Requirements
+## <a id="systemRequirements"></a>System Requirements
 You will need a recent version of Java (1.6 should do) and a css3 / HTML5 compliant browser.
 Jenkins (and possibly Hudson) are currently the only supported CI servers. You'll also 
 need a computer capable of playing sound, on which to install Jinkies.
@@ -85,10 +85,9 @@ server), and totally insecure if you're not using HTTPS and could easily
 lead to your server being p'owned if it's publicly accessible.
 (hint: Don't make your CI server publicly accessible without HTTPS!). 
 
-If this is unacceptable in your environment, let us know and we'll consider   
-an improved solution. If you can't wait then place to start is 
-uk.co.acuminous.jinkies.HttpClientsFactory.groovy. We look forward to your 
-pull request.
+If this is unacceptable in your environment, let us know and we'll consider an 
+improved solution. If you can't wait then place to start is uk.co.acuminous.jinkies.HttpClientsFactory.groovy. 
+We look forward to your [pull request](https://help.github.com/articles/using-pull-requests/).
 
 ##<a id="httpsConfiguration"/>HTTPS/SSL Configuration
 If you're attempting to download content or connect to a build server over HTTPS 
@@ -96,14 +95,16 @@ and the remote server is using a self signed certificate you'll need to tell the
 JVM running Jinkies to trust it by downloading the certificate and adding it to 
 the [cacerts](http://docs.oracle.com/javase/6/docs/technotes/tools/solaris/keytool.html#cacerts) file using the java [keytool](http://docs.oracle.com/javase/6/docs/technotes/tools/solaris/keytool.html) program.
 
-##<a id="externalConfiguration"/>External Configuration
+##<a id="externalConfiguration"></a>External Configuration
 Jinkies is a [Grails](http://www.grails.org) application. As such it has a main 
 configuration file called [Config.groovy](http://www.github.com/acuminous/jinkies/grails-app/conf/Config.groovy) and some environment based 
 overrides such as [development.groovy](http://www.github.com/acuminous/jinkies/grails-app/conf/environment/development.groovy) and [production.groovy](http://www.github.com/acuminous/jinkies/grails-app/conf/environment/development.groovy).
 
 Jinkies will also attempt apply overrides from an external config file if such
 a file exists. By default Jinkies will look for /etc/jinkies/config.groovy, but
-you can change this by adding a -Djinkies.config=/path/to/configfile at startup.
+you can change this by adding a -Djinkies.config=/path/to/config-file at startup.
+
+Further information about Grails configuration can be found [here](http://grails.org/doc/latest/guide/conf.html).
 
 ##<a id="pollFrequency"/>Changing The CI Server Poll Frequency
 Jinkies is configured to poll all jobs jobs every 15 seconds. To change this
