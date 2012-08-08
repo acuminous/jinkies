@@ -110,7 +110,7 @@ Further information about Grails configuration can be found [here](http://grails
 ##<a id="pollFrequency"></a>Changing The CI Server Poll Frequency
 Jinkies is configured to poll all jobs jobs every 15 seconds. To change this
 setup an [External Configuration](#externalConfiguration) file, then paste in the
-contents of [QuartzConfig](http://www.github.com/acuminous/jinkies/grails-app/conf/QuartzConfig.groovy)
+contents of [QuartzConfig](http://www.github.com/acuminous/jinkies/grails-app/conf/QuartzConfig.groovy) (see below).
 
 	import org.quartz.impl.triggers.CronTriggerImpl
 	import grails.plugin.quartz2.ClosureJob
@@ -133,9 +133,9 @@ contents of [QuartzConfig](http://www.github.com/acuminous/jinkies/grails-app/co
 		quartzScheduler.scheduleJob(job, trigger)
 	}
 
-Change the "repeatInterval" attribute to the desired number of milliseconds
+Change the "repeatInterval" attribute from 15000 to the desired number of milliseconds
 
-##<a id="schedulingNotifications"></a>Scheduling Notifications
+## <a id="schedulingNotifications"></a>Scheduling Notifications
 We use Jinkies to tell everyone it's time for the daily stand-up. Someday we hope 
 to build a nice UI to do this, but right now you need a bit of HTTP and a text editor.
 Scheduling a notification is very similar to changing the [CI Server Poll Frequency](#pollFrequency) [First setup an External Configuration](externalConfiguration) file, then paste in the 
@@ -163,7 +163,7 @@ following...
 Then go about substituting 'projectX' with your project name, 'Scooby Doo' with your theme etc.
 You can find more information about cron expressions [here](http://quartz-scheduler.org/api/2.0.0/org/quartz/CronExpression.html) 
 
-##  <a id="developerNotes"></a>Developer Notes
+## <a id="developerNotes"></a>Developer Notes
 Many of the functional tests currently won't work in your environment.
 This is because they expect a Jenkins server at http://build.acuminous.meh:8080 
 to be running and configured with various jobs. At some point we'll get round to 
