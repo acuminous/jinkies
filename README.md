@@ -138,7 +138,7 @@ Change the "repeatInterval" attribute from 15000 to the desired number of millis
 ## <a id="schedulingNotifications"></a>Scheduling Notifications
 We use Jinkies to tell everyone it's time for the daily stand-up. Someday we hope 
 to build a nice UI to do this, but right now you need a bit of HTTP and a text editor.
-Scheduling a notification is very similar to changing the [CI Server Poll Frequency](#poll-frequency) [First setup an External Configuration](#external-configuration) file, then paste in the 
+Scheduling a notification is very similar to changing the [CI Server Poll Frequency](#poll-frequency). First setup an [External Configuration](#external-configuration) file, then paste in the 
 following...
 
 	import org.quartz.impl.triggers.CronTriggerImpl 
