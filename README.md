@@ -28,12 +28,12 @@ need a computer capable of playing sound, on which to install Jinkies.
 
 ## <a id="installation"></a>Installation
 
-### Option 1 - Executable War File (easiest)
-1. Download http://www.github.com/acuminous/jinkies/binaries/jinkies.war
-2. Run java -jar jinkies.war -Dgrails.server.port=80 (defaults to 8080)
+### Option 1 - Executable War File (easy)
+1. Download the Jinkies [binaries](./binaries/jinkies.war)
+2. Run 'java -jar jinkies.war -Dgrails.server.port=80' (defaults to 8080)
 
-### Option 2 - Deployable War File (you need an app server)
-1. Download http://www.github.com/acuminous/jinkies/binaries/jinkies.war
+### Option 2 - Deployable War File (requires a Java application server)
+1. Download the Jinkies [binaries](./binaries/jinkies.war)
 2. Deploy it to your app server
 
 ## <a id="monitoringCiJobs"></a>Monitoring CI Jobs
@@ -113,8 +113,8 @@ the [cacerts](http://docs.oracle.com/javase/6/docs/technotes/tools/solaris/keyto
 
 ## <a id="externalConfiguration"></a>External Configuration
 Jinkies is a [Grails](http://www.grails.org) application. As such it has a main 
-configuration file called [Config.groovy](http://www.github.com/acuminous/jinkies/grails-app/conf/Config.groovy) and some environment based 
-overrides such as [development.groovy](http://www.github.com/acuminous/jinkies/grails-app/conf/environment/development.groovy) and [production.groovy](http://www.github.com/acuminous/jinkies/grails-app/conf/environment/development.groovy).
+configuration file called [Config.groovy](./grails-app/conf/Config.groovy) and some environment based 
+overrides such as [development.groovy](./grails-app/conf/environment/development.groovy) and [production.groovy](./grails-app/conf/environment/development.groovy).
 
 Jinkies will also attempt apply overrides from an external config file if such
 a file exists. By default Jinkies will look for /etc/jinkies/config.groovy, but
@@ -125,7 +125,7 @@ Further information about Grails configuration can be found [here](http://grails
 ##<a id="pollFrequency"></a>Changing The CI Server Poll Frequency
 Jinkies is configured to poll all jobs jobs every 15 seconds. To change this
 setup an [External Configuration](#external-configuration) file, then paste in the
-contents of [QuartzConfig](http://www.github.com/acuminous/jinkies/grails-app/conf/QuartzConfig.groovy) (see below).
+contents of [QuartzConfig](./grails-app/conf/QuartzConfig.groovy) (see below).
 
 	import org.quartz.impl.triggers.CronTriggerImpl
 	import grails.plugin.quartz2.ClosureJob
