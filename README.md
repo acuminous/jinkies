@@ -19,7 +19,7 @@ example.
 ## <a id="quickStart"></a>Quick Start
 1. Check the [system requirements](#system-requirements)
 2. [Install Jinkies](#installation)
-3. [Add one or more build jobs](#monitoring-ci-jobs).
+3. [Add one or more build jobs](#monitoring-ci-jobs)
 
 ## <a id="systemRequirements"></a>System Requirements
 You will need a recent version of Java (1.6 should do) and a css3 / HTML5 compliant browser.
