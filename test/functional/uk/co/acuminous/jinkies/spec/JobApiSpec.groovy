@@ -24,7 +24,6 @@ import uk.co.acuminous.jinkies.event.EventHistory
 import static groovyx.net.http.ContentType.*
 
 @Mixin(RemoteMixin)
-
 class JobApiSpec extends Specification  {
 
 	RESTClient client
@@ -41,7 +40,7 @@ class JobApiSpec extends Specification  {
 		given:
 			Job job = remote {
 				Tag theme = new Tag('Star Wars', TagType.theme).save()
-				Job.build(displayName: 'Julez', url: '../job/julez', type:'jenkins', theme: theme, channels: ['audio'])
+				new Job(displayName: 'Julez', url: '../job/julez', type:'jenkins', theme: theme, channels: ['audio']).save()
 			}
 		
 		when:
@@ -68,9 +67,9 @@ class JobApiSpec extends Specification  {
 		
 		given:
 			remote {
-				Job.build(displayName: 'B', url: '../job/b', type:'jenkins')
-				Job.build(displayName: 'C', url: '../job/c', type:'jenkins')
-				Job.build(displayName: 'A', url: '../job/a', type:'jenkins')
+				new Job(displayName: 'B', url: '../job/b', type:'jenkins').save()
+				new Job(displayName: 'C', url: '../job/c', type:'jenkins').save()
+				new Job(displayName: 'A', url: '../job/a', type:'jenkins').save()
 			}
 			
 		when:
@@ -192,7 +191,8 @@ class JobApiSpec extends Specification  {
 		given:
 			def id = remote {
 				Tag theme = new Tag('Scooby Doo', TagType.theme).save(flush:true)				
-				Job.build(displayName: 'Blah', url: '../job/blah', type: 'jenkins', theme: theme).id
+				Job job = new Job(displayName: 'Blah', url: '../job/blah', type: 'jenkins', theme: theme).save(flush:true)
+				job.id
 			}
 			
 			Map params = [displayName: 'Julez', url: '../job/julez', type: 'jenkins', theme: 'Star Wars', channel: ['audio', 'video']]
@@ -223,7 +223,8 @@ class JobApiSpec extends Specification  {
 		
 		given:
 			def id = remote {
-				Job.build(displayName: 'Blah', url: '../job/blah', type: 'jenkins').id
+				Job job = new Job(displayName: 'Blah', url: '../job/blah', type: 'jenkins').save(flush:true)
+				job.id
 			}
 			
 			Map params = [displayName: 'Julez', url: '../job/julez', type: 'jenkins', theme: 'Star Wars', channel: ['audio', 'video']]
@@ -247,7 +248,8 @@ class JobApiSpec extends Specification  {
 	
 		given:
 			def id = remote {
-				Job.build(displayName: 'Blah', url: '../job/blah', type: 'jenkins').id
+				Job job = new Job(displayName: 'Blah', url: '../job/blah', type: 'jenkins').save(flush:true)
+				job.id
 			}
 			
 			Map params = [displayName: displayName, url: url, type: type]
@@ -269,7 +271,8 @@ class JobApiSpec extends Specification  {
 	def "Deletes jobs"() {
 		given:
 			def id = remote {
-				Job.build(displayName: 'Blah', url: '../job/blah', type: 'jenkins').id
+				Job job = new Job(displayName: 'Blah', url: '../job/blah', type: 'jenkins').save(flush:true)
+				job.id
 			}
 			
 		expect:
@@ -286,7 +289,8 @@ class JobApiSpec extends Specification  {
 		
 		given:
 			def id = remote {
-				Job.build(displayName: 'Blah', url: '../job/blah', type: 'jenkins').id
+				Job job = new Job(displayName: 'Blah', url: '../job/blah', type: 'jenkins').save(flush:true)
+				job.id
 			}
 			String restId = "job/$id"
 			

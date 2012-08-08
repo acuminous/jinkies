@@ -20,8 +20,10 @@ import java.util.concurrent.TimeUnit
 
 import spock.lang.Specification
 import uk.co.acuminous.jinkies.event.EventHandler
+import grails.test.mixin.Mock as DomainMock
 
 
+@DomainMock(Job) // Shouldn't be necessary, but getting some weird ServletContext null error when creating jobs
 class RepeatedBuildFilterSpec extends Specification {
 
 	EventHandler nextHandler = Mock(EventHandler)

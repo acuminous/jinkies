@@ -281,7 +281,7 @@ class ContentApiSpec extends Specification {
 
 		then:		
 			response.status == 400
-			response.data[0] == 'Jinkies cannot play this wav file, although it can play others. Please see http://www.github.com/acuminous/jinkies/README.md#supportedFormats for an explanation.'
+			response.data[0] == 'Jinkies cannot play this wav file, although it can play others. Please see http://github.com/acuminous/jinkies/tree/master/README.md#supported-formats for an explanation.'
 	}
 	
 	def "Updates content"() {

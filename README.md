@@ -13,8 +13,8 @@ jobs. In this way you can assign a theme (e.g. "The Simpsons" or
 from those themes when an event occurs.
 
 Non CI related events can be posted to Jinkies over HTTP, so it's also
-possible to use it to notify you of infrastructure related events for 
-example.
+possible to use it to notify you of infrastructure related events such as 
+backup failures or downed servers.
 
 ## <a id="quickStart"></a>Quick Start
 1. Check the [system requirements](#system-requirements)
