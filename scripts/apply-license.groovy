@@ -1,4 +1,7 @@
-/* 
+import static groovy.io.FileType.*
+import static groovy.io.FileVisitResult.*
+
+String license = '''/* 
  * Copyright 2012 Acuminous Ltd
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,31 +16,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package uk.co.acuminous.jinkies.content
+'''
 
-import org.springframework.transaction.annotation.Transactional
-
-@Transactional
-class ContentService {
-
-	List<ContentPlayer> players
+dir = '.'
+new File(dir).traverse(
 	
-	List<Content> findAllEligibleContent(Tag theme, Tag eventType, List<String> contentTypes) {
-								
-		Content.createCriteria().listDistinct {
-			themes {
-				idEq theme?.id
-			}
-			events {
-				idEq eventType?.id
-			}			
-			inList 'type', contentTypes
-			
-			order 'title', 'asc'
-		}	
+	type       : FILES,
+	nameFilter : ~/.*(java|groovy)$/,
+	preDir     : { if (it.name == '.metadata') return SKIP_SUBTREE }) { file ->
+
+	// only add license if not already there
+	if (!file.text.contains('license')) {
+		def source = file.text
+		file.text = "$license$source"
 	}
 	
-	boolean isSupported(Content content) {
-		players.find { it.isSupported content }
-	}
+	assert file.text.contains(license)
 }
