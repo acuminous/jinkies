@@ -1,0 +1,9 @@
+/.idea
+/.settings
+/target-eclipse
+/cobertura.ser
+/.DS_Store
+/target
+/jinkies.trace.db
+/jinkies.h2.db
+*.log

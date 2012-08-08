@@ -1,0 +1,20 @@
+!tape
+name: Jenkins Jobs List
+interactions:
+- recorded: 2012-06-19T04:58:40.737Z
+  request:
+    method: GET
+    uri: http://build.acuminous.meh:8080/api/json
+    headers:
+      Accept: application/json, application/javascript, text/javascript
+      Accept-Encoding: gzip,deflate
+      Host: build.acuminous.meh:8080
+      Proxy-Connection: Keep-Alive
+  response:
+    status: 200
+    headers:
+      Content-Encoding: gzip
+      Content-Type: application/javascript;charset=UTF-8
+      Date: Tue, 19 Jun 2012 04:58:39 GMT
+    body: !!binary |-
+      H4sIAAAAAAAAAJ2STU/CQBCG/wqZc6HEE+mNiIkxgAYTL4bDtju2K/tR9wOspP/dWYUGPBDqcWfned7J7uyBOSdKjXzOcpQOstd9u05AGY6QwfJxtZjOIQFN5xm6woraC6Ppylc4UMx5tIMH1Buh3SA2HXqXTEU+noK6+8QieGPJfpMAP9XoIGUC7yb/SQb9i+XGbNywDrkUriJHsJKqlfd1lqZ5EJKPWBGU0Ca4kcIqm4wn45Qs6RmZEloYaWxUyoDQJn8ighZ+6NH5f4R07KWYB0FPg66X/sCcai3yM2uQ+NXPGYlLgy6Q95syApeES3MvHH1608vaUafq0mIDcSvNFi2Tcm4Yh2zfJlBboZhtXgTuqHCMnkp5dSiNDB9BoBe6nJkdreQbkw4TcJJtcVqi9k/GesjGZHR4a4OKu3poosoz7bYVvulqWxrmbJt7jtNxK8YFo7e4Go7J6ZEi1br9BlgKKi3fAwAA

@@ -1,0 +1,107 @@
+@import "mixins";
+@import "baseline";
+@import "widget";
+@import "footer";
+@import "dialog";
+//
+@heading-background-color: #fdf9b0;
+
+#about-page {
+
+	position: relative;
+
+	#about-title-1 {
+		#absolute > .top-left(40px, 40px);
+	}
+	
+	#about-title-2 {
+		#absolute > .top-left(457px, 662px);
+	}
+	
+	#about-title-3 {
+		#absolute > .bottom-right(150px, 40px);
+	}	
+}
+
+.comic {
+	
+	.page {	
+		background-color: white;		
+		.border;
+		
+		padding: @grid-margin;
+	    margin: @grid-margin * 2 (@grid-margin + @default-border-size) * -1;
+		
+		position: relative;		
+			
+		.drop-shadow(@canvas-shadow-color);					
+	}	
+		
+	.panel {
+		.border;
+		margin: @grid-margin 0;
+		padding: @grid-margin * 2;		
+	}
+	
+	.menu-item {
+		font-size: 3em;
+		font-weight: bold;
+		text-align: center;
+		
+		&.selected {
+			color: @heading-background-color;
+			text-shadow: -1px 0 #333, 1px 0 #333, 0 -1px #333, 0 1px #333, 10px 10px 10px #333; 
+		}		
+	}
+	
+	.panel:hover {
+		.menu-item {
+			color: @heading-background-color;		
+			text-shadow: -1px 0 #333, 1px 0 #333, 0 -1px #333, 0 1px #333, 10px 10px 10px #333; 
+		}
+	}
+	
+	h1 {
+		&.title {
+			background-color: @heading-background-color;
+			.border;
+			font-style: italic;		
+			padding: 0.3em;
+			
+			a {
+				color: #00399E;
+			}	
+		}
+	}
+}
+
+#main-logo-container {
+	position: absolute;
+
+	img {		
+		height: 13em;
+		#relative > .top-left(-2em, 0);
+		.rotate(355deg);
+	}
+}
+
+#jobs-panel {
+	.background-image('/images/green-background.png');	
+	background-color: #A3DEBA;
+}
+
+#jobs-menu-item {
+	.background-image('/images/green-background.png');
+	max-height: 80px;		
+}
+
+#themes-menu-item {
+	.background-image('/images/purple-background.png');
+	background-position: top center;
+	max-height: 80px;	
+}
+
+#content-panel {
+	.background-image('/images/purple-background.png');	
+	background-color: #9e5673;
+}

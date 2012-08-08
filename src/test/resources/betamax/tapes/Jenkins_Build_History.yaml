@@ -1,0 +1,58 @@
+!tape
+name: Jenkins Build History
+interactions:
+- recorded: 2012-06-19T04:58:41.545Z
+  request:
+    method: GET
+    uri: http://build.acuminous.meh:8080/job/Jinkies/api/json
+    headers:
+      Accept: application/json, application/javascript, text/javascript
+      Accept-Encoding: gzip,deflate
+      Host: build.acuminous.meh:8080
+      Proxy-Connection: Keep-Alive
+  response:
+    status: 200
+    headers:
+      Content-Encoding: gzip
+      Content-Type: application/javascript;charset=UTF-8
+      Date: Tue, 19 Jun 2012 04:58:40 GMT
+    body: !!binary |-
+      H4sIAAAAAAAAAK2USU/DMBCF/0rkc2nSRV1yYxESHCoWcUIcHGdK3Dq28SKoqv53xmkKNMAlzdFvMt882y/eEsocV9KS9PmlR3KwzHAdFJISggK3WtDNgpaAwi2Xaw4WddkUvBG4LpzTaRxnnou8T5kvuVTe9kso0lkyS+KVyuK6J8am6juaCUQ546EWgpctkb7MwJB0nLSBj5OY7HrflNG8DWU0b1BmrSizBmXaijJtUCatKJNjyrCVl2HwgnFhSiiEEAM53uaSG+suQj9JO5nQIwVQ4YoH0Mq4KhXHAa2GRdbRjAvuNml0LkRkgIF00T5K0ZJyAXkf7XGm5NPeSEU9SxKnBvO+lq9YtUwZjGEStsXlvQePqyUVFlO5BtBXoEHmIFmI+6Eg6B8bPiWwFfFSlVqAg7x79HV1Gt1zH134i7u9+4rrGQNrl150z36S9qdr6YX4Kvw/9qSjkvCxz8viQBv0iDZKg3Gb/Qv8FpJ346A8OMLUMm8MRrr2UmcvV++4AQO0vDNqBczVT7hl2LrFYV7/Lu8+AZSAplzwBQAA
+- recorded: 2012-06-19T04:58:41.931Z
+  request:
+    method: GET
+    uri: http://build.acuminous.meh:8080/job/NoHistory/api/json
+    headers:
+      Accept: application/json, application/javascript, text/javascript
+      Accept-Encoding: gzip,deflate
+      Host: build.acuminous.meh:8080
+      Proxy-Connection: Keep-Alive
+  response:
+    status: 200
+    headers:
+      Content-Encoding: gzip
+      Content-Type: application/javascript;charset=UTF-8
+      Date: Tue, 19 Jun 2012 04:58:41 GMT
+    body: !!binary |-
+      H4sIAAAAAAAAAG2RT0/DMAzFv0vO1TpuU4+AEFwm/ogT4pCmHs1w4uA4gmrad8el3Q5019/Le/ZzDsY68RSzad7eK9NBduzTSExjjAKfE9phawMo2NK9z0I8qBKXqDAq6UVSU9dt8ditrCvBRyp5FaBvNuvNut5TW59dtdr+XtoWNU64wAzmjRwhsaZ+MIwjdp6zXI+6aWJBrEwPFqV/hkQsk8XHpwJF03YWs8Z9AqRbSBA7iM5DPgto/2WN4IZCQhDoFsqd9XgBv8i4+xIX5yDnXcGF9BrzZY8Kl10RfqZNtyW0oPe4qkxiSsAyTKW/xsoPAuFkcRRdYYZ4qjiX7uhbxzPY8Mi0ByfzobNT6+Gov5iW8vEXmejq7ygCAAA=
+- recorded: 2012-06-19T04:58:42.280Z
+  request:
+    method: GET
+    uri: http://build.acuminous.meh:8080/job/Nada/api/json
+    headers:
+      Accept: application/json, application/javascript, text/javascript
+      Accept-Encoding: gzip,deflate
+      Host: build.acuminous.meh:8080
+      Proxy-Connection: Keep-Alive
+  response:
+    status: 404
+    headers:
+      Cache-Control: must-revalidate,no-cache,no-store
+      Content-Type: text/html; charset=iso-8859-1
+      Date: Tue, 19 Jun 2012 04:58:41 GMT
+    body: "<html>\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=ISO-8859-1\"/>\n<title>Error 404 NOT_FOUND</title>\n</head>\n<body><h2>HTTP ERROR 404</h2>\n<p>Problem accessing /job/Nada/api/json. Reason:\n<pre>    NOT_FOUND</pre></p><hr\
+      \ /><i><small>Powered by Jetty://</small></i><br/>                                                \n<br/>                                                \n<br/>                                                \n<br/>                                    \
+      \            \n<br/>                                                \n<br/>                                                \n<br/>                                                \n<br/>                                                \n<br/>           \
+      \                                     \n<br/>                                                \n<br/>                                                \n<br/>                                                \n<br/>                                         \
+      \       \n<br/>                                                \n<br/>                                                \n<br/>                                                \n<br/>                                                \n<br/>                \
+      \                                \n<br/>                                                \n<br/>                                                \n\n</body>\n</html>\n"

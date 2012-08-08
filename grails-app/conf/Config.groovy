@@ -1,0 +1,172 @@
+// See BuildConfig for how various configuration files get added to the classpath 
+
+grails.config.locations = [
+
+	// Configuration for grails run-app
+	"file:grails-app/environments/${System.properties['grails.env']?.toLowerCase()}.groovy",
+		
+	// Configuration for deployed war
+	"classpath:environments/${System.properties['grails.env']?.toLowerCase()}.groovy",
+
+	// Quartz Scheduler Config
+	QuartzConfig,
+	
+	// External configuration options (useful for overrides)
+	System.properties['jinkies.config'] ? "file:${System.properties['jinkies.config']}" : "file:/etc/jinkies/config.groovy"
+]
+
+grails.project.groupId = appName
+grails.mime.file.extensions = true
+grails.mime.use.accept.header = false
+grails.mime.types = [ html: ['text/html','application/xhtml+xml'],
+                      xml: ['text/xml', 'application/xml'],
+                      text: 'text/plain',
+                      js: 'text/javascript',
+                      rss: 'application/rss+xml',
+                      atom: 'application/atom+xml',
+                      css: 'text/css',
+                      csv: 'text/csv',
+                      all: '*/*',
+                      json: ['application/json','text/json'],
+                      form: 'application/x-www-form-urlencoded',
+                      multipartForm: 'multipart/form-data'
+                    ]
+
+// What URL patterns should be processed by the resources plugin
+grails.resources.adhoc.patterns = ['/images/*', '/css/*', '/js/*', '/plugins/*']
+
+
+// The default codec used to encode data with ${}
+grails.views.default.codec = "none" // none, html, base64
+grails.views.gsp.encoding = "UTF-8"
+grails.converters.encoding = "UTF-8"
+
+// enable Sitemesh preprocessing of GSP pages
+grails.views.gsp.sitemesh.preprocess = true
+
+// scaffolding templates configuration
+grails.scaffolding.templates.domainSuffix = 'Instance'
+
+// Set to false to use the new Grails 1.2 JSONBuilder in the render method
+grails.json.legacy.builder = false
+
+// enabled native2ascii conversion of i18n properties files
+grails.enable.native2ascii = true
+
+// packages to include in Spring bean scanning
+grails.spring.bean.packages = []
+
+// whether to disable processing of multi part requests
+grails.web.disable.multipart=false
+
+// request parameters to mask when logging exceptions
+grails.exceptionresolver.params.exclude = ['password']
+
+// enable query caching by default
+grails.hibernate.cache.queries = true
+
+grails.app.context = '/'
+
+grails.gorm.failOnError=false
+
+
+grails.plugins.dynamicController.mixins = [
+   'com.burtbeckwith.grails.plugins.appinfo.IndexControllerMixin':
+	  'com.burtbeckwith.appinfo_test.AdminManageController',
+ 
+   'com.burtbeckwith.grails.plugins.appinfo.Log4jControllerMixin' :
+	  'com.burtbeckwith.appinfo_test.AdminManageController',
+ 
+   'com.burtbeckwith.grails.plugins.appinfo.SpringControllerMixin' :
+	  'com.burtbeckwith.appinfo_test.AdminManageController',
+ 
+   'com.burtbeckwith.grails.plugins.appinfo.MemoryControllerMixin' :
+	  'com.burtbeckwith.appinfo_test.AdminManageController',
+ 
+   'com.burtbeckwith.grails.plugins.appinfo.PropertiesControllerMixin' :
+	  'com.burtbeckwith.appinfo_test.AdminManageController',
+ 
+   'com.burtbeckwith.grails.plugins.appinfo.ScopesControllerMixin' :
+	  'com.burtbeckwith.appinfo_test.AdminManageController',
+ 
+   'com.burtbeckwith.grails.plugins.appinfo.ThreadsControllerMixin' :
+	  'com.burtbeckwith.appinfo_test.AdminManageController',
+ 
+   'app.info.custom.example.MyConfigControllerMixin' :
+	  'com.burtbeckwith.appinfo_test.AdminManageController'
+]
+
+log4j = {
+
+	appenders {
+		file name:'file', file:'jinkies.log'
+	}
+	root {
+		info 'stdout', 'file'
+	}
+	
+    error  'org.codehaus.groovy.grails.web.servlet',  //  controllers
+           'org.codehaus.groovy.grails.web.pages', //  GSP
+           'org.codehaus.groovy.grails.web.sitemesh', //  layouts
+           'org.codehaus.groovy.grails.web.mapping.filter', // URL mapping
+           'org.codehaus.groovy.grails.web.mapping', // URL mapping
+           'org.codehaus.groovy.grails.commons', // core / classloading
+           'org.codehaus.groovy.grails.plugins', // plugins
+           'org.codehaus.groovy.grails.orm.hibernate', // hibernate integration
+           'org.springframework',
+           'org.hibernate',
+           'net.sf.ehcache.hibernate'
+		   
+	warn 'com.burtbeckwith.grails.plugins.dynamiccontroller'
+		   
+	debug 'uk.co.acuminous.jinkies'
+}
+
+migrations.enabled = false
+migrations.dropAll = false
+
+grails.resources.debug = false
+grails.resources.modules = {
+	core {
+		dependsOn 'jquery'
+		dependsOn '960'
+		dependsOn 'modal'
+		resource url:'/css/error.less', attrs:[rel: "stylesheet/less", type:'css']	
+		resource url:'/css/comic.less', attrs:[rel: "stylesheet/less", type:'css']
+		resource url:'/css/dialog.less', attrs:[rel: "stylesheet/less", type:'css']
+		resource url:'/js/common/baseline.js'
+		resource url:'/js/common/errors.js'
+		resource url:'/js/common/panel.js'
+		resource url:'/js/common/dialog.js'
+		resource url:'/js/common/widget.js'
+	}
+	'960' {
+		resource url:'/css/960.css'
+	}
+	modal {
+		resource url:'/js/simplemodal/jquery.simplemodal-1.4.2.js'
+	}
+	fileUpload {
+		resource url:'/js/fileupload/jquery.ui.widget.js'
+		resource url:'/js/fileupload/jquery.iframe-transport.js'
+		resource url:'/js/fileupload/jquery.fileupload.js'
+	}
+	jobs {
+		dependsOn 'core'
+		resource url:'/js/job/job-init.js'
+		resource url:'/js/job/job-api.js'
+		resource url:'/js/job/job-widget.js'
+		resource url:'/js/job/job-dialog.js'		
+	}
+	content {
+		dependsOn 'core'
+		dependsOn 'fileUpload'
+		resource url:'/js/content/content-init.js'
+		resource url:'/js/content/content-api.js'
+		resource url:'/js/content/content-widget.js'
+		resource url:'/js/content/content-dialog.js'		
+	}
+}
+jinkies.splash.enabled = false
+
+grails.plugin.quartz2.autoStartup = false

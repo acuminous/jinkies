@@ -1,0 +1,54 @@
+!tape
+name: Jenkins Job
+interactions:
+- recorded: 2012-06-19T05:45:13.115Z
+  request:
+    method: GET
+    uri: http://build.acuminous.meh:8080/job/Julez/api/json
+    headers:
+      Accept: application/json, application/javascript, text/javascript
+      Accept-Encoding: gzip,deflate
+      Host: build.acuminous.meh:8080
+      Proxy-Connection: Keep-Alive
+  response:
+    status: 200
+    headers:
+      Content-Encoding: gzip
+      Content-Type: application/javascript;charset=UTF-8
+      Date: Tue, 19 Jun 2012 05:45:13 GMT
+    body: !!binary |-
+      H4sIAAAAAAAAALWWW0/bMBSA/4oV7bGXNAwoeQQ2aUggRsfTxIPjnNIUx/Z8YTDEf+fYCYNG3eZGmYRK48Sfv+Men5OnhDJbSWGS/PvT80g4zkf4P/zdjJISDNOV8k8keZLgQGUUp48XtAYcOHMcfuGo2Lx0muPVylqVT6eFq3g5oczVlZDOTGpY5fN0nk7XspiGGVOcEp6iBUeM1Q7agWCVCFcXoJN872h39N7RNMFY3hjzHox5h3HYg3HYYRz0YBx0GPs9GPsdRtaDkXUYsx6MWYeR9mCkm4ysR35knfzIeuRH5vMDDwuTXCIiKbgDTOllpY099tOTfIAFRskKKLerK1BS23AwNk/nNzCWXIFx3OYkJRYvDVnSilfilkhniVwSSqy0lPuvs/2seWaCrhWT4rqxCouM56niKKPELd41TGo8mLM09Vu1uWoIkBhLC1zIPubkQhINDIQlzREOClDutApuZiW+OsB9zJeUG6wHdwDqFBSIEgSrwPy+wemWXe5fKgLvRNaKg4VyaPDnsBctNRTbMLywvvQNvdjCMQbGLB0fmnwtzB+Me5eTV+5fnPuzBTw0OXLRsj5iuVFaKtD2MXQ+zLgfPt++WKhffxnMVua0xlRuXdqMK+VPjF8DrS+1XAOzvk3d+ATGqdg5E6e23a5liU5tS2saprubMPkugrWXzsPnOJyG3SPeivzwhvTNtlOotvR0cuJXD4Xx36Zwj1tkBnZtoJG2nxqDWN8H6o/34MYtNtb51SLSel3Ait4PnRItNdL57LhxiFUuCza0LyJjZU+PT6JN66GzAYmxnueLaE0jxbim2qwo9219aOcOPjYAnEbO31lFRvP/Atk9hh76ivrWMLB5A42UvmwMIn39y97YOBVeH4e1fo+OdA9vq4vW5vnm+QW6cxxHiQ4AAA==
+- recorded: 2012-06-19T07:41:08.088Z
+  request:
+    method: GET
+    uri: http://build.acuminous.meh:8080/job/julez/api/json
+    headers:
+      Accept: application/json, application/javascript, text/javascript
+      Accept-Encoding: gzip,deflate
+      Host: build.acuminous.meh:8080
+      Proxy-Connection: Keep-Alive
+  response:
+    status: 200
+    headers:
+      Content-Encoding: gzip
+      Content-Type: application/javascript;charset=UTF-8
+      Date: Tue, 19 Jun 2012 07:41:08 GMT
+    body: !!binary |-
+      H4sIAAAAAAAAALWWW0/bMBSA/4oV7bGXNAwoeQQ2aUggRsfTxIPjnNIUx/Z8YTDEf+fYCYNG3eZGmYRK48Sfv+Men5OnhDJbSWGS/PvT80g4zkf4P/zdjJISDNOV8k8keZLgQGUUp48XtAYcOHMcfuGo2Lx0muPVylqVT6eFq3g5oczVlZDOTGpY5fN0nk7Xspiu/YwpTglP0YIjxmoH7UCwSoSrC9BJvne0O3rvaJpgLG+MeQ/GvMM47ME47DAOejAOOoz9Hoz9DiPrwcg6jFkPxqzDSHsw0k1G1iM/sk5+ZD3yI/P5gYeFSS4RkRTcAab0stLGHvvpST7AAqNkBZTb1RUoqW04GJun8xsYS67AOG5zkhKLl4YsacUrcUuks0QuCSVWWsr919l+1jwzQdeKSXHdWIVFxvNUcZRR4hbvGiY1HsxZmvqt2lw1BEiMpQUuZB9zciGJBgbCkuYIBwUod1oFN7MSXx3gPuZLyg3WgzsAdQoKRAmCVWB+3+B0yy73LxWBdyJrxcFCOTT4c9iLlhqKbRheWF/6hl5s4RgDY5aOD02+FuYPxr3LySv3L8792QIemhy5aFkfsdwoLRVo+xg6H2bcD59vXyzUr78MZitzWmMqty5txpXyJ8avgdaXWq6BWd+mbnwC41TsnIlT227XskSntqU1DdPdTZh8F0GQzsPnOJyG3SPeivzwhvTNtlOotvR0cuJXD4Xx36Zwj1tkBnZtoJG2nxqDWN8H6o/34MYtNtb51SLSel3Ait4PnRItNdL57LhxiFUuCza0LyJjZU+PT6JN66GzAYmxnueLaE0jxbim2qwo9219aOcOPjYAnEbO31lFRvP/Atk9hh76ivrWMLB5A42UvmwMIn39y97YOBVeH4e1fo+OdA9vq4vW5vnm+QXdklhkiQ4AAA==
+- recorded: 2012-06-19T07:41:08.394Z
+  request:
+    method: GET
+    uri: http://build.acuminous.meh:8080/job/JULEZ/api/json
+    headers:
+      Accept: application/json, application/javascript, text/javascript
+      Accept-Encoding: gzip,deflate
+      Host: build.acuminous.meh:8080
+      Proxy-Connection: Keep-Alive
+  response:
+    status: 200
+    headers:
+      Content-Encoding: gzip
+      Content-Type: application/javascript;charset=UTF-8
+      Date: Tue, 19 Jun 2012 07:41:08 GMT
+    body: !!binary |-
+      H4sIAAAAAAAAALWWW0/bMBSA/4oV7bGXtAwoeeQyaWggRsfLJh4c55SmOLbnC4Oh/vcdO2HQqNvcKJNQaZz483fc43PynFBmSylMkn17Xg+E43yA/8Pf7SApwDBdKv9EkiUJDpRGcfp0SSvAgXPH4SeOis1LpzleLa1V2Xicu5IXI8pcVQrpzKiCZTZLZ+l4JfPx+c2ns69jnBKeojlHjNUOmoFglQhX5aCTbO9od/Te0TjBWF4Zsw6MWYtx2IFx2GIcdGActBj7HRj7Lca0A2PaYkw6MCYtRtqBkW4yph3yY9rKj2mH/Jj6/MDDwiSXiEhy7gBTelFqY4/99CTrYYFBsgTK7fIalNQ2HIzN0/kFjCXXYBy3GUmJxUtDFrTkpbgj0lkiF4QSKy3l/utkf1o/M0LXkklxU1uFRYazVHGUUeIO7xomNR7MSZr6rdpcNQRIjKU5LmSfMnIpiQYGwpL6CAcFKHZaBTezFJ8d4D5mC8oN1oN7AHUKCkQBgpVgft/gdMsudy8VgXciK8XBQtE3+EPYi4Yaim0Ynltf+vpebO4YA2MWjvdNvhHmD8ady8kL9y/O3dkCHuscuWxY77HcKC0VaPsUOh9m3Hefbx8tVC+/DGYrc1pjKjcuTcYV8gfGr4FWV1qugFnfpm59AuNU7JyJU9tuV7LA/ti0tLphuvsRk28iWPkGmoXPYTgNu0e8FfnuFembbatQbenp5MSvHgrjv03hAbfI9OxaQyNtz2qDWN9H6o9378YNNtb5xSLSepXDkj70nRINNdL5/Lh2iFUucta3LyJjZU+PT6JNq76zAYmxnhfzaE0jxbCi2iwp9229b+cWPjYAnEYu3lhFRvP/Atk9hg76ivrW0LN5DY2UvqoNIn39y97QOBVeH/u1fouOdA9vq/PGZn27/gV6IBNBiQ4AAA==

@@ -1,0 +1,181 @@
+@import "mixins";
+@import "baseline";
+
+#simplemodal-overlay {
+	background-color:#000;
+	cursor:wait;
+	.transparent(0.9, alpha(opacity=90));
+}
+
+.dialog {
+	display: none;	
+	
+	.container_12 {
+		width: 665px;
+	}	
+
+	&.createMode {
+		.hideInCreateMode {
+			display: none;
+		}	
+	}
+	
+	&.updateMode {
+		.hideInUpdateMode {
+			display: none;
+		}
+	}	
+		
+	.page {
+		padding: @grid-margin * 2;
+	    margin: @grid-margin * 2 (@grid-margin * 2 + @default-border-size) * -1;
+	    
+		.panel {
+			margin: 0;
+			padding: @grid-margin * 2 @grid-margin;
+			background-color: #A65988;	
+
+			filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#C681B5', endColorstr='#A65988'); /* for IE */
+			background: -webkit-gradient(linear, left top, left bottom, from(#C681B5), to(#A65988)); /* for webkit browsers */
+			background: -moz-linear-gradient(top,  #C681B5,  #A65988); /* for firefox 3.6+ */ 			
+		}	 
+	}
+	
+	form {
+		margin: 1em 0 0em;		
+		padding-top: 0.5em;		
+	}
+	
+	label.checkbox {
+		font-weight: normal;
+	}	
+	
+	select {
+		.border;	
+		font-size: 1em;
+		padding: 0.2em;		
+		
+		min-width: 200px;						
+	}
+	
+	input[type="text"] {
+		.border;	
+		font-size: 1em;
+		padding: 0.2em;
+		width: 450px;		
+		
+		&.readonly {
+			border: none;			
+			background-color: transparent;
+			padding-left: 0;
+			margin-left: @default-border-size * -1;
+		}
+	}
+	
+	.fileInput {
+		position: relative;
+		
+		input[type=button] {
+			&::-moz-focus-inner {
+				border: 1px dotted #333;
+			}
+			&:focus {
+				outline: 1px dotted #333;
+			}
+			font-size: 1em;
+			margin-right: 1em;
+		}
+		input[type=file] {
+			#absolute > .top-left(-1000px, -1000px);
+			.transparent(0, alpha(opacity=0);
+		}
+	}	
+	
+	.form-row {
+			
+		height: 2.1em; // Otherwise dialog jumps about when switching upload methods					
+		line-height: 2em;
+		
+		margin-top: 1em;
+		
+		.heading {
+			font-weight: bold;
+		}
+				
+		&:last-child {
+			margin-top: 2.5em;
+		}		
+		
+		input[type=radio], input[type=checkbox] {
+		
+			margin-left: 2em;
+		
+			&:first-child {
+				margin-left: 0px;
+			}
+		}
+	}
+	
+	.tip {
+		text-align: right;
+		
+		.text {
+			color: white;		
+			font-size: 0.8em;
+			font-style: normal;
+			padding-right: 0.5em;
+		}
+	}
+	
+	.controls {
+		margin: 1.5em 0;
+		
+		.button-container {
+			text-align: center;
+		}
+		
+		input {
+			.clickable;			
+			height: 60px;
+			background-repeat: no-repeat;
+			background-position: top center;
+			background-color: transparent;
+			border: none;
+			
+			&.ok {
+				background-image: url(/images/ok.png);
+				background-size: 100px 120px;
+				width: 100px;							
+			}
+			&.cancel {
+				background-image: url(/images/cancel.png);
+				background-size: 160px 120px;
+				width: 160px;				
+			}
+			
+			&:hover, &.hover {
+				background-position: center -60px; 
+			}
+		}			
+	}
+	
+	#otherEventsLabel {
+		margin-left: 1.5em;
+	}
+	
+	#otherEvents {
+		.border(#555);
+		font-size: 0.8em;
+		margin-left: 0.1em;
+		padding-left: 0.6em;
+		padding-right: 0.6em;
+		.rounded-corners;
+		width: 150px;
+	}
+	
+}
+
+#simplemodal-container a.modalCloseImg {
+	background: none;
+	display: none;
+}

@@ -1,0 +1,153 @@
+a.silent {
+	&:hover {
+		text-decoration: none;
+	}
+}
+
+.clickable(@cursor: pointer) {
+	cursor: @cursor;
+}
+
+.rounded-corners(@radius: 1em) {
+	border-radius: @radius;
+	-webkit-border-radius: @radius;
+	-moz-border-radius: @radius;
+}
+
+.transparent(@opacity: 0.85, @filter: alpha(opacity=85)) {
+	opacity: @opacity;
+	filter:@filter; /* For IE8 and earlier */	
+}
+
+.circle (@diameter) {
+	.rounded-corners;
+	.size(@diameter, @diameter);
+	line-height: @diameter;
+	vertical-align: middle;
+}
+
+.background-image(@url) {
+	background: url(@url) no-repeat;
+	background-size: 100%;
+}
+
+.border(@color: @default-border-color) {
+	border: @default-border-size solid @color;
+}
+
+.offset-border(@color) {
+	.border(@color);
+	margin: -1px;
+}
+
+.drop-shadow (@color, @distance: 1em, @blur: 0.5em) {
+	box-shadow: @distance @distance @blur @color;
+}
+
+.text-shadow (@color, @distance: 1em, @blur: 0.5em) {
+	text-shadow: @distance @distance @blur @color;
+}
+
+.stroke-text (@color: @default-text-color, @size: 2px) {
+	text-shadow: -@size 0 @color, @size 0 @color, 0 -@size @color, 0 @size @color
+}
+
+#relative {
+	.top-right(@top, @right) {
+		position: relative;
+		top: @top;
+		right: @right;
+	}
+	
+	.top-left(@top, @left) {
+		position: relative;
+		top: @top;
+		left: @left;
+	}
+	
+	.bottom-right(@bottom, @right) {
+		position: relative;
+		bottom: @bottom;
+		right: @right;	
+	}
+	
+	.bottom-left(@bottom, @left) {
+		position: relative;
+		bottom: @bottom;
+		left: @left;	
+	}	
+}
+
+#absolute {
+	.top-right(@top, @right) {
+		position: absolute;
+		top: @top;
+		right: @right;
+	}
+	
+	.top-left(@top, @left) {
+		position: absolute;
+		top: @top;
+		left: @left;
+	}
+	
+	.bottom-right(@bottom, @right) {
+		position: absolute;
+		bottom: @bottom;
+		right: @right;	
+	}
+	
+	.bottom-left(@bottom, @left) {
+		position: absolute;
+		bottom: @bottom;
+		left: @left;	
+	}	
+}
+
+#fixed {
+	.top-right(@top, @right) {
+		position: fixed;
+		top: @top;
+		right: @right;
+	}
+	
+	.top-left(@top, @left) {
+		position: fixed;
+		top: @top;
+		left: @left;
+	}
+	
+	.bottom-right(@bottom, @right) {
+		position: fixed;
+		bottom: @bottom;
+		right: @right;	
+	}
+	
+	.bottom-left(@bottom, @left) {
+		position: fixed;
+		bottom: @bottom;
+		left: @left;	
+	}	
+}
+
+.size(@height, @width) {
+	height: @height;
+	width: @width;
+}
+
+.colours(@text, @background) {
+	color: @text;
+	background-color: @background;
+}
+
+.truncate-text() {
+	white-space: nowrap;		
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.rotate(@amount) {
+	transform: rotate(@amount);
+	-moz-transform: rotate(@amount);
+	-webkit-transform: rotate(@amount);
+}

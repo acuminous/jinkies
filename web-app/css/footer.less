@@ -1,0 +1,41 @@
+@footer-text-color: #666;
+@footer-height: 4.5em;
+@acuminous-logo-height: @footer-height;
+@ew-logo-height: @acuminous-logo-height * 0.6;
+
+#footer {
+	margin: 10px 0 20px;
+	text-align: center;
+	vertical-align: middle;
+	
+	.panel {
+		border: none;
+		margin: 0;
+		padding: 0;
+		height: @footer-height;
+		line-height: @footer-height;	
+		
+		&.notices {
+			line-height: 1.5em;
+			
+			.text {
+				color: @footer-text-color;
+				font-size: 0.8em;
+				padding-top: 1em;
+			}		
+			
+		}
+				
+		.acuminous-logo {
+			height: @acuminous-logo-height;
+			vertical-align: middle;
+			
+		}
+		
+		.ew-logo {
+			height: @ew-logo-height;
+			vertical-align: middle;			
+		}
+		
+	}	
+}

@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    			   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+
+    
+    <changeSet author="steve" id="CREATE_CONTENT_TABLE">
+        <createTable schemaName="JINKIES" tableName="CONTENT">
+            <column autoIncrement="true" name="ID" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONT_ID_PK"/>
+            </column>
+            <column name="VERSION" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TITLE" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DESCRIPTION" type="VARCHAR(255)"/>
+            <column name="FILENAME" type="VARCHAR(255)"/>
+            <column name="URL" type="VARCHAR(255)"/>
+            <column name="BYTES" type="VARBINARY(1073741824)"/>            
+            <column name="TYPE" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    
+    <changeSet author="steve" id="CREATE_CONTENT_TAG_TABLE">
+        <createTable schemaName="JINKIES" tableName="CONTENT_TAG">
+            <column name="TAG_ID" type="BIGINT"/>
+            <column name="CONTENT_THEMES_ID" type="BIGINT"/>
+			<column name="THEMES_IDX" type="INTEGER"/>
+			<column name="CONTENT_EVENTS_ID" type="BIGINT"/>
+			<column name="EVENTS_IDX" type="INTEGER"/>			            
+        </createTable>
+    </changeSet>
+    
+    <changeSet author="steve" id="CREATE_JOB_TABLE">
+        <createTable schemaName="JINKIES" tableName="JOB">
+            <column autoIncrement="true" name="ID" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="JOB_ID_PK"/>
+            </column>
+            <column name="VERSION" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DISPLAY_NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+			<column name="THEME_ID" type="BIGINT"/>
+            <column name="TYPE" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="URL" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    
+    <changeSet author="steve" id="CREATE_JOB_CHANNEL_TABLE">
+        <createTable schemaName="JINKIES" tableName="JOB_CHANNEL">
+            <column name="JOB_ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CHANNEL" type="VARCHAR(255)"/>
+            <column name="CHANNELS_IDX" type="INT"/>
+        </createTable>
+    </changeSet>    
+
+    <changeSet author="steve" id="CREATE_TAG_TABLE">
+        <createTable schemaName="JINKIES" tableName="TAG">
+            <column autoIncrement="true" name="ID" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="TAG_ID_PK"/>
+            </column>
+            <column name="VERSION" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>            
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TYPE" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>            
+            <column name="URI" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    
+    <changeSet author="steve" id="ADD_CONTENT_TAG_CONTENT_ID_FK">
+        <addForeignKeyConstraint baseColumnNames="CONTENT_THEMES_ID" baseTableName="CONTENT_TAG" baseTableSchemaName="JINKIES" constraintName="COTA_CO_ID_FK" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="CONTENT" referencedTableSchemaName="JINKIES" />
+    </changeSet>
+    
+	<changeSet author="steve" id="ADD_JOB_THEME_ID_FK">
+		<addForeignKeyConstraint baseColumnNames="THEME_ID" baseTableName="JOB" baseTableSchemaName="JINKIES" constraintName="JOB_TA_ID_FK" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="TAG" referencedTableSchemaName="JINKIES"/>
+	</changeSet>    
+    
+    <changeSet author="steve" id="ADD_JOB_URL_UQ">
+        <createIndex indexName="JOB_URL_UQ" tableName="JOB" unique="true">
+            <column name="URL"/>
+        </createIndex>
+    </changeSet>
+    
+    <changeSet author="steve" id="ADD_TAG_URI_UQ">
+        <createIndex indexName="ADD_TAG_URI_UQ" tableName="TAG" unique="true">
+            <column name="URI"/>
+        </createIndex>
+    </changeSet>
+    
+    <changeSet author="steve" id="ADD_TAG_NAME_UQ">
+        <createIndex indexName="TAG_NAME_UQ" tableName="TAG" unique="true">
+            <column name="NAME"/>
+        </createIndex>
+    </changeSet>
+        
+    <changeSet author="steve" id="INSERT_DEFAULT_EVENTS">
+		<customChange class="uk.co.acuminous.jinkies.liquibase.InsertTag">
+		    <param name="names" value="Error, Failure, Success, Stand-Up"/>
+		    <param name="type" value="event"/>
+		</customChange>    
+	</changeSet>        
+        
+	<changeSet author="steve" id="INSERT_FALLBACK_THEME">	
+
+		<customChange class="uk.co.acuminous.jinkies.liquibase.InsertTag">
+		    <param name="names" value="Fallback"/>
+		    <param name="type" value="theme"/>
+		</customChange>    
+	
+ 		<customChange class="uk.co.acuminous.jinkies.liquibase.InsertContent">
+		    <param name="title" value="Applause"/>
+		    <param name="type" value="audio/mpeg"/>
+		    <param name="path" value="/content/default/applause.mp3"/>
+		</customChange>
+		
+ 		<customChange class="uk.co.acuminous.jinkies.liquibase.InsertContent">
+		    <param name="title" value="Boo"/>
+		    <param name="type" value="audio/mpeg"/>
+		    <param name="path" value="/content/default/boo.mp3"/>
+		</customChange>
+		
+		<customChange class="uk.co.acuminous.jinkies.liquibase.InsertContent">
+		    <param name="title" value="Buzzer"/>
+		    <param name="type" value="audio/mpeg"/>
+		    <param name="path" value="/content/default/buzzer.mp3"/>
+		</customChange>	
+		
+		<customChange class="uk.co.acuminous.jinkies.liquibase.InsertContent">
+		    <param name="title" value="Rooster"/>
+		    <param name="type" value="audio/mpeg"/>
+		    <param name="path" value="/content/default/rooster.mp3"/>
+		</customChange>	
+		
+		<customChange class="uk.co.acuminous.jinkies.liquibase.TagContent">
+			<param name="content" value="Applause"/>
+			<param name="themes" value="Fallback"/>
+			<param name="events" value="Success"/>
+		</customChange>
+		
+		<customChange class="uk.co.acuminous.jinkies.liquibase.TagContent">
+			<param name="content" value="Boo"/>
+			<param name="themes" value="Fallback"/>
+			<param name="events" value="Failure"/>
+		</customChange>				
+					
+		<customChange class="uk.co.acuminous.jinkies.liquibase.TagContent">
+			<param name="content" value="Buzzer"/>
+			<param name="themes" value="Fallback"/>
+			<param name="events" value="Error"/>
+		</customChange>
+		
+		<customChange class="uk.co.acuminous.jinkies.liquibase.TagContent">
+			<param name="content" value="Rooster"/>
+			<param name="themes" value="Fallback"/>
+			<param name="events" value="Stand-Up"/>
+		</customChange>		
+
+	</changeSet>
+	
+	<changeSet author="steve" id="INSERT_MILITARY_THEME">
+	
+		<customChange class="uk.co.acuminous.jinkies.liquibase.InsertTag">
+		    <param name="names" value="Military"/>
+		    <param name="type" value="theme"/>		    
+		</customChange>
+	
+ 		<customChange class="uk.co.acuminous.jinkies.liquibase.InsertContent">
+		    <param name="title" value="Enemy Down"/>
+		    <param name="type" value="audio/mpeg"/>
+		    <param name="path" value="/content/military/enemydown.mp3"/>
+		</customChange>			
+					
+ 		<customChange class="uk.co.acuminous.jinkies.liquibase.InsertContent">
+		    <param name="title" value="Explosion"/>
+		    <param name="type" value="audio/mpeg"/>
+		    <param name="path" value="/content/military/explosion.mp3"/>
+		</customChange>						
+										
+ 		<customChange class="uk.co.acuminous.jinkies.liquibase.InsertContent">
+		    <param name="title" value="Fire In The Hole"/>
+		    <param name="type" value="audio/mpeg"/>
+		    <param name="path" value="/content/military/fireinthehole.mp3"/>
+		</customChange>
+		
+ 		<customChange class="uk.co.acuminous.jinkies.liquibase.InsertContent">
+		    <param name="title" value="Machine Gun"/>
+		    <param name="type" value="audio/mpeg"/>
+		    <param name="path" value="/content/military/machinegun.mp3"/>
+		</customChange>
+		
+ 		<customChange class="uk.co.acuminous.jinkies.liquibase.InsertContent">
+		    <param name="title" value="Marching Band"/>
+		    <param name="type" value="audio/mpeg"/>
+		    <param name="path" value="/content/military/marching-band.mp3"/>
+		</customChange>					
+		
+		<customChange class="uk.co.acuminous.jinkies.liquibase.TagContent">
+			<param name="content" value="Enemy Down"/>
+			<param name="themes" value="Military"/>
+			<param name="events" value="Success"/>			
+		</customChange>	
+		
+		<customChange class="uk.co.acuminous.jinkies.liquibase.TagContent">
+			<param name="content" value="Explosion, Fire In The Hole, Machine Gun"/>
+			<param name="themes" value="Military"/>
+			<param name="events" value="Failure"/>			
+		</customChange>		
+				
+		<customChange class="uk.co.acuminous.jinkies.liquibase.TagContent">
+			<param name="content" value="Marching Band"/>
+			<param name="themes" value="Military"/>
+			<param name="events" value="Stand-Up"/>
+		</customChange>			
+		
+	</changeSet>	
+     
+</databaseChangeLog>

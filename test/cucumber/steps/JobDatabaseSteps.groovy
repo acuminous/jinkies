@@ -1,0 +1,108 @@
+package steps
+
+import uk.co.acuminous.jinkies.ci.Job
+import fixtures.RemoteJobRepository
+import modules.JobWidget
+import pages.JobsPage
+import modules.JobDialog
+
+this.metaClass.mixin(cucumber.runtime.groovy.EN)
+
+RemoteJobRepository jobRepository = new RemoteJobRepository()
+
+Given (~'that a job called (.*) does not exist') { String displayName ->
+	assert jobRepository.findJobByDisplayName(displayName) == null
+}
+
+Given (~'that there are (.*) jobs') { int number ->		
+	jobs = []
+	number.times { 
+		jobs << jobRepository.buildRandomJob()
+	}
+}
+
+Given (~'that a (.*) job called (.*) is hosted at (.*)') {  String serverType, String jobName, String serverUrl ->
+	job = jobRepository.buildJob([
+		displayName: jobName, 
+		type: serverType.toLowerCase(), 
+		url: serverUrl + '/job/' + jobName,
+		channels: []
+	])
+}
+
+Given (~'a (.*) job called (.*)') {  String serverType, String jobName ->
+	job = jobRepository.buildJob([
+		displayName: jobName,
+		type: serverType.toLowerCase(),
+		url: '.../job/' + jobName
+	])
+}
+
+Given (~'that (.*?) (?:also reports|reports|only reports) build events via the (.*) channel') { String jobName, String channel ->
+	job = jobRepository.addChannel(jobName, channel)
+}
+
+Given (~'that (.*) has a (.*) theme') { String jobName, String theme ->
+	job = jobRepository.setTheme(jobName, theme)
+}
+
+
+Then (~'create (.*) jobs in the database') { Integer n ->
+
+	waitFor {
+		jobs = jobRepository.findAllByUrl(job.url)
+		jobs.size() == n
+	}
+	
+	jobs.each { databaseJob ->
+		verifyDatabaseJob(job)
+	}
+}
+
+Then (~'create the job in the database') { ->
+
+	Job databaseJob
+	waitFor {
+		databaseJob = jobRepository.findByDisplayName(job.displayName)
+	}	
+	verifyDatabaseJob(databaseJob)
+
+}
+
+Then (~'do not create the job in the database') { ->
+	Thread.sleep(500)
+	Job databaseJob = jobRepository.findByDisplayName(job.displayName)
+	assert databaseJob == null
+}
+
+Then (~'delete (.*) from the database') { String jobName ->
+	waitFor {
+		Job databaseJob = jobRepository.findByDisplayName(job.displayName)
+		databaseJob == null
+	}
+}
+
+Then (~'update the job in the database') { ->
+	Job databaseJob = jobRepository.findByDisplayName(job.displayName)
+	
+	verifyDatabaseJob(job)
+
+}
+
+Then (~'do not update the job in the database') { ->
+	Job databaseJob = jobRepository.findByDisplayName(job.displayName)
+	
+	verifyDatabaseJob(job)
+}
+
+verifyDatabaseJob = { Job databaseJob ->
+	assert databaseJob != null
+	if (job.displayName) {
+		// When adding a whole server we wont have set an expected display name
+		assert databaseJob.displayName == job.displayName
+	}	
+	assert databaseJob.url == job.url
+	assert databaseJob.type == job.type
+	assert databaseJob.theme == job.theme
+	assert databaseJob.channels == job.channels
+}
