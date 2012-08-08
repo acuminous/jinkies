@@ -109,7 +109,7 @@ Further information about Grails configuration can be found [here](http://grails
 
 ##<a id="pollFrequency"></a>Changing The CI Server Poll Frequency
 Jinkies is configured to poll all jobs jobs every 15 seconds. To change this
-setup an [External Configuration](#externalConfiguration) file, then paste in the
+setup an [External Configuration](#external-configuration) file, then paste in the
 contents of [QuartzConfig](http://www.github.com/acuminous/jinkies/grails-app/conf/QuartzConfig.groovy) (see below).
 
 	import org.quartz.impl.triggers.CronTriggerImpl
@@ -138,7 +138,7 @@ Change the "repeatInterval" attribute from 15000 to the desired number of millis
 ## <a id="schedulingNotifications"></a>Scheduling Notifications
 We use Jinkies to tell everyone it's time for the daily stand-up. Someday we hope 
 to build a nice UI to do this, but right now you need a bit of HTTP and a text editor.
-Scheduling a notification is very similar to changing the [CI Server Poll Frequency](#pollFrequency) [First setup an External Configuration](externalConfiguration) file, then paste in the 
+Scheduling a notification is very similar to changing the [CI Server Poll Frequency](#poll-frequency) [First setup an External Configuration](#external-configuration) file, then paste in the 
 following...
 
 	import org.quartz.impl.triggers.CronTriggerImpl 
