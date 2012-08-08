@@ -62,6 +62,7 @@ eligible to use in the notification.
 \* We like [http://www.rosswalker.co.uk/movie_sounds/](http://www.rosswalker.co.uk/movie_sounds/)
 
 <a id="supportedFormats"/>Supported File Formats
+-------------------
 
 Audio
 Jinkies can play mp3s and some types of wav file. The standard java sound system limits
