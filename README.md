@@ -16,6 +16,11 @@ Non CI related events can be posted to Jinkies over HTTP, so it's also
 possible to use it to notify you of infrastructure related events for 
 example.
 
+## <a id="quickStart"></a>Quick Start
+1. Check the [system requirements](#system-requirements)
+2. [Install Jinkies](#installation)
+3. [Add one or more build jobs](#monitoring-ci-jobs).
+
 ## <a id="systemRequirements"></a>System Requirements
 You will need a recent version of Java (1.6 should do) and a css3 / HTML5 compliant browser.
 Jenkins (and possibly Hudson) are currently the only supported CI servers. You'll also 
@@ -53,7 +58,10 @@ infringment. To compensate we've tried to make it easy to add your own...
 
 Now whenever a job with this theme raises a matching event, this content becomes 
 eligible for use. The actual content used in the notification is selected by random 
-from all eligible content. 
+from all eligible content.
+
+If instead of creating your own themes, you would like to add more content to the default theme, 
+use 'Fallback' for the theme name
 
 \* We like [http://www.rosswalker.co.uk/movie_sounds/](http://www.rosswalker.co.uk/movie_sounds/) 
 although the wav files form this site need [some love](#audio) before they will work.
@@ -133,12 +141,12 @@ contents of [QuartzConfig](http://www.github.com/acuminous/jinkies/grails-app/co
 		quartzScheduler.scheduleJob(job, trigger)
 	}
 
-Change the "repeatInterval" attribute from 15000 to the desired number of milliseconds
+Change the "repeatInterval" attribute from 15000 to the desired number of milliseconds to change the poll frequency.
 
 ## <a id="schedulingNotifications"></a>Scheduling Notifications
 We use Jinkies to tell everyone it's time for the daily stand-up. Someday we hope 
 to build a nice UI to do this, but right now you need a bit of HTTP and a text editor.
-Scheduling a notification is very similar to changing the [CI Server Poll Frequency](#poll-frequency). First setup an [External Configuration](#external-configuration) file, then paste in the 
+Scheduling a notification first setup an [External Configuration](#external-configuration) file, then paste in the 
 following...
 
 	import org.quartz.impl.triggers.CronTriggerImpl 
@@ -160,8 +168,16 @@ following...
 		quartzScheduler.scheduleJob(job, trigger)
 	}
 
-Then go about substituting 'projectX' with your project name, 'Scooby Doo' with your theme etc.
-You can find more information about cron expressions [here](http://quartz-scheduler.org/api/2.0.0/org/quartz/CronExpression.html) 
+Substitute 'projectX' with your project name, 'Scooby Doo' with your theme etc and give the trigger a valid cron expression 
+that represents when your Stand-Up event will fire. You can find more information about cron expressions [here](http://quartz-scheduler.org/api/2.0.0/org/quartz/CronExpression.html) 
+
+## Custom Events
+If you want to use Jinkies to report other events, you need to POST a request to /api/event with the following parameters...
+
+* target [You can make this whatever you like]
+* event [e.g. Backup Failed - there must be at least one piece of content associated with this event type.]
+* theme [e.g. Scooby Doo]
+* channel [e.g. audio]
 
 ## <a id="developerNotes"></a>Developer Notes
 Many of the functional tests currently won't work in your environment.
