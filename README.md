@@ -70,13 +70,13 @@ Jinkies doesn't currently support any non-audio content. We'd like to add video 
 
 ## <a id="proxyConfiguration"/>Proxy Configuration
 You can configure Jinkies to use a proxy server for HTTP and HTTPS traffic by following the 
-standard [Java Networking and Proxies](http://docs.oracle.com/javase/6/docs/technotes/guides/net/proxies.html) configuration instructions
+standard [Java Networking and Proxies](http://docs.oracle.com/javase/6/docs/technotes/guides/net/proxies.html) configuration instructions.
 
 ## <a id="httpAuthentication"/>HTTP Authentication
 If your CI server requires authentication, then we recommend creating a 
 read-only "jinkies" user on the CI server for this purpose. Currently the only
 way to specify a username / password Jinkies currently is to embed them 
-in the job URL, e.g. https://bob:secret@build.yourcompany.com
+in the job URL, e.g. https://bob:secret@build\.yourcompany\.com
 
 This is just about OK if your CI server uses HTTPS (because the URL 
 will be encrypted), but weak if it's fronted by Apache running HTTPS 
