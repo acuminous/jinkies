@@ -90,13 +90,13 @@ If this is unacceptable in your environment, let us know and we'll consider an
 improved solution. If you can't wait then place to start is uk.co.acuminous.jinkies.HttpClientsFactory.groovy. 
 We look forward to your [pull request](https://help.github.com/articles/using-pull-requests/).
 
-##<a id="httpsConfiguration"></a>HTTPS/SSL Configuration
+## <a id="httpsConfiguration"></a>HTTPS/SSL Configuration
 If you're attempting to download content or connect to a build server over HTTPS 
 and the remote server is using a self signed certificate you'll need to tell the 
 JVM running Jinkies to trust it by downloading the certificate and adding it to 
 the [cacerts](http://docs.oracle.com/javase/6/docs/technotes/tools/solaris/keytool.html#cacerts) file using the java [keytool](http://docs.oracle.com/javase/6/docs/technotes/tools/solaris/keytool.html) program.
 
-##<a id="externalConfiguration"></a>External Configuration
+## <a id="externalConfiguration"></a>External Configuration
 Jinkies is a [Grails](http://www.grails.org) application. As such it has a main 
 configuration file called [Config.groovy](http://www.github.com/acuminous/jinkies/grails-app/conf/Config.groovy) and some environment based 
 overrides such as [development.groovy](http://www.github.com/acuminous/jinkies/grails-app/conf/environment/development.groovy) and [production.groovy](http://www.github.com/acuminous/jinkies/grails-app/conf/environment/development.groovy).
