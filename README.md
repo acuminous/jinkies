@@ -1,4 +1,4 @@
-<a id="jinkies"></a>[Jinkies](#jinkies)
+<a id="jinkies"/>Jinkies
 =======
 
 Jinkies is an application for monitoring remote CI servers and notifying you
@@ -17,17 +17,17 @@ Non CI related events can be posted to Jinkies over HTTP, so it's also
 possible to use it to notify you of infrastructure related events for 
 example.
 
-[systemRequirements]: System Requirements
+<a id="systemRequirements"/>System Requirements
 -------------------
 You will need a recent version of Java (1.6 should do) and a css3 / HTML5 compliant browser.
 Jenkins (and possibly Hudson) are currently the only supported CI servers. You'll also 
 need a computer capable of playing sound, on which to install Jinkies.
 
-[installation]: Installation
+<a id="installation"/>Installation
 ------------
 TODO
 
-[monitoringCiJobs]: Monitoring CI Jobs
+<a id="monitoringCiJobs"/>Monitoring CI Jobs
 ------------------
 You can add Jenkins jobs one by one, or add every job on a specific server. Either way
 the process is the same...
@@ -41,7 +41,7 @@ the process is the same...
 Jinkies is configured with some default content, so as soon add jobs you should start 
 receiving notifications. 
 
-[creatingThemes]: Creating Themes & Uploading Theme Content
+<a id="creatingThemes"/>Creating Themes & Uploading Theme Content
 -----------------------------------------
 The Jinkies default content is pretty dull. We'd love to have shipped it with our 
 Scooby Doo, Star Wars and Tron sound samples, but were too worried about copyright 
@@ -61,7 +61,7 @@ eligible to use in the notification.
 
 \* We like [http://www.rosswalker.co.uk/movie_sounds/](http://www.rosswalker.co.uk/movie_sounds/)
 
-[supportedFormats]: Supported File Formats
+<a id="supportedFormats"/>Supported File Formats
 
 Audio
 Jinkies can play mp3s and some types of wav file. The standard java sound system limits
@@ -73,12 +73,12 @@ Other
 Jinkies doesn't currently support any non-audio content. We'd like to add video and text
 (for text-to-speech), but haven't got their yet. 
 
-[proxyConfiguration]: Proxy Configuration
+<a id="proxyConfiguration"/>Proxy Configuration
 -------------------
 You can configure Jinkies to use a proxy server for HTTP and HTTPS traffic by following the 
 standard [Java Networking and Proxies](http://docs.oracle.com/javase/6/docs/technotes/guides/net/proxies.html) configuration instructions
 
-[httpAuthentication]: HTTP Authentication
+<a id="httpAuthentication"/>HTTP Authentication
 -------------------
 If your CI server requires authentication, then we recommend creating a 
 read-only "jinkies" user on the CI server for this purpose. Currently the only
@@ -97,14 +97,14 @@ an improved solution. If you can't wait then place to start is
 uk.co.acuminous.jinkies.HttpClientsFactory.groovy. We look forward to your 
 pull request.
 
-[httpsConfiguration]: HTTPS/SSL Configuration
+<a id="httpsConfiguration"/>HTTPS/SSL Configuration
 -----------------------
 If you're attempting to download content or connect to a build server over HTTPS 
 and the remote server is using a self signed certificate you'll need to tell the 
 JVM running Jinkies to trust it by downloading the certificate and adding it to 
 the [cacerts](http://docs.oracle.com/javase/6/docs/technotes/tools/solaris/keytool.html#cacerts) file using the java [keytool](http://docs.oracle.com/javase/6/docs/technotes/tools/solaris/keytool.html) program.
 
-[externalConfiguration]: External Configuration
+<a id="externalConfiguration"/>External Configuration
 ----------------------
 Jinkies is a [Grails](http://www.grails.org) application. As such it has a main 
 configuration file called [Config.groovy](http://www.github.com/acuminous/jinkies/grails-app/conf/Config.groovy) and some environment based 
@@ -114,11 +114,11 @@ Jinkies will also attempt apply overrides from an external config file if such
 a file exists. By default Jinkies will look for /etc/jinkies/config.groovy, but
 you can change this by adding a -Djinkies.config=/path/to/configfile at startup.
 
-[pollFrequency]: Changing The CI Server Poll Frequency
+<a id="pollFrequency"/>Changing The CI Server Poll Frequency
 -------------------------------------
 Jinkies is configured to poll all jobs jobs every 15 seconds. To change this
-setup an [External Configuration][externalConfiguration] file, then paste in the
-contents of [QuartzConfig][http://www.github.com/acuminous/jinkies/grails-app/conf/QuartzConfig.groovy)
+setup an [External Configuration](#externalConfiguration) file, then paste in the
+contents of [QuartzConfig](http://www.github.com/acuminous/jinkies/grails-app/conf/QuartzConfig.groovy)
 
 	import org.quartz.impl.triggers.CronTriggerImpl
 	import grails.plugin.quartz2.ClosureJob
@@ -143,11 +143,11 @@ contents of [QuartzConfig][http://www.github.com/acuminous/jinkies/grails-app/co
 
 Change the "repeatInterval" attribute to the desired number of milliseconds
 
-[schedulingNotifications]: Scheduling Notifications
+<a id="schedulingNotifications"/>Scheduling Notifications
 ------------------------
 We use Jinkies to tell everyone it's time for the daily stand-up. Someday we hope 
 to build a nice UI to do this, but right now you need a bit of HTTP and a text editor.
-Scheduling a notification is very similar to changing the [CI Server Poll Frequency][pollFrequency] [First setup an [External Configuration][externalConfiguration] file, then paste in the 
+Scheduling a notification is very similar to changing the [CI Server Poll Frequency](#pollFrequency) [First setup an External Configuration](externalConfiguration) file, then paste in the 
 following...
 
 	import org.quartz.impl.triggers.CronTriggerImpl 
