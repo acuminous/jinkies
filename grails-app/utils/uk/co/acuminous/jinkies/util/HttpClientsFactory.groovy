@@ -9,18 +9,22 @@ import groovyx.net.http.RESTClient
 class HttpClientsFactory implements Serializable {
 
 	def authConfig
-	
-	HTTPBuilder getHttpBuilder(Map params = [:]) {
-		HTTPBuilder httpBuilder = new HTTPBuilder(params)
+
+	HTTPBuilder getHttpBuilder() {
+		HTTPBuilder httpBuilder = new HTTPBuilder()
 		
 		enableProxyConfiguration(httpBuilder)
 
 		return httpBuilder
 	}
 	
-	RESTClient getRestClient(String uri) {
+	RESTClient getRestClient(String url) {			
+		getRestClient(defaultURI: url)
+	}
+	
+	RESTClient getRestClient(Map params = [:]) {
 		
-		RESTClient restClient = new RESTClient(uri)
+		RESTClient restClient = new RESTClient(params)
 		
 		enableProxyConfiguration(restClient)	
 		

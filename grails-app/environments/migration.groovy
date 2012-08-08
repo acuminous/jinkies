@@ -1,5 +1,3 @@
-println "MIGRATION !!!"
-
 migrations.enabled=true
 migrations.dropAll=true
 

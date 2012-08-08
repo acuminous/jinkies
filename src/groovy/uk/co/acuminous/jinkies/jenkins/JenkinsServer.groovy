@@ -20,7 +20,9 @@ class JenkinsServer {
 		log.debug("Requesting jobs from $url")
 		
 		List<Job> results = []
-						
+							 	
+		HTTPBuilder httpBuilder = httpClientsFactory.getHttpBuilder()
+		
 		httpBuilder.get(uri: jsonApi(url), contentType: JSON) { resp, json ->
 			List jobs = json.jobs ?: [ json ]
 			jobs.each { job ->
@@ -36,7 +38,9 @@ class JenkinsServer {
 		log.debug("Requesting build history from $job.url")
 		
 		List<Build> results = []
-
+		
+		HTTPBuilder httpBuilder = httpClientsFactory.getHttpBuilder()
+		
 		httpBuilder.get(uri: jsonApi(job.url), contentType: JSON) { resp, json ->
 			json.builds.each { build ->
 				results << new Build(job: job, url: build.url, number: build.number)
@@ -49,6 +53,8 @@ class JenkinsServer {
 	void populateMissingDetailsIn(Build build) {
 		
 		log.info("Requesting build details from $build.url")
+				
+		HTTPBuilder httpBuilder = httpClientsFactory.getHttpBuilder()
 		
 		httpBuilder.get(uri: jsonApi(build.url), contentType: JSON) { resp, json ->
 			build.result = json.result
@@ -59,8 +65,4 @@ class JenkinsServer {
 	String jsonApi(String url) {
 		(url.endsWith('/') ? "$url" : "$url/") + 'api/json'
 	}
-	
-	HTTPBuilder getHttpBuilder() {
-		httpClientsFactory.getHttpBuilder()
-	}	
 }

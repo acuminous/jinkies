@@ -1,12 +1,14 @@
-// See BuildConfig for how various configuration files get added to the classpath 
+import grails.util.Environment
+
+println Environment.current
 
 grails.config.locations = [
 
 	// Configuration for grails run-app
-	"file:grails-app/environments/${System.properties['grails.env']?.toLowerCase()}.groovy",
+	"file:grails-app/environments/${Environment.current.toString().toLowerCase()}.groovy",
 		
 	// Configuration for deployed war
-	"classpath:environments/${System.properties['grails.env']?.toLowerCase()}.groovy",
+	"classpath:environments/${Environment.current.toString().toLowerCase()}.groovy",
 
 	// Quartz Scheduler Config
 	QuartzConfig,
@@ -99,10 +101,19 @@ grails.plugins.dynamicController.mixins = [
 log4j = {
 
 	appenders {
-		file name:'file', file:'jinkies.log'
+		if (Environment.current == Environment.PRODUCTION) {
+			rollingFile name: "file", file: 'jinkies.log', maxFileSize:"1MB", layout: pattern(conversionPattern: '%d{ISO8601} [%t] %p %c{2} %m%n')
+			null name:'stacktrace'			
+		} else {	
+			file name:'file', file:'jinkies.log'
+		}
 	}
 	root {
-		info 'stdout', 'file'
+		if (Environment.current == Environment.PRODUCTION) {
+			warn 'file'
+		} else {
+			warn 'stdout', 'file'
+		}
 	}
 	
     error  'org.codehaus.groovy.grails.web.servlet',  //  controllers
@@ -117,9 +128,9 @@ log4j = {
            'org.hibernate',
            'net.sf.ehcache.hibernate'
 		   
-	warn 'com.burtbeckwith.grails.plugins.dynamiccontroller'
-		   
-	debug 'uk.co.acuminous.jinkies'
+	if (Environment.current == Environment.DEVELOPMENT) {
+		debug 'uk.co.acuminous.jinkies'
+	}
 }
 
 migrations.enabled = false

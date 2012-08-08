@@ -27,7 +27,14 @@ Jenkins (and possibly Hudson) are currently the only supported CI servers. You'l
 need a computer capable of playing sound, on which to install Jinkies.
 
 ## <a id="installation"></a>Installation
-TODO
+
+### Option 1 - Executable War File (easiest)
+1. Download http://www.github.com/acuminous/jinkies/binaries/jinkies.war
+2. Run java -jar jinkies.war -Dgrails.server.port=80 (defaults to 8080)
+
+### Option 2 - Deployable War File (you need an app server)
+1. Download http://www.github.com/acuminous/jinkies/binaries/jinkies.war
+2. Deploy it to your app server
 
 ## <a id="monitoringCiJobs"></a>Monitoring CI Jobs
 You can add Jenkins jobs one by one, or add every job on a specific server. Either way

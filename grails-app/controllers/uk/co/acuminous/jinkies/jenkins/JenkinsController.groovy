@@ -30,7 +30,7 @@ class JenkinsController extends JinkiesErrorRenderer {
 			
 			render results as JSON
 	
-		} catch (Exception e) {
+		} catch (Exception e) {		
 			log.warn("Error retrieving jobs from ${params.url}", e)			
 			renderJsonError 'job.url.unreachable', SC_INTERNAL_SERVER_ERROR
 		}
