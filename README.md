@@ -66,7 +66,7 @@ recommend converting your wav files to mp3 using [MediaIO](http://media.io)
 
 ### Other<br/>
 Jinkies doesn't currently support any non-audio content. We'd like to add video and text
-(for text-to-speech), but haven't got their yet. 
+(for text-to-speech), but haven't got there yet. 
 
 ## <a id="proxyConfiguration"/>Proxy Configuration
 You can configure Jinkies to use a proxy server for HTTP and HTTPS traffic by following the 
