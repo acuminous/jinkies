@@ -87,66 +87,44 @@ grails.app.context = '/'
 
 grails.gorm.failOnError=false
 
-
-grails.plugins.dynamicController.mixins = [
-   'com.burtbeckwith.grails.plugins.appinfo.IndexControllerMixin':
-	  'com.burtbeckwith.appinfo_test.AdminManageController',
- 
-   'com.burtbeckwith.grails.plugins.appinfo.Log4jControllerMixin' :
-	  'com.burtbeckwith.appinfo_test.AdminManageController',
- 
-   'com.burtbeckwith.grails.plugins.appinfo.SpringControllerMixin' :
-	  'com.burtbeckwith.appinfo_test.AdminManageController',
- 
-   'com.burtbeckwith.grails.plugins.appinfo.MemoryControllerMixin' :
-	  'com.burtbeckwith.appinfo_test.AdminManageController',
- 
-   'com.burtbeckwith.grails.plugins.appinfo.PropertiesControllerMixin' :
-	  'com.burtbeckwith.appinfo_test.AdminManageController',
- 
-   'com.burtbeckwith.grails.plugins.appinfo.ScopesControllerMixin' :
-	  'com.burtbeckwith.appinfo_test.AdminManageController',
- 
-   'com.burtbeckwith.grails.plugins.appinfo.ThreadsControllerMixin' :
-	  'com.burtbeckwith.appinfo_test.AdminManageController',
- 
-   'app.info.custom.example.MyConfigControllerMixin' :
-	  'com.burtbeckwith.appinfo_test.AdminManageController'
-]
-
 log4j = {
 
 	appenders {
-		if (Environment.current == Environment.PRODUCTION) {
-			rollingFile name: "file", file: 'jinkies.log', maxFileSize:"1MB", layout: pattern(conversionPattern: '%d{ISO8601} [%t] %p %c{2} %m%n')
-			null name:'stacktrace'			
-		} else {	
-			file name:'file', file:'jinkies.log'
+
+		environments {
+			console name: 'stdout'
+			null name: 'file'
+			
+			production {
+				rollingFile name: 'file', file: "jinkies.log", maxFileSize:'1MB', layout: pattern(conversionPattern: '%d{ISO8601} [%t] %p %c{2} %m%n')
+				null name:'stacktrace'
+				null name: 'stdout'
+			}
 		}
+		
 	}
+
 	root {
-		if (Environment.current == Environment.PRODUCTION) {
-			warn 'file'
-		} else {
-			warn 'stdout', 'file'
-		}
+		warn 'stdout', 'file'
 	}
-	
-    error  'org.codehaus.groovy.grails.web.servlet',  //  controllers
-           'org.codehaus.groovy.grails.web.pages', //  GSP
-           'org.codehaus.groovy.grails.web.sitemesh', //  layouts
-           'org.codehaus.groovy.grails.web.mapping.filter', // URL mapping
-           'org.codehaus.groovy.grails.web.mapping', // URL mapping
-           'org.codehaus.groovy.grails.commons', // core / classloading
-           'org.codehaus.groovy.grails.plugins', // plugins
-           'org.codehaus.groovy.grails.orm.hibernate', // hibernate integration
-           'org.springframework',
-           'org.hibernate',
-           'net.sf.ehcache.hibernate'
-		   
-	if (Environment.current == Environment.DEVELOPMENT) {
-		debug 'uk.co.acuminous.jinkies'
-	}
+
+	error  'org.codehaus.groovy.grails.web.servlet',  //  controllers
+		   'org.codehaus.groovy.grails.web.pages', //  GSP
+		   'org.codehaus.groovy.grails.web.sitemesh', //  layouts
+		   'org.codehaus.groovy.grails.web.mapping.filter', // URL mapping
+		   'org.codehaus.groovy.grails.web.mapping', // URL mapping
+		   'org.codehaus.groovy.grails.commons', // core / classloading
+		   'org.codehaus.groovy.grails.plugins', // plugins
+		   'org.codehaus.groovy.grails.orm.hibernate', // hibernate integration
+		   'org.springframework',
+		   'org.hibernate',
+		   'net.sf.ehcache.hibernate'
+		
+	environments {
+	   development {
+		   debug 'uk.co.acuminous.jinkies'
+	   }   		
+	}	   
 }
 
 migrations.enabled = false

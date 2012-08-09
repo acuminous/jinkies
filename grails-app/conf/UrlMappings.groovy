@@ -60,8 +60,7 @@ class UrlMappings {
 			} 
 		}
 		
-		"/admin/liquibase/$action?"(controller: "liquibase")
-		"/admin/manage/$action?"(controller: "adminManage")		
+		"/admin/liquibase/$action?"(controller: "liquibase")		
 
 		"/$controller/$action?/$id?" {}
 								

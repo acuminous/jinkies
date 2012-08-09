@@ -84,8 +84,6 @@ grails.project.dependency.resolution = {
 		
 		runtime ':liquibase:1.9.3.6'
 						
-		runtime ':app-info:1.0.1'
-		
 		test ':spock:0.6'
 		test ':geb:0.7.0'
 		test ':fixtures:1.0.7'
