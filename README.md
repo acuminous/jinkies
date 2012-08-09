@@ -195,6 +195,11 @@ either creating a controller with stub responses or try running Rob Fletcher's
 If you want to contribute to Jinkies and our laziness is causing inconvenience, 
 let us know and I'll expedite this.
 
+STS complains about compilation errors in Spock tests that use the @build annotation
+immediately after a clean. Making a superficial change to the test causes it to be
+rebuild and subsequently work. We're gradually phasing out the build-test-data plugin 
+because of this and other problems.
+
 Finally we hope you enjoy using Jinkies. Thanks for listening...
 
 The Jinkies development team.
