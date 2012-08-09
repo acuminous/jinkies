@@ -58,6 +58,9 @@ public class CustomJsonMarshaller {
 			if (content.id) {
 				data.restId = "content/${content.id}".toString()
 				data.dataRestId = "content/${content.id}/data".toString()
+				if (content.bytes) {
+					data.dataHashCode = content.bytes.hashCode()
+				}
 			}
 			
 			data

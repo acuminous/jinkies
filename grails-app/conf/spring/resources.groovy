@@ -26,7 +26,7 @@ import uk.co.acuminous.jinkies.player.*
 beans = {	
 	
 	def migrations = application.config.migrations
-		
+	
 	if (migrations.enabled) {
 		liquibase(MigrationRunner) { bean ->
 			bean.initMethod = 'run'

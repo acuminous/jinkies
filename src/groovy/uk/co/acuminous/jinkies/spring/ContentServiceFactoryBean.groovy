@@ -15,6 +15,7 @@
  */
 package uk.co.acuminous.jinkies.spring
 
+import uk.co.acuminous.jinkies.channel.ChannelIterator
 import uk.co.acuminous.jinkies.content.ContentPlayer
 import uk.co.acuminous.jinkies.content.ContentService
 

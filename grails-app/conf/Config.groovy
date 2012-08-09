@@ -16,7 +16,7 @@
 import grails.util.Environment
 
 String environmentName = Environment.current.toString().toLowerCase()
-println "Running in the ${environmentName} environment"
+println "Using ${environmentName} configuration"
 
 grails.config.locations = [
 
@@ -24,7 +24,7 @@ grails.config.locations = [
 	"file:grails-app/environments/${environmentName}.groovy",
 		
 	// Configuration for deployed war
-	"classpath:environments/${environmentName}.groovy",
+	"classpath:${environmentName}.groovy",
 
 	// Quartz Scheduler Config
 	QuartzConfig,

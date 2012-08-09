@@ -70,16 +70,9 @@ class ContentController extends JinkiesErrorRenderer {
 	def upload() {
 		Content content = Content.get(params.id)
 		
-		if (!reportMissing(content)) {
-			
-			def file = request.getFile('file')		
-			content.bytes = file.inputStream.bytes
-			content.type = file.contentType
-	
-			if (!reportUnsupported(content)) {
-				content.save(flush:true)
-				report(content.errors) || render(status: SC_NO_CONTENT)
-			}			
+		if (!reportMissing(content) && !reportUnsupported(content)) {
+			content.save(flush:true)
+			report(content.errors) || render(status: SC_NO_CONTENT)			
 		}
 		
 	}
@@ -113,13 +106,6 @@ class ContentController extends JinkiesErrorRenderer {
 	}
 	
 	private void serve(Content content) {
-		
-		// It's very lame to set no cache headers. Need to add either the hashcode or filesize to the get url 
-		response.setHeader 'Cache-Control','no-cache'
-		response.setHeader 'Pragma','no-cache'
-		response.setDateHeader 'Expires', 0
-		response.setDateHeader 'Last-Modified', 0
-		
 		response.contentType = content.type
 		response.contentLength = content.bytes.size()
 		response.outputStream << content.bytes
@@ -127,12 +113,22 @@ class ContentController extends JinkiesErrorRenderer {
 	}
 	
 	private boolean reportUnsupported(Content content) {
+		
 		boolean result = false
-		if (!contentService.isSupported(content)) {
-			String code = (content.type =~ /wav$/) ? 'content.type.unsupported.wav' : 'content.type.unsupported'			
-			content.errors.reject(code, [content.type] as Object[], 'Content type {0} is unsupported')
-			content.delete(flush:true)
-			renderJsonError content.errors		
+		MultipartFile file = request.getFile('file')		
+		Content testContent = new Content(bytes: file.inputStream.bytes, type: file.contentType)
+		
+		if (contentService.isSupported(testContent)) {
+			content.bytes = testContent.bytes
+			content.type = testContent.type
+		} else {
+			if (content.bytes == null) {
+				content.delete(flush:true)
+			}
+			
+			String code = (testContent.type =~ /wav$/) ? 'content.type.unsupported.wav' : 'content.type.unsupported'
+			content.errors.reject(code, [testContent.type] as Object[], 'Content type {0} is unsupported')
+			renderJsonError content.errors
 			result = true
 		}
 		result

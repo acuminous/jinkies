@@ -9,7 +9,7 @@ function ContentWidget(element) {
 		this.clone();		
 		this.setRestId(content.restId);
 		this.setTitle(content.title);
-		this.setPreviewLink(content.dataRestId, content.type);
+		this.setPreviewLink(content.dataRestId, content.dataHashCode, content.type);
 		this.setDescription(content.description);
 		this.setType(content.type);
 		this.show();
@@ -19,8 +19,8 @@ function ContentWidget(element) {
 		$('.title .text', this.element).text(title);
 	}
 	
-	this.setPreviewLink = function(dataRestId, windowName) {
-		$('.play a', this.element).attr('href', '/api/' + dataRestId);
+	this.setPreviewLink = function(dataRestId, dataHashCode, windowName) {
+		$('.play a', this.element).attr('href', '/api/' + dataRestId + '?' + dataHashCode);
 		$('.play a', this.element).attr('target', windowName);
 	}
 	

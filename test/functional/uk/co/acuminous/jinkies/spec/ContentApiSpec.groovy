@@ -254,8 +254,6 @@ class ContentApiSpec extends Specification {
 			}
 			
 		when:
-			// Attempting to do everything in an expect block results in a weird bug 
-			// where the remote plugin name gets used as the uri path !!!
 			def response = postData("/api/content/$id/data".toString(), filename, bytes)
 
 		then:		
@@ -275,13 +273,59 @@ class ContentApiSpec extends Specification {
 			}
 			
 		when:
-			// Attempting to do everything in an expect block results in a weird bug 
-			// where the remote plugin name gets used as the uri path !!!
 			def response = postData("/api/content/$id/data".toString(), filename, bytes)
 
 		then:		
 			response.status == 400
 			response.data[0] == 'Jinkies cannot play this wav file, although it can play others. Please see http://github.com/acuminous/jinkies/tree/master/README.md#supported-formats for an explanation.'
+	}
+	
+	def "Attempting to upload unsupported content after a create deletes the incomplete record"() {
+		
+		given:
+			String filename = 'zoinks.txt'
+			byte[] bytes = 'some data'.bytes
+			def id = remote {
+				Content content = Content.build(title: 'Zoinks', filename: filename)
+				content.id
+			}
+			
+		when:
+			def response = postData("/api/content/$id/data".toString(), filename, bytes)
+
+		then:
+			response.status == 400
+			
+			Content content = remote {
+				Content.get(id)
+			}			
+			assert content == null
+	}
+	
+	def "Attempting to upload unsupported content after an update reverts the record"() {
+		
+		given:		
+			String originalFilename = 'zoinks.mp3'
+			String originalContentType = 'audio/mp3'
+			byte[] originalBytes = 'original data'.bytes
+			def id = remote {
+				Content content = Content.build(title: 'Zoinks', filename: originalFilename, bytes: originalBytes, type: originalContentType)
+				content.id
+			}
+			
+		when:
+			def response = postData("/api/content/$id/data".toString(),  'zoinks.txt', 'updated data'.bytes)
+
+		then:
+			response.status == 400
+			
+			Content content = remote {
+				Content.get(id)
+			}
+			
+			assert content.bytes == originalBytes
+			assert content.type == originalContentType
+			assert content.filename == originalFilename
 	}
 	
 	def "Updates content"() {
@@ -380,8 +424,12 @@ class ContentApiSpec extends Specification {
 		
 		given:
 			Content content = remote {
-				Tag theme = Tag.build(name: 'Scooby Doo', uri: 'scooby-doo')				
-				Content.build(title: 'Zoinks', description: 'Shaggy saying Zoinks', filename: 'zoinks.mp3', themes: [theme])
+				Tag theme = new Tag('Scooby Doo', TagType.theme).save()
+				Tag event = new Tag('Failure', TagType.event).save()
+				Content content = new Content(title: 'Zoinks', description: 'Shaggy saying Zoinks', filename: 'zoinks.mp3', bytes: 'Zoinks'.bytes, type: 'audio/mp3')
+				content.addToThemes(theme)
+				content.addToEvents(event)
+				content.save(flush:true)
 			}
 		
 		when:
@@ -391,10 +439,16 @@ class ContentApiSpec extends Specification {
 		then:
 			response.status == 200
 
+			result.restId == "content/$content.id"
 			result.title == content.title
 			result.description == content.description
+			result.type == content.type
+			result.dataHashCode != null 
+			result.dataRestId == "content/$content.id/data"
 			result.themes.size() == 1
-			result.themes[0].name == content.themes.toList()[0].name
+			result.themes[0].name == content.themes[0].name
+			result.events.size() == 1
+			result.events[0].name == content.events[0].name
 	}
 	
 	def "Responds with content data"() {

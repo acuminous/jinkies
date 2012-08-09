@@ -111,7 +111,7 @@
         
     <changeSet author="steve" id="INSERT_DEFAULT_EVENTS">
 		<customChange class="uk.co.acuminous.jinkies.liquibase.InsertTag">
-		    <param name="names" value="Error, Failure, Success, Stand-Up"/>
+		    <param name="names" value="Startup, Shutdown, Error, Failure, Success, Stand-Up"/>
 		    <param name="type" value="event"/>
 		</customChange>    
 	</changeSet>        
@@ -150,13 +150,13 @@
 		<customChange class="uk.co.acuminous.jinkies.liquibase.TagContent">
 			<param name="content" value="Applause"/>
 			<param name="themes" value="Fallback"/>
-			<param name="events" value="Success"/>
+			<param name="events" value="Success, Startup"/>
 		</customChange>
 		
 		<customChange class="uk.co.acuminous.jinkies.liquibase.TagContent">
 			<param name="content" value="Boo"/>
 			<param name="themes" value="Fallback"/>
-			<param name="events" value="Failure"/>
+			<param name="events" value="Failure, Shutdown"/>
 		</customChange>				
 					
 		<customChange class="uk.co.acuminous.jinkies.liquibase.TagContent">
