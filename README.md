@@ -48,7 +48,7 @@ the process is the same...
 4. Optionally specify a theme
 5. Click "OK"
 
-Jinkies is configured with some default content, so as soon add jobs you should start 
+Jinkies is configured with some default content, so a few seconds after adding jobs you should start 
 hearing notifications. 
 
 ## <a id="creatingThemes"></a>Creating Themes & Uploading Theme Content
@@ -93,14 +93,14 @@ standard [Java Networking and Proxies](http://docs.oracle.com/javase/6/docs/tech
 ## <a id="httpAuthentication"></a>HTTP Authentication
 If your CI server requires authentication, then we recommend creating a 
 read-only "jinkies" user on the CI server for this purpose. Currently the only
-way to specify a username / password Jinkies currently is to embed them 
+way to tell Jinkies to use a username & password is to embed them 
 in the job URL, e.g. https://bob:secret@build\.yourcompany\.com
 
 This is just about OK if your CI server uses HTTPS (because the URL 
 will be encrypted), but weak if it's fronted by Apache running HTTPS 
 (because your password will be in clear text between Apache and the app 
-server), and totally insecure if you're not using HTTPS and could easily
-lead to your server being p'owned if it's publicly accessible.
+server), but totally insecure if you're not using HTTPS and could easily
+lead to your server being pwnd if it's publicly accessible.
 (hint: Don't make your CI server publicly accessible without HTTPS!). 
 
 If this is unacceptable in your environment, let us know and we'll consider an 
@@ -126,7 +126,7 @@ Further information about Grails configuration can be found [here](http://grails
 
 ##<a id="pollFrequency"></a>Changing The CI Server Poll Frequency
 Jinkies is configured to poll all jobs jobs every 15 seconds. To change this
-setup an [External Configuration](#external-configuration) file, then paste in the
+setup an [external configuration](#external-configuration) file, then paste in the
 contents of [QuartzConfig](./grails-app/conf/QuartzConfig.groovy) (see below).
 
 	import org.quartz.impl.triggers.CronTriggerImpl
@@ -155,7 +155,7 @@ Change the "repeatInterval" attribute from 15000 to the desired number of millis
 ## <a id="schedulingNotifications"></a>Scheduling Notifications
 We use Jinkies to tell everyone it's time for the daily stand-up. Someday we hope 
 to build a nice UI to do this, but right now you need a bit of HTTP and a text editor.
-Scheduling a notification first setup an [External Configuration](#external-configuration) file, then paste in the 
+Scheduling a notification first setup an [external configuration](#external-configuration) file, then paste in the 
 following...
 
 	import org.quartz.impl.triggers.CronTriggerImpl 
@@ -183,10 +183,12 @@ that represents when your Stand-Up event will fire. You can find more informatio
 ## Custom Events
 If you want to use Jinkies to report other events, you need to POST a request to /api/event with the following parameters...
 
-* target [e.g. Floor 2]
-* event [e.g. Sandwich Trolley - there must be at least one piece of content associated with this event type.]
-* theme [e.g. Yogi Bear]
-* channel [e.g. audio]
+* target e.g. 'Floor 2'
+* event e.g. 'Sandwich Trolley'
+* theme e.g. 'Yogi Bear'
+* channel e.g. 'audio'
+
+ There must be at least one piece of content for the specified theme (or Fallback theme) and event type.
 
 ## <a id="developerNotes"></a>Developer Notes
 Many of the functional tests currently won't work in your environment.
