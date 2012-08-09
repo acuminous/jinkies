@@ -16,20 +16,23 @@
 package uk.co.acuminous.jinkies.content
 
 
+import grails.test.mixin.Mock
 import spock.lang.Specification
 import spock.lang.Unroll
 import uk.co.acuminous.jinkies.content.Tag;
-import grails.buildtestdata.mixin.Build
 import static uk.co.acuminous.jinkies.util.AssertionUtils.*;
 
-@Build(Tag)
+@Mock(Tag)
 class TagSpec extends Specification {
 
 	@Unroll("Tag #field has #constraint constraint")
 	def "Tag fields are mandatory"() {
 				
 		given:
-			Tag tag = new Tag((field): value)
+			Tag tag = new Tag('some name', TagType.theme)
+			assert tag.validate()
+			
+			tag."$field" = value
 			
 		expect:
 			hasConstraint(tag, field, constraint)
@@ -45,9 +48,13 @@ class TagSpec extends Specification {
 	def "Tag fields are unique"() {
 		
 		given:
-			Tag tag1 = Tag.build((field): value)
-			Tag tag2 = new Tag((field): value)
-					
+			Tag tag1 = new Tag('some name', TagType.theme)
+			tag1."$field" = value
+			tag1.save()
+			
+			Tag tag2 = new Tag('another name', TagType.theme)			
+			tag2."$field" = value
+			
 		expect:
 			hasConstraint(tag2, field, 'unique')
 			
@@ -60,15 +67,15 @@ class TagSpec extends Specification {
 	def "Renders Tag as String"() {
 		
 		given:
-			Tag tag = Tag.build(uri: uri, name: name)
+			Tag tag = new Tag(name, type).save()
 			
 		expect:
 			tag.toString() == "Tag[id=1,uri=$uri,name=$name]"
 			
 		where:
-			uri               | name
-			'theme/scoobydoo' | 'Scooby Doo'
-			'event/success'   | 'Success'
+			type          | name          | uri
+			TagType.theme | 'Scooby Doo'  | 'theme/scooby-doo'
+			TagType.event | 'Success'     | 'event/success'
 	}
 	
 	@Unroll("Generates uri for #name and #type")
