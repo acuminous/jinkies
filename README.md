@@ -184,12 +184,12 @@ If you want to use Jinkies to report other events, you need to POST a request to
 
 <table>
     <thead>
-        <tr><th>Parameter</th><th>Mandatory</th><th>Example</th></tr>     
+        <tr><th>Parameter Name</th><th>Mandatory</th><th>Example</th></tr>     
     </thead>
     <tbody>
         <tr><td>target</td><td>Yes</td><td>Floor 2</td></tr>
         <tr><td>event</td><td>Yes</td><td>Sandwich Trolley</td></tr>
-        <tr><td>theme</td><td>no</td><td>Yogi Bear</td></tr>
+        <tr><td>theme</td><td>No</td><td>Yogi Bear</td></tr>
         <tr><td>channel</td><td>Yes</td><td>audio</td></tr>
     </tbody>
 </table>
