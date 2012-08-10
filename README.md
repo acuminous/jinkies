@@ -48,8 +48,8 @@ the process is the same...
 4. Optionally specify a theme
 5. Click "OK"
 
-Jinkies is configured with some default content, so a few seconds after adding jobs you should start 
-hearing notifications. 
+Jinkies is configured with some default content, so you should start hearing notifications a few 
+seconds after adding your first job. 
 
 ## <a id="creatingThemes"></a>Creating Themes & Uploading Theme Content
 The Jinkies default content is pretty dull. We'd love to have shipped it with our 
@@ -73,7 +73,7 @@ If instead of creating your own themes, you would like to add more content to th
 use 'Fallback' for the theme name
 
 \* We like [http://www.rosswalker.co.uk/movie_sounds/](http://www.rosswalker.co.uk/movie_sounds/) 
-although the wav files form this site need [some love](#audio) before they will work.
+although the wav files from this site need [some love](#audio) before they will work.
 
 ## <a id="supportedFormats"></a>Supported File Formats
 ### <a id="audio"></a>Audio
