@@ -154,8 +154,8 @@ and set the 'repeatInterval' to the desired number of milliseconds.
 ## <a id="schedulingNotifications"></a>Scheduling Notifications
 We use Jinkies to tell everyone it's time for the daily stand-up. Someday we hope 
 to build a nice UI to do this, but right now you need a bit of HTTP and a text editor.
-Scheduling a notification first setup an [external configuration](#external-configuration) file, then paste in the 
-following...
+To scheduling a notification, first setup an [external configuration](#external-configuration) file, then 
+paste in the following...
 
 	import org.quartz.impl.triggers.CronTriggerImpl 
 	import grails.plugin.quartz2.ClosureJob
