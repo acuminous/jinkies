@@ -126,8 +126,10 @@ Further information about Grails configuration can be found [here](http://grails
 
 ##<a id="pollFrequency"></a>Changing The CI Server Poll Frequency
 Jinkies is configured to poll all jobs jobs every 15 seconds. To change this
-setup an [external configuration](#external-configuration) file, then paste in the
-contents of [QuartzConfig](./grails-app/conf/QuartzConfig.groovy) (see below).
+setup an [external configuration](#external-configuration) file, paste in the
+contents of [QuartzConfig](./grails-app/conf/QuartzConfig.groovy) (see below),
+and change the 'repeatInterval' attribute from 15000 to the desired number of 
+milliseconds.
 
 	import org.quartz.impl.triggers.CronTriggerImpl
 	import grails.plugin.quartz2.ClosureJob
@@ -149,8 +151,6 @@ contents of [QuartzConfig](./grails-app/conf/QuartzConfig.groovy) (see below).
 	
 		quartzScheduler.scheduleJob(job, trigger)
 	}
-
-Change the "repeatInterval" attribute from 15000 to the desired number of milliseconds to change the poll frequency.
 
 ## <a id="schedulingNotifications"></a>Scheduling Notifications
 We use Jinkies to tell everyone it's time for the daily stand-up. Someday we hope 
