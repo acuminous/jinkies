@@ -155,7 +155,7 @@ and set the 'repeatInterval' to the desired number of milliseconds.
 We use Jinkies to tell everyone it's time for the daily stand-up. Someday we hope 
 to build a nice UI to do this, but right now you need a bit of HTTP and a text editor.
 To scheduling a notification, first setup an [external configuration](#external-configuration) file, then 
-paste in the following...
+paste in the    following...
 
 	import org.quartz.impl.triggers.CronTriggerImpl 
 	import grails.plugin.quartz2.ClosureJob
@@ -182,12 +182,19 @@ that represents when your Stand-Up event will fire. You can find more informatio
 ## Custom Events
 If you want to use Jinkies to report other events, you need to POST a request to /api/event with the following parameters...
 
-* target e.g. 'Floor 2'
-* event e.g. 'Sandwich Trolley'
-* theme e.g. 'Yogi Bear'
-* channel e.g. 'audio'
+<table>
+    <thead>
+        <tr><th>Parameter</th><th>Mandatory</th><th>Example</th></tr>     
+    </thead>
+    <tbody>
+        <tr><td>target</td><td>Yes</td><td>Floor 2</td></tr>
+        <tr><td>event</td><td>Yes</td><td>Sandwich Trolley</td></tr>
+        <tr><td>theme</td><td>no</td><td>Yogi Bear</td></tr>
+        <tr><td>channel</td><td>Yes</td><td>audio</td></tr>
+    </tbody>
+</table>
 
- There must be at least one piece of content for the specified theme (or Fallback theme) and event type.
+There must be at least one piece of content for the given event and theme (or 'Fallback' theme if you didn't specify one).
 
 ## <a id="developerNotes"></a>Developer Notes
 Many of the functional tests currently won't work in your environment.
