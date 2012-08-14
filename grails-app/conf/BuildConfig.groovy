@@ -82,7 +82,7 @@ grails.project.dependency.resolution = {
 		runtime ':cache-headers:1.1.5'
 		runtime ':lesscss-resources:1.3.0.3'
 		
-		runtime ':liquibase:1.9.3.6' {
+		runtime(':liquibase:1.9.3.6') {
 			exclude 'data-source'			
 		}
 						
