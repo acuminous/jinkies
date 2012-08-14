@@ -91,14 +91,15 @@ log4j = {
 
 	appenders {
 
+		console name: 'stdout'
+		'null' name: 'file'
+		
 		environments {
-			console name: 'stdout'
-			null name: 'file'
 			
 			production {
 				rollingFile name: 'file', file: "jinkies.log", maxFileSize:'1MB', layout: pattern(conversionPattern: '%d{ISO8601} [%t] %p %c{2} %m%n')
-				null name:'stacktrace'
-				null name: 'stdout'
+				'null' name: 'stacktrace'
+				'null' name: 'stdout'
 			}
 		}
 		
