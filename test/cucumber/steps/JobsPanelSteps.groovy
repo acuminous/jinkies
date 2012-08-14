@@ -24,6 +24,8 @@ this.metaClass.mixin(cucumber.runtime.groovy.EN)
 
 When (~'adds a new Jenkins server') { ->
 	
+	println "WTF"
+	
 	page.addJenkinsJob()
 	
 	job = new Job(type: 'jenkins', channels: [])

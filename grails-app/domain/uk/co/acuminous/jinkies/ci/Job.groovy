@@ -21,6 +21,8 @@ import uk.co.acuminous.jinkies.content.Tag
 
 class Job implements Serializable {
 		
+	static final long serialVersionUID = 1L
+	
 	String displayName
 	String url
 	String type	

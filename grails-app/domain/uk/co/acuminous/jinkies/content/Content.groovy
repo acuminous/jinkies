@@ -23,6 +23,8 @@ import static groovyx.net.http.ContentType.BINARY
 
 class Content implements Serializable {
 
+	static final long serialVersionUID = 1L
+	
 	String title
 	String description
 	String filename

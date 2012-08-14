@@ -19,6 +19,8 @@ import uk.co.acuminous.jinkies.util.UriBuilder
 
 class Tag implements Serializable {
 
+	static final long serialVersionUID = 1L
+	
 	String name
 	TagType type
 	String uri

@@ -15,8 +15,10 @@
  */
 package uk.co.acuminous.jinkies.content
 
-enum TagType {
-
+enum TagType implements Serializable {
+	
 	theme, event
+	
+	static final long serialVersionUID = 1L	
 	
 }
