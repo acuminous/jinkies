@@ -22,6 +22,7 @@ import groovyx.net.http.*
 import spock.lang.*
 import uk.co.acuminous.jinkies.*
 import uk.co.acuminous.jinkies.content.*
+import static groovyx.net.http.Method.*
 
 import grails.converters.*
 import org.codehaus.groovy.grails.web.json.*
