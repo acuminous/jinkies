@@ -34,7 +34,7 @@ grails.plugin.quartz2.jobSetup.jenkinsMonitor = { quartzScheduler, ctx ->
 	quartzScheduler.scheduleJob(job, trigger)
 }
 
-/* Uncomment and modify to schedule a daily stand-up notification*/
+/* Uncomment and modify to schedule a daily stand-up notification
 grails.plugin.quartz2.jobSetup.projectXStandup = { quartzScheduler, ctx ->
 	
 	def job = ClosureJob.createJob({ jobCtx , appCtx->
@@ -49,3 +49,4 @@ grails.plugin.quartz2.jobSetup.projectXStandup = { quartzScheduler, ctx ->
 
 	quartzScheduler.scheduleJob(job, trigger)
 }
+*/

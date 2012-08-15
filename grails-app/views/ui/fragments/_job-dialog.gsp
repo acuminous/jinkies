@@ -38,7 +38,7 @@
 
 							<div class="form-tip">
 								<div class="grid_8">
-									<div class="tip"><span class="text">Content sharing this theme will be eligible for notifications</span></div>								
+									<div class="tip"><span class="text">Set the theme to be used for notifications</span></div>								
 								</div>
 								<div class="clear"></div>							
 							</div>
@@ -57,7 +57,7 @@
 							
 							<div class="form-tip">
 								<div class="grid_8">
-									<div class="tip"><span class="text">Notifications will be reported via the selected channels</span></div>								
+									<div class="tip"><span class="text">Build events will be reported via the selected channels</span></div>								
 								</div>
 								<div class="clear"></div>							
 							</div>													

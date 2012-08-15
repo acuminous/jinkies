@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import betamax.Recorder
 import uk.co.acuminous.jinkies.ci.*
 import uk.co.acuminous.jinkies.channel.*
 import uk.co.acuminous.jinkies.content.*
@@ -21,17 +22,26 @@ import uk.co.acuminous.jinkies.jenkins.*
 import uk.co.acuminous.jinkies.liquibase.MigrationRunner;
 import uk.co.acuminous.jinkies.spring.*;
 import uk.co.acuminous.jinkies.util.HttpClientsFactory
+import uk.co.acuminous.jinkies.util.SpringApplicationContext
 import uk.co.acuminous.jinkies.player.*
 
 beans = {	
 	
-	def migrations = application.config.migrations
+	springApplicationContext(SpringApplicationContext)
 	
-	if (migrations.enabled) {
+	def migrations = application.config.migrations	
+	if (migrations?.enabled) {
 		liquibase(MigrationRunner) { bean ->
 			bean.initMethod = 'run'
 			dataSource = ref('dataSource')
 			dropAll = migrations.dropAll
+		}
+	}
+	
+	def betamax = application.config.betamax
+	if (betamax?.enabled) {
+		recorder(Recorder) {	
+			proxyPort = betamax.proxyPort		
 		}
 	}
 	
@@ -134,7 +144,6 @@ beans = {
 			name = 'audio'
 			players = [
 				ref('mp3Player'),
-				ref('wavPlayer')
 			]
 		}
 		nextHandler = ref('terminator')
@@ -143,9 +152,6 @@ beans = {
 	mp3Player(Mp3Player) {
 	}
 
-	wavPlayer(WavPlayer) {
-	}
-			
 	terminator(EventTerminator) {		
 	}
 	

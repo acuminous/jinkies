@@ -13,6 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-grails.logging.jul.usebridge = true
-
-quartz2.autoStartup = true
+quartz2.autoStartup = false
+betamax.enabled = true
+betamax.proxyPort = 5556

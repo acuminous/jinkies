@@ -17,6 +17,7 @@ package uk.co.acuminous.jinkies.spec
 
 import javax.activation.MimetypesFileTypeMap
 
+import betamax.Recorder
 import groovyx.net.http.*
 
 import spock.lang.*
@@ -33,6 +34,8 @@ import org.apache.http.entity.mime.content.ByteArrayBody
 
 
 @Mixin(RemoteMixin)
+@Mixin(RestClientMixin)
+@Mixin(RemoteBetamaxMixin)
 
 class ContentApiSpec extends Specification {
 
@@ -41,14 +44,8 @@ class ContentApiSpec extends Specification {
 		
 	def setup() {
 		nuke()
-		client = new RESTClient('http://localhost:8080')
-		client.defaultRequestContentType = URLENC
-		client.handler.failure = { def resp, def reader ->
-			resp.data = reader
-			resp
-		}
-
-		
+		client = getRestClient(TestUtils.baseUrl)	
+			
 		mimeTypes = new MimetypesFileTypeMap()
 		mimeTypes.addMimeTypes 'audio/mp3 mp3'
 	}
@@ -78,12 +75,15 @@ class ContentApiSpec extends Specification {
 	def "Creates content with url"() {
 		
 		given:
-			Map params = [uploadMethod: 'url', title: 'Zoinks', url: 'http://localhost:8080', description: 'Shaggy saying Zoinks']
+			Map params = [uploadMethod: 'url', title: 'Zoinks', url: 'http://www.noiseaddicts.com/samples/3726.mp3', description: 'Shaggy saying Zoinks']
 			
 		when:
-			def response = client.post(path: '/api/content', body: params)
+			def response = withRemoteTape('noiseaddicts') {
+				client.post(path: '/api/content', body: params)
+			}
 			
 		then:
+			println response.data		
 			response.status == 200
 			
 			Content content = remote {
@@ -260,24 +260,6 @@ class ContentApiSpec extends Specification {
 			response.status == 400
 			response.data[0] == "Content type 'text/plain' is unsupported."	
 
-	}
-		
-	def "Attempting to upload unplayable content returns 400"() {
-		
-		given:
-			String filename = 'zoinks.wav'		
-			byte[] bytes = 'some data'.bytes
-			def id = remote {
-				Content content = Content.build(title: 'Zoinks', filename: filename)
-				content.id
-			}
-			
-		when:
-			def response = postData("/api/content/$id/data".toString(), filename, bytes)
-
-		then:		
-			response.status == 400
-			response.data[0] == 'Jinkies cannot play this wav file, although it can play others. Please see http://github.com/acuminous/jinkies/tree/master/README.md#supported-formats for an explanation.'
 	}
 	
 	def "Attempting to upload unsupported content after a create deletes the incomplete record"() {

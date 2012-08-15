@@ -126,8 +126,7 @@ class ContentController extends JinkiesErrorRenderer {
 				content.delete(flush:true)
 			}
 			
-			String code = (testContent.type =~ /wav$/) ? 'content.type.unsupported.wav' : 'content.type.unsupported'
-			content.errors.reject(code, [testContent.type] as Object[], 'Content type {0} is unsupported')
+			content.errors.reject('content.type.unsupported', [testContent.type] as Object[], 'Content type {0} is unsupported')
 			renderJsonError content.errors
 			result = true
 		}

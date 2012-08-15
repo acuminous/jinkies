@@ -15,3 +15,6 @@
  */
 migrations.enabled = true
 migrations.dropAll = true
+quartz2.autoStartup = false
+betamax.enabled = true
+betamax.proxyPort = 5556

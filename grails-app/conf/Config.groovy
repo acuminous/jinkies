@@ -87,6 +87,9 @@ grails.app.context = '/'
 
 grails.gorm.failOnError=false
 
+grails.logging.jul.usebridge = true
+
+
 log4j = {
 
 	appenders {

@@ -35,10 +35,5 @@ class RemoteMixin {
 	
 	def remote(Closure closure) {
 		remote.exec(closure)
-	}
-	
-	static foo = {
-		println "WTF"
-	}
-	
+	}	
 }

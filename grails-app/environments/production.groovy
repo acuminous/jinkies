@@ -13,10 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-grails.logging.jul.usebridge = false
-grails.serverURL = "http://www.jinkies.org"
-
+grails.serverURL = "http://www.jinkies.co.uk"
 migrations.enabled = true
 migrations.dropAll = false
-	
 grails.plugin.quartz2.autoStartup = true

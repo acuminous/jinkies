@@ -28,7 +28,7 @@
 								</div>
 								<div class="grid_6">
 									<div class="fileInput">
-										<input id="fileButton" type="button" value="Choose File..." /><span class="text"></span>
+										<input id="fileButton" type="button" value="Choose file..." /><span class="text"></span>
 										<input type="hidden" id="filename" name="filename" />									
 										<input type="file" id="file" name="file" tabIndex="-1" />																				
 									</div>
@@ -46,7 +46,14 @@
 									<g:textField id="contentUrl" name="contentUrl" placeholder="e.g. http://www.freewebs.com/scoobyrule/dooby.wav"/>
 								</div>
 								<div class="clear"></div>
-							</div>						
+							</div>
+							
+                            <div class="form-tip">
+                                <div class="grid_8">
+                                    <div class="tip"><span class="text">We currently only support mp3 files. Use <a href="http://media.io">Media.io</a> to convert your content.</span></div>                              
+                                </div>
+                                <div class="clear"></div>                           
+                            </div>  
 						
 							<div class="form-row">
 								<div class="grid_2">
