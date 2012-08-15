@@ -15,16 +15,16 @@
  */
 package steps
 
+import fixtures.HttpStub
 import pages.*
 import modules.*
 import uk.co.acuminous.jinkies.ci.Job
+import static fixtures.HttpStub.*
 
 this.metaClass.mixin(cucumber.runtime.groovy.EN)
 
 
 When (~'adds a new Jenkins server') { ->
-	
-	println "WTF"
 	
 	page.addJenkinsJob()
 	
@@ -32,9 +32,9 @@ When (~'adds a new Jenkins server') { ->
 }
 
 When (~'adds a new Jenkins job called (.*)') { String displayName ->
-	
+
 	page.addJenkinsJob()
-	
+		
 	job = new Job(displayName: displayName, type: 'jenkins', channels: [])
 }
 

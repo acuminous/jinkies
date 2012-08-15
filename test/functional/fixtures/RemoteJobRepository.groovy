@@ -21,7 +21,7 @@ import uk.co.acuminous.jinkies.content.TagType
 import static org.apache.commons.lang.RandomStringUtils.randomAlphabetic;
 
 
-import uk.co.acuminous.jinkies.spec.RemoteMixin
+import uk.co.acuminous.jinkies.spec.RemoteUtils
 
 class RemoteJobRepository {
 
@@ -34,7 +34,7 @@ class RemoteJobRepository {
 	}	
 	
 	Job buildJob(Map data) {
-		new RemoteMixin().remote {
+		new RemoteUtils().remote {
 			Job job = Job.build(data)
 			assert job
 			return job
@@ -42,7 +42,7 @@ class RemoteJobRepository {
 	}
 	
 	Job addChannel(String displayName, String channel) {
-		new RemoteMixin().remote {
+		new RemoteUtils().remote {
 			List results = Job.findAllByDisplayName(displayName)
 			Job job = results ? results[0] : null
 			job.addToChannels(channel)
@@ -52,7 +52,7 @@ class RemoteJobRepository {
 	}
 	
 	Job setTheme(String displayName, String themeName) {
-		new RemoteMixin().remote {
+		new RemoteUtils().remote {
 			
 			List results = Job.findAllByDisplayName(displayName)
 			Job job = results ? results[0] : null
@@ -66,13 +66,13 @@ class RemoteJobRepository {
 	}
 	
 	List<Job> findAllByUrl(String url) {
-		new RemoteMixin().remote {
+		new RemoteUtils().remote {
 			Job.findAllByUrlIlike("$url%")
 		}
 	}
 	
 	Job findByDisplayName(String displayName) {
-		new RemoteMixin().remote {
+		new RemoteUtils().remote {
 			// http://jira.grails.org/browse/GRAILS-8915?focusedCommentId=71362#comment-71362
 			List results = Job.findAllByDisplayName(displayName)		
 			
@@ -85,7 +85,7 @@ class RemoteJobRepository {
 	}
 	
 	Integer count() {
-		new RemoteMixin().remote {
+		new RemoteUtils().remote {
 			Job.count()
 		}
 	}

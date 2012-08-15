@@ -17,19 +17,18 @@ package uk.co.acuminous.jinkies.spec
 
 import groovyx.net.http.RESTClient
 
+
 import uk.co.acuminous.jinkies.ci.JobBuilder
 import spock.lang.Specification
 
 import betamax.Betamax
 import betamax.Recorder
 import org.junit.*
-import static groovyx.net.http.Method.*
-import static groovyx.net.http.ContentType.*
 
 import spock.lang.Unroll
 
-@Mixin(RemoteMixin)
-@Mixin(RestClientMixin)
+@Mixin(RemoteUtils)
+@Mixin(TestUtils)
 
 @Ignore
 class JenkinsApiSpec extends Specification {
@@ -41,7 +40,7 @@ class JenkinsApiSpec extends Specification {
 	def setup() {
 		nuke()
 		
-		client = getRestClient(TestUtils.baseUrl)			
+		client = getRestClient(baseUrl)			
 	}
 	
 	@Betamax(tape="Jenkins Jobs List")

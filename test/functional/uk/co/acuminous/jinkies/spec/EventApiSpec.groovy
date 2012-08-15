@@ -24,8 +24,8 @@ import uk.co.acuminous.jinkies.event.EventHistory
 import static groovyx.net.http.ContentType.*
 
 
-@Mixin(RemoteMixin)
-@Mixin(RestClientMixin)
+@Mixin(RemoteUtils)
+@Mixin(TestUtils)
 
 class EventApiSpec extends Specification  {
 
@@ -36,7 +36,7 @@ class EventApiSpec extends Specification  {
 	def setup() {
 		nuke()
 		
-		client = getRestClient(TestUtils.baseUrl)	
+		client = getRestClient(baseUrl)	
 		
 		success = remote {
 			new Tag('Success', TagType.event).save()

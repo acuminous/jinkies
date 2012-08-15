@@ -197,14 +197,6 @@ If you want to use Jinkies to report other events, you need to POST a request to
 There must be at least one piece of content for the given event and theme (or 'Fallback' theme if you didn't specify one).
 
 ## <a id="developerNotes"></a>Developer Notes
-Many of the functional tests currently won't work in your environment.
-This is because they expect a Jenkins server at http://build.acuminous.meh:8080 
-to be running and configured with various jobs. At some point we'll get round to 
-either creating a controller with stub responses or try running Rob Fletcher's 
-[Betamax](http://freeside.co/betamax/) library between Jinkies and our build server. 
-If you want to contribute to Jinkies and our laziness is causing inconvenience, 
-let us know and I'll expedite this.
-
 STS complains about compilation errors in Spock tests that use the @Build annotation
 immediately after a clean. Making a superficial change to the test causes it to be
 rebuild and subsequently work. We're gradually phasing out the build-test-data plugin 

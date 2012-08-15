@@ -19,7 +19,7 @@ import grails.plugin.remotecontrol.RemoteControl
 import uk.co.acuminous.jinkies.test.Nuke
 
 
-class RemoteMixin {
+class RemoteUtils {
 
 	RemoteControl remote = new RemoteControl(useNullIfResultWasUnserializable: true)
 	

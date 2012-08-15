@@ -4,38 +4,41 @@ import betamax.Recorder
 import uk.co.acuminous.jinkies.util.SpringApplicationContext
 import grails.plugin.remotecontrol.RemoteControl;
 
-class RemoteBetamaxMixin {
+class RemoteBetamaxRecorder {
 
 	RemoteControl remote = new RemoteControl(useNullIfResultWasUnserializable: true)
-	
 	
 	def withRemoteTape(String tapeName, Closure doStuff) {		
 		withRemoteTape(tapeName, [:], doStuff)		
 	}
 	
-	def withRemoteTape(String tapeName, Map args, Closure doStuff) {		
+	def withRemoteTape(String tape, Map args, Closure doStuff) {		
 		
-		remote startProxy.curry(tapeName, args) 
-		
-		def result
-		
+		start(tape, args) 
+				
 		try {
-			result = doStuff()
+			return doStuff()
 		} finally {
-			remote stopProxy
+			stop()
 		}
-		
-		result		
 	} 
+
+
+	void start(String tape, Map args) {				
+		remote startProxy.curry(tape, args)
+	}
 	
-	def startProxy = { String tapeName, Map args ->
+	void stop() {
+		remote stopProxy
+	}
+		
+	def startProxy = { String tape, Map args ->
 		Recorder recorder = SpringApplicationContext.getBean('recorder')
-		recorder.startProxy(tapeName, args)
+		recorder.startProxy(tape, args)
 	}
 	
 	def stopProxy = { 
 		Recorder recorder = SpringApplicationContext.getBean('recorder')
 		recorder.stopProxy()
 	}
-	
 }

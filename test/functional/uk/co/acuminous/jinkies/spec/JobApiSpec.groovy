@@ -20,11 +20,10 @@ import spock.lang.*
 
 import uk.co.acuminous.jinkies.ci.Job
 import uk.co.acuminous.jinkies.content.*
-import uk.co.acuminous.jinkies.event.EventHistory
 import static groovyx.net.http.ContentType.*
 
-@Mixin(RemoteMixin)
-@Mixin(RestClientMixin)
+@Mixin(RemoteUtils)
+@Mixin(TestUtils)
 
 class JobApiSpec extends Specification  {
 
@@ -33,7 +32,7 @@ class JobApiSpec extends Specification  {
 	def setup() {
 		nuke()
 		
-		client = getRestClient(TestUtils.baseUrl)	
+		client = getRestClient(baseUrl)	
 	}
 	
 	def "Provides a json representation of a job"() {

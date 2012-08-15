@@ -19,7 +19,8 @@ import geb.binding.BindingUpdater
 import geb.Browser
 
 this.metaClass.mixin (cucumber.runtime.groovy.Hooks)
-this.metaClass.mixin(uk.co.acuminous.jinkies.spec.RemoteMixin)
+this.metaClass.mixin(uk.co.acuminous.jinkies.spec.RemoteUtils)
+import fixtures.HttpStub
 
 def bindingUpdater
 
@@ -27,8 +28,12 @@ Before () {
 	nuke()	
 	bindingUpdater = new BindingUpdater (binding, new Browser ())
 	bindingUpdater.initialize ()
+	
+	HttpStub.enable()
+	
 }
 
 After () {
-	// bindingUpdater.remove()
+	bindingUpdater.remove()
+	HttpStub.disable()
 }

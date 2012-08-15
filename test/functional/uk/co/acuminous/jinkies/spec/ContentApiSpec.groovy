@@ -17,7 +17,6 @@ package uk.co.acuminous.jinkies.spec
 
 import javax.activation.MimetypesFileTypeMap
 
-import betamax.Recorder
 import groovyx.net.http.*
 
 import spock.lang.*
@@ -28,14 +27,12 @@ import grails.converters.*
 import org.codehaus.groovy.grails.web.json.*
 
 import org.apache.http.entity.mime.*
-import static groovyx.net.http.Method.*
-import static groovyx.net.http.ContentType.*
 import org.apache.http.entity.mime.content.ByteArrayBody
 
 
-@Mixin(RemoteMixin)
-@Mixin(RestClientMixin)
-@Mixin(RemoteBetamaxMixin)
+@Mixin(RemoteUtils)
+@Mixin(TestUtils)
+@Mixin(RemoteBetamaxRecorder)
 
 class ContentApiSpec extends Specification {
 
@@ -44,7 +41,7 @@ class ContentApiSpec extends Specification {
 		
 	def setup() {
 		nuke()
-		client = getRestClient(TestUtils.baseUrl)	
+		client = getRestClient(baseUrl)	
 			
 		mimeTypes = new MimetypesFileTypeMap()
 		mimeTypes.addMimeTypes 'audio/mp3 mp3'
@@ -72,7 +69,7 @@ class ContentApiSpec extends Specification {
 	}
 	
 	
-	def "Creates content with url"() {
+	def "Creates content from url"() {
 		
 		given:
 			Map params = [uploadMethod: 'url', title: 'Zoinks', url: 'http://www.noiseaddicts.com/samples/3726.mp3', description: 'Shaggy saying Zoinks']
@@ -83,7 +80,6 @@ class ContentApiSpec extends Specification {
 			}
 			
 		then:
-			println response.data		
 			response.status == 200
 			
 			Content content = remote {
