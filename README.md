@@ -202,7 +202,10 @@ immediately after a clean. Making a superficial change to the test causes it to 
 rebuild and subsequently work. We're gradually phasing out the build-test-data plugin 
 because of this and other problems.
 
-Finally we hope you enjoy using Jinkies. Thanks for listening...
+
+## And Finally...
+
+We hope you enjoy using Jinkies. Please do provide <a href="https://github.com/acuminous/jinkies/issues">feedback<a/> (especially the negative kind). 
 
 The Jinkies development team.
 
