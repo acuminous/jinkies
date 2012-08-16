@@ -28,9 +28,9 @@
 							<div class="content widget edit prototype">
 								<input type="hidden" name="restId" value="content/123" />
 								<div class="delete circular-button" title="Delete Content"><span class="text">&times;</span></div>
-								<div class="play circular-button" title="Preview Content"><a target="x-audio/mpeg" href="/api/content/123/data"><r:img uri="/images/play.png" alt="Play"/></a></div>
+								<div class="play circular-button" title="Play Content"><a target="x-audio/mpeg" href="/api/content/123/data"><r:img uri="/images/play.png" alt="Play"/></a></div>
 								<div class="title primary"><span class="text" title="Shaggy from Scooby Doo saying Zoinks">Zoinks</span></div>
-								<div class="type"><span class="text">x-audio/mpeg</span></div>						
+								<div class="theme"><span class="text">Scooby Doo</span></div>						
 							</div>
 						
 						</div>								
