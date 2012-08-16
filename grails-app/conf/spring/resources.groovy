@@ -22,13 +22,10 @@ import uk.co.acuminous.jinkies.jenkins.*
 import uk.co.acuminous.jinkies.liquibase.MigrationRunner;
 import uk.co.acuminous.jinkies.spring.*;
 import uk.co.acuminous.jinkies.util.HttpClientsFactory
-import uk.co.acuminous.jinkies.util.SpringApplicationContext
 import uk.co.acuminous.jinkies.player.*
 
 beans = {	
-	
-	springApplicationContext(SpringApplicationContext)
-	
+		
 	def betamax = application.config.betamax
 	if (betamax?.enabled) {
 		recorder(Recorder) {

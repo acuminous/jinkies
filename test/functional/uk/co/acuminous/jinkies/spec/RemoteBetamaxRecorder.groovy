@@ -1,7 +1,6 @@
 package uk.co.acuminous.jinkies.spec
 
 import betamax.Recorder
-import uk.co.acuminous.jinkies.util.SpringApplicationContext
 import grails.plugin.remotecontrol.RemoteControl;
 
 class RemoteBetamaxRecorder {
@@ -33,12 +32,12 @@ class RemoteBetamaxRecorder {
 	}
 		
 	def startProxy = { String tape, Map args ->
-		Recorder recorder = SpringApplicationContext.getBean('recorder')
+		Recorder recorder = app.mainContext.getBean('recorder')
 		recorder.startProxy(tape, args)
 	}
 	
 	def stopProxy = { 
-		Recorder recorder = SpringApplicationContext.getBean('recorder')
+		Recorder recorder = app.mainContext.getBean('recorder')
 		recorder.stopProxy()
 	}
 }
