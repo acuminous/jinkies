@@ -1,5 +1,6 @@
 /* 
  * Copyright 2012 Acuminous Ltd
+
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,8 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-println "BUILD BUILD BUILD BUILD BUILD BUILD BUILD" 
+ 
+// This build file isn't currently used thanks to http://jira.grails.org/browse/GPREMOTECONTROL-2?focusedCommentId=71979#comment-71979  
  
 migrations.enabled = true
 migrations.dropAll = true

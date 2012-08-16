@@ -15,7 +15,7 @@
  */
 import grails.util.Environment
 
-String environmentName = Environment.current.toString().toLowerCase()
+String environmentName = Environment.current.name.toLowerCase()
 println "Using ${environmentName} configuration"
 
 grails.config.locations = [

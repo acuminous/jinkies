@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+ 
 quartz2.autoStartup = false
 betamax.enabled = true
 betamax.proxyPort = 5556
