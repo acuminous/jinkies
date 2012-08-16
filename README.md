@@ -3,9 +3,9 @@ Jinkies
 Jinkies is an application for monitoring remote CI servers and notifying you
 of important build events (i.e. breaks and fixes). Rather than send emails 
 which may go unnoticed, Jinkies notifications are intended to be attention 
-grabbing. This version of Jinkies supports mp3 and wav files. In future we 
-hope to support video, text to speech, lava lamps, firework displays and 
-Mars landings.
+grabbing. This version of Jinkies only supports mp3 files. In future we 
+hope to support other audio content as well as video, text to speech, lava lamps, 
+firework displays and Mars landings.
 
 One of the nice features of Jinkies is that it allows you to "theme" build 
 jobs. In this way you can assign a theme (e.g. "The Simpsons" or 
@@ -77,13 +77,13 @@ although the wav files from this site need [some love](#audio) before they will 
 
 ## <a id="supportedFormats"></a>Supported File Formats
 ### <a id="audio"></a>Audio
-Jinkies can play mp3s and some types of wav file. The standard java sound system limits
-wav playback to files that use PCM compression and a sample rate of 11,025Hz or less. We're 
-working to find a solution for this, but it's a difficult problem to solve. For now we 
-recommend converting your wav files to mp3 using [MediaIO](http://media.io)
+Right now Jinkies can only play mp3s. We're investigating reliable ways to play other file formats (wav, ogg & flac), 
+but when it comes to java development we're much more familiar with the boring server side stuff, so it might be 
+some time. For now we recommend converting your files to mp3 using [MediaIO](http://media.io) who
+have a much better idea what they're doing.
 
 ### Other
-Jinkies doesn't currently support any non-audio content. We'd like to add video and text
+Jinkies doesn't currently support any non-audio content. We're keen to add video and text
 (for text-to-speech), but haven't got there yet. 
 
 ## <a id="proxyConfiguration"></a>Proxy Configuration
