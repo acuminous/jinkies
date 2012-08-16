@@ -143,37 +143,37 @@ grails.resources.modules = {
 		resource url:'/css/error.less', attrs:[rel: "stylesheet/less", type:'css']	
 		resource url:'/css/comic.less', attrs:[rel: "stylesheet/less", type:'css']
 		resource url:'/css/dialog.less', attrs:[rel: "stylesheet/less", type:'css']
-		resource url:'/js/common/baseline.js'
-		resource url:'/js/common/errors.js'
-		resource url:'/js/common/panel.js'
-		resource url:'/js/common/dialog.js'
-		resource url:'/js/common/widget.js'
+		resource url:'/js/common/baseline.js', attrs:[type:'js']
+		resource url:'/js/common/errors.js', attrs:[type:'js']
+		resource url:'/js/common/panel.js', attrs:[type:'js']
+		resource url:'/js/common/dialog.js', attrs:[type:'js']
+		resource url:'/js/common/widget.js', attrs:[type:'js']
 	}
 	'960' {
 		resource url:'/css/960.css'
 	}
 	modal {
-		resource url:'/js/simplemodal/jquery.simplemodal-1.4.2.js'
+		resource url:'/js/simplemodal/jquery.simplemodal-1.4.2.js', attrs:[type:'js']
 	}
 	fileUpload {
-		resource url:'/js/fileupload/jquery.ui.widget.js'
-		resource url:'/js/fileupload/jquery.iframe-transport.js'
-		resource url:'/js/fileupload/jquery.fileupload.js'
+		resource url:'/js/fileupload/jquery.ui.widget.js', attrs:[type:'js']
+		resource url:'/js/fileupload/jquery.iframe-transport.js', attrs:[type:'js']
+		resource url:'/js/fileupload/jquery.fileupload.js', attrs:[type:'js']
 	}
 	jobs {
 		dependsOn 'core'
-		resource url:'/js/job/job-init.js'
-		resource url:'/js/job/job-api.js'
-		resource url:'/js/job/job-widget.js'
-		resource url:'/js/job/job-dialog.js'		
+		resource url:'/js/job/job-init.js', attrs:[type:'js']
+		resource url:'/js/job/job-api.js', attrs:[type:'js']
+		resource url:'/js/job/job-widget.js', attrs:[type:'js']
+		resource url:'/js/job/job-dialog.js', attrs:[type:'js']		
 	}
 	content {
 		dependsOn 'core'
 		dependsOn 'fileUpload'
-		resource url:'/js/content/content-init.js'
-		resource url:'/js/content/content-api.js'
-		resource url:'/js/content/content-widget.js'
-		resource url:'/js/content/content-dialog.js'		
+		resource url:'/js/content/content-init.js', attrs:[type:'js']
+		resource url:'/js/content/content-api.js', attrs:[type:'js']
+		resource url:'/js/content/content-widget.js', attrs:[type:'js']
+		resource url:'/js/content/content-dialog.js', attrs:[type:'js']		
 	}
 }
 jinkies.splash.enabled = false
