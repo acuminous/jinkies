@@ -229,7 +229,6 @@ function ContentDialog(element, dataSource) {
 		var rows = $('.form-row', this.element).has('#filename, #contentUrl');
 		rows.each(function(index, row) {
 			$(row).hide();
-			$(row).next('.form-tip').hide();
 		})
 	}
 	

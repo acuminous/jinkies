@@ -13,8 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+println "BUILD BUILD BUILD BUILD BUILD BUILD BUILD" 
+ 
 migrations.enabled = true
 migrations.dropAll = true
 quartz2.autoStartup = false
 betamax.enabled = true
 betamax.proxyPort = 5556
+remoteControl.enabled = true

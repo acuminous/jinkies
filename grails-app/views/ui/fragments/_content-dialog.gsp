@@ -43,14 +43,14 @@
 									<label class="heading" for="contentUrl">URL</label>
 								</div>
 								<div class="grid_6">
-									<g:textField id="contentUrl" name="contentUrl" placeholder="e.g. http://www.freewebs.com/scoobyrule/dooby.wav"/>
+									<g:textField id="contentUrl" name="contentUrl" placeholder="e.g. http://some-server/samples/scoobydoo.mp3"/>
 								</div>
 								<div class="clear"></div>
 							</div>
 							
                             <div class="form-tip">
                                 <div class="grid_8">
-                                    <div class="tip"><span class="text">We currently only support mp3 files. Use <a href="http://media.io">Media.io</a> to convert your content.</span></div>                              
+                                    <div class="tip"><span class="text">Jinkies only supports mp3s. You can convert other formats with <a class="mediaio" href="http://media.io">media.io</a></span></div>                              
                                 </div>
                                 <div class="clear"></div>                           
                             </div>  

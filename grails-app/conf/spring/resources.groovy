@@ -29,19 +29,19 @@ beans = {
 	
 	springApplicationContext(SpringApplicationContext)
 	
+	def betamax = application.config.betamax
+	if (betamax?.enabled) {
+		recorder(Recorder) {
+			proxyPort = betamax.proxyPort
+		}
+	}
+		
 	def migrations = application.config.migrations	
 	if (migrations?.enabled) {
 		liquibase(MigrationRunner) { bean ->
 			bean.initMethod = 'run'
 			dataSource = ref('dataSource')
 			dropAll = migrations.dropAll
-		}
-	}
-	
-	def betamax = application.config.betamax
-	if (betamax?.enabled) {
-		recorder(Recorder) {	
-			proxyPort = betamax.proxyPort		
 		}
 	}
 	

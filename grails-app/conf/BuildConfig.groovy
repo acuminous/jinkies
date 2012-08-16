@@ -43,6 +43,7 @@ grails.project.dependency.resolution = {
         grailsPlugins()
         grailsHome()
         grailsCentral()
+		mavenLocal()
         mavenCentral()
 		
 		mavenRepo 'http://plugins.energizedwork.com'
