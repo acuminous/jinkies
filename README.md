@@ -29,12 +29,12 @@ need a computer capable of playing sound, on which to install Jinkies.
 ## <a id="installation"></a>Installation
 
 ### Option 1 - Executable War File (easy)
-1. Download the executable Jinkies [binaries](http://www.jinkies.co.uk/binaries/executable/jinkies.war)
+1. Download the [executable binaries](http://www.jinkies.co.uk/binaries/executable/jinkies.war)
 2. Run 'java -jar jinkies.war' (defaults to port 8080. Specify -Dport=NNNN to change)
 3. Give it a few moments to start then test it by opening [http://localhost:8080](http://localhost:8080)
 
 ### Option 2 - Deployable War File (requires a Java application server)
-1. Download the deployable Jinkies [binaries](http://www.jinkies.co.uk/binaries/deployable/jinkies.war)
+1. Download the [deployable binaries](http://www.jinkies.co.uk/binaries/deployable/jinkies.war)
 2. Deploy it to your app server
 3. Give it a few moments to start then navigate to wherever you deployed it
 
