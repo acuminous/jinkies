@@ -76,7 +76,7 @@ grails.project.dependency.resolution = {
         runtime ':jquery:1.7.1'
 		runtime ':quartz2:0.2.3'		
 				
-		runtime ':resources:1.1.6'
+		runtime ':resources:1.2-RC1'
 		// runtime ':yui-minify-resources:0.1.5' currently broken
 		runtime ':zipped-resources:1.0'
 		runtime ':cached-resources:1.0'
