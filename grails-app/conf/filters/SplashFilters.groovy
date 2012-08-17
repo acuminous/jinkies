@@ -26,7 +26,7 @@ class SplashFilters {
 		if (grailsApplication.config.jinkies.splash?.enabled) {		
 			splash(uri: '/') {
 				before = {
-					render view:'/ui/about'
+					render view:'/ui/splash'
 					false
 				}
 			}

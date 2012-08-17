@@ -27,9 +27,13 @@ class UserInterfaceController {
 		render(view: '/ui/themes')
 	}
 	
+	def splash() {
+		render(view: '/ui/splash')
+	}	
+	
 	def about() {
 		render(view: '/ui/about')
-	}	
+	}
 
 	def fail() {
 		throw new RuntimeException()

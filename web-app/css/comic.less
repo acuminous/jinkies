@@ -7,20 +7,51 @@
 @heading-background-color: #fdf9b0;
 
 #about-page {
+    
+    #about-panel {
+        background-color: #6F9BBB;  
 
-	position: relative;
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#C3D2DC', endColorstr='#6F9BBB'); /* for IE */
+        background: -webkit-gradient(linear, left top, left bottom, from(#C3D2DC), to(#6F9BBB)); /* for webkit browsers */
+        background: -moz-linear-gradient(top,  #C3D2DC,  #6F9BBB); /* for firefox 3.6+ */    
+    }
+    
+    #installation-panel {
+        background-color: #A65988;  
 
-	#about-title-1 {
-		#absolute > .top-left(40px, 40px);
-	}
-	
-	#about-title-2 {
-		#absolute > .top-left(457px, 662px);
-	}
-	
-	#about-title-3 {
-		#absolute > .bottom-right(150px, 40px);
-	}	
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#C681B5', endColorstr='#A65988'); /* for IE */
+        background: -webkit-gradient(linear, left top, left bottom, from(#C681B5), to(#A65988)); /* for webkit browsers */
+        background: -moz-linear-gradient(top,  #C681B5,  #A65988); /* for firefox 3.6+ */       
+    }
+    
+    #help-panel {
+        background-color: #A2C97D;  
+
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#A2C97D', endColorstr='#608A3B'); /* for IE */
+        background: -webkit-gradient(linear, left top, left bottom, from(#A2C97D), to(#608A3B)); /* for webkit browsers */
+        background: -moz-linear-gradient(top,  #A2C97D,  #608A3B); /* for firefox 3.6+ */                      
+    }
+
+    .main.panel {
+        margin-bottom: @grid-margin;
+        
+        h1.title {
+            margin-bottom: @grid-margin * 1.5;
+        }
+        
+        code {
+            padding-left: 2em;
+        }
+        
+        .text {
+            font-size: 1.5em;
+            line-height: 1.2em;
+            
+            a {
+                font-weight: bold;
+            }
+        }
+    }
 }
 
 .comic {

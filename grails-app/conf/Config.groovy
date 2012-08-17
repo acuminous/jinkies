@@ -160,6 +160,10 @@ grails.resources.modules = {
 		resource url:'/js/fileupload/jquery.iframe-transport.js', attrs:[type:'js']
 		resource url:'/js/fileupload/jquery.fileupload.js', attrs:[type:'js']
 	}
+	splash {
+		dependsOn 'core'
+		resource url:'/css/splash.less', attrs:[rel: "stylesheet/less", type:'css']
+	}
 	jobs {
 		dependsOn 'core'
 		resource url:'/js/job/job-init.js', attrs:[type:'js']

@@ -1,19 +1,86 @@
 <!doctype html>
 <html>
 	<head>
-		<title>Jinkies - Audible Alarms for Agile Teams</title>
+		<title>Jinkies - broken builds need love not email</title>
 		<meta name="layout" content="main">
+        <r:require module="jobs"/>                  		
 	</head>
 	<body id="about-page" class="comic">
-		<div class="container_12">		
+		<div class="container_12">
 			<div class="page">		
 				<div class="grid_12">
-					<r:img class="comic" uri="/images/about.png" />
-					<h1 id="about-title-1" class="title">How Jinkies was born...</h1>
-					<h1 id="about-title-2" class="title">Tap, tap, tap...</h1>
-					<h1 id="about-title-3" class="title">
-						<a href="http://github.com/acuminous/jinkies">Click here</a> for more...					
-					</h1>
+                    <div id="about-panel" class="main panel">				
+                        <h1 class="title">About</h1>
+                        <div>
+                            <span class="text">
+Jinkies is an open source tool for monitoring remote build servers and grabbing your attention when something goes wrong.
+Since this is the first release, and we're all about <del>obnoxious</del> <a href="http://en.wikipedia.org/wiki/Agile_software_development">agile</a> 
+and <a href="http://en.wikipedia.org/wiki/Lean_software_development">lean</a> software development, we've built a 
+<a href="http://en.wikipedia.org/wiki/Minimum_viable_product">minimal viable product</a> that we 
+hope to <a href="http://en.wikipedia.org/wiki/Iterative_and_incremental_development">iterate</a> into something wonderful.
+<br/>
+<br/>
+For this reason Jinkies is currently limited to <a href="http://jenkins-ci.org/">Jenkins</a> servers (possibly <a href="http://hudson-ci.org/">Hudson</a> too) 
+and mp3 based notifications. If you would prefer to use other file formats then for now we recommend converting them using the excellent <a href="media.io">media.io</a> 
+online conversion service, but please watch this space for forthcoming improvements.
+<br/>
+<br/>
+Thanks for investigating Jinkies, we hope you enjoy the experience, but if not please vent your frustration <a href="https://github.com/acuminous/jinkies/issues">here</a>.
+<br/>
+<br/>
+The Jinkies development team
+                            </span>
+                        </div>	                    
+	                </div>
+                    <div class="clear"></div>
+	                
+	                <div id="installation-panel" class="main panel">
+	   					<h1 class="title">Installation</h1>
+                        <div>
+                            <span class="text">                           
+Jinkies pre-requisits are a Java 6 runtime environment (or higher), a REST compliant web browser and a 
+PC that can play sound. After this all you need to do is <a href="http://www.jinkies.co.uk/binaries/executable/jinkies.war">download</a> and run the 
+Jinkies executable war. Depending on your PC setup you might be able to do this by double clicking the 
+file after download but we recommend starting it by typing:<br/>
+<br/>
+<code>
+    java -jar jinkies.war
+</code><br/>
+<br/>
+This way you can specify an alternative port<br/>
+<br/>
+<code>
+    java -jar jinkies.war -Dserver.port=NNNN
+</code><br/>
+<br/>
+and kill Jinkies using CTRL+C instead of finding and killing the process.<br/>
+<br/>
+The first time Jinkies starts it has to initialise an h2 database which can take a little while. Keep trying <a href="http://localhost:8080">http://localhost:8080</a> (or other specified port) until you see the 
+jobs page. From there click "Add Jenkins jobs" and supply the URL of your build server or build job. Once you've got this working try uploading your own 
+mp3s and specifying a theme for the jobs.<br/>
+<br/>
+Finally if you prefer to deploy Jinkies to an existing Java application server rather than run it standalone you can 
+<a href="http://www.jinkies.co.uk/binaries/deployable/jinkies.war">download</a> the Jinkies deployable war.
+                            </span>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                        
+                    <div id="help-panel" class="main panel">	                        
+	                    <h1 class="title">Getting Help</h1>
+                        <div>
+                            <span class="text">
+If you're having problems with Jinkies or find what looks like a bug, the first thing to do is read the 
+<a href="https://github.com/acuminous/jinkies/blob/master/README.md">documentation</a> and if that doesn't help 
+<a href="https://github.com/acuminous/jinkies/issues">report</a> it. If you're a little more adventurous you can 
+browse the <a href="https://github.com/acuminous/jinkies">source code</a> and if you're feeling incredibly generous, fix 
+the problem for us and submit a <a href="https://github.com/acuminous/jinkies/pulls">pull request</a>. Do this and 
+open source karma will be yours.                             
+                            </span>
+                        </div>                            	                    
+                    </div>
+                    <div class="clear"></div>
+    				    
 				</div>
 				<div class="clear" ></div>										
 				<g:render template="/ui/fragments/footer" />			
