@@ -164,6 +164,10 @@ grails.resources.modules = {
 		dependsOn 'core'
 		resource url:'/css/splash.less', attrs:[rel: "stylesheet/less", type:'css']
 	}
+	about {
+		dependsOn 'core'
+		resource url:'/css/about.less', attrs:[rel: "stylesheet/less", type:'css']
+	}
 	jobs {
 		dependsOn 'core'
 		resource url:'/js/job/job-init.js', attrs:[type:'js']

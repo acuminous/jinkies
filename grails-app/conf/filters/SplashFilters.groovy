@@ -30,7 +30,13 @@ class SplashFilters {
 					false
 				}
 			}
-			hide(uri: '/', invert: true) {
+			splash(uri: '/about') {
+				before = {
+					render view:'/ui/about'
+					false
+				}
+			}
+			hide(uri: '/**') {
 				before = {
 					response.sendError SC_NOT_FOUND
 					false 

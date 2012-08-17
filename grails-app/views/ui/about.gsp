@@ -3,7 +3,7 @@
 	<head>
 		<title>Jinkies - broken builds need love not email</title>
 		<meta name="layout" content="main">
-        <r:require module="jobs"/>                  		
+        <r:require module="about"/>                  		
 	</head>
 	<body id="about-page" class="comic">
 		<div class="container_12">
