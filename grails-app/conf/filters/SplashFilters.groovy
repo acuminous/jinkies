@@ -38,7 +38,6 @@ class SplashFilters {
 			}
 			hide(uri: '/**') {
 				before = {
-					println params
 					render view:'/not-found'
 					false 
 				}

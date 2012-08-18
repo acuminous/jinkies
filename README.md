@@ -22,21 +22,39 @@ backup failures or downed servers.
 3. [Add one or more build jobs](#monitoring-ci-jobs)
 
 ## <a id="systemRequirements"></a>System Requirements
-You will need a recent version of Java (1.6 should do) and a css3 / HTML5 compliant browser.
+You will need a recent version of Java (1.6 should do) and a CSS3 / HTML5 compliant browser.
 Jenkins (and possibly Hudson) are currently the only supported CI servers. You'll also 
 need a computer capable of playing sound, on which to install Jinkies.
 
 ## <a id="installation"></a>Installation
 
-### Option 1 - Executable War File (easy)
+### Option 1 - Executable War with default settings
 1. Download the [executable binaries](http://www.jinkies.co.uk/binaries/executable/jinkies.war)
-2. Run 'java -jar jinkies.war' (defaults to port 8080. Specify -Dport=NNNN to change)
+2. Run 'java -jar jinkies.war'
 3. Give it a few moments to start then test it by opening [http://localhost:8080](http://localhost:8080)
 
-### Option 2 - Deployable War File (requires a Java application server)
+### Option 2 - Executable War with custom port
+1. Download the [executable binaries](http://www.jinkies.co.uk/binaries/executable/jinkies.war)
+2. Create an [external configuration](#external-configuration) file and add the line 
+
+    grails.serverURL = 'http://localhost:NNNN'
+    
+3. Run 'java -jar jinkies.war -Dport=NNNN'
+3. Give it a few moments to start then test it by opening [http://localhost:NNNN](http://localhost:NNNN) 
+
+### Option 3 - Deploying to an Application Server under the root context and port 8080
 1. Download the [deployable binaries](http://www.jinkies.co.uk/binaries/deployable/jinkies.war)
-2. Deploy it to your app server
-3. Give it a few moments to start then navigate to wherever you deployed it
+2. Deploy the war file to your app server
+3. Give it a few moments to start then test it by opening [http://localhost:8080](http://localhost:8080)
+
+### Option 4 - Deploying to an Application Server using a custom context and/or different port
+1. Download the [deployable binaries](http://www.jinkies.co.uk/binaries/deployable/jinkies.war)
+2. Create an [external configuration](#external-configuration) file and add the line
+
+    grails.serverURL = 'http://localhost:NNNN/CONTEXT'
+    
+3. Deploy the war file to your app server
+4. Give it a few moments to start then test it by opening [http://localhost:NNN/CONTEXT](http://localhost:NNNN)
 
 ## <a id="monitoringCiJobs"></a>Monitoring CI Jobs
 You can add Jenkins jobs one by one, or add every job on a specific server. Either way

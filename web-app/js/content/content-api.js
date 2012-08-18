@@ -1,10 +1,13 @@
-function ContentApi() {
+function ContentApi(baseUrl) {
 	
+	this.baseUrl = baseUrl;
+		
 	this.list = function() {
 		
 		var results;
+		var url = this.baseUrl + '/content';
 		
-		$.get('/api/content', function(content) {
+		$.get(url, function(content) {
 			results = content;
 		});	
 		
@@ -13,9 +16,10 @@ function ContentApi() {
 	
 	this.get = function(restId) {
 		
-		var response = null;
+		var response = null;		
+		var url = this.baseUrl + '/' + restId;
 		
-		$.get('/api/' + restId, function(content) {
+		$.get(url, function(content) {
 			response = content;
 		})
 	
@@ -25,8 +29,9 @@ function ContentApi() {
 	this.create = function(content) {
 		
 		var response = null;
+		var url = this.baseUrl + '/content';
 						
-		$.ajax('/api/content', {
+		$.ajax(url, {
 			type: 'POST',
 			processData: false,
 			contentType: 'application/json',
@@ -50,8 +55,9 @@ function ContentApi() {
 	this.update = function(content) {
 		
 		var response = null;
+		var url = this.baseUrl + '/' + content.restId;
 				
-		$.ajax('/api/' + content.restId, {
+		$.ajax(url, {
 			type: 'PUT',
 			processData: false,
 			contentType: 'application/json',
@@ -74,7 +80,10 @@ function ContentApi() {
 	}
 	
 	this.erase = function(restId) {
-		$.ajax('/api/' + restId, { 
+		
+		var url = this.baseUrl + '/' + restId;
+		
+		$.ajax(url, { 
 			type: 'DELETE' 
 		})
 	}

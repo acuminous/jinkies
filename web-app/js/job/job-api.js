@@ -84,8 +84,23 @@ function JobApi(baseUrl) {
 		})
 	}
 	
+	this.listJenkinsJobs = function() {
+		
+		var results;				
+		var url = this.baseUrl + '/jenkins';
+			
+		$.get(url, { url: this.getCiServerUrl() }, function(jobs) {
+	    	results = jobs;
+		});					
+		
+		return results;				
+	}		
+	
 	this.checkStatus = function(restId, onSuccess) {
-		$.ajax(this.baseUrl + '/event', {
+		
+		var url = this.baseUrl + '/event';
+		
+		$.ajax(url, {
 			type: 'GET',
 			data: { target: restId },
 			async: true,
