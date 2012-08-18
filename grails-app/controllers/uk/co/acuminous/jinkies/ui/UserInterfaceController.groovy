@@ -38,4 +38,8 @@ class UserInterfaceController {
 	def fail() {
 		throw new RuntimeException()
 	}
+	
+	def lost() {
+		render(view: '/not-found')
+	}
 }

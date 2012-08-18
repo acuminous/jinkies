@@ -1,10 +1,13 @@
-function JobApi() {
+function JobApi(baseUrl) {
+	
+	this.baseUrl = baseUrl;	
 	
 	this.list = function() {
 		
 		var results;
+		var url = this.baseUrl + '/job'; 
 		
-		$.get('/api/job', function(jobs) {
+		$.get(url, function(jobs) {
 			results = jobs;
 		});	
 		
@@ -14,8 +17,9 @@ function JobApi() {
 	this.get = function(restId) {
 		
 		var results;
+		var url = this.baseUrl + '/' + restId;
 		
-		$.get('/api/' + restId, function(job) {
+		$.get(url, function(job) {
 			results = job;
 		})
 		
@@ -25,8 +29,9 @@ function JobApi() {
 	this.create = function(job) {
 		
 		var response = null;
+		var url = this.baseUrl + '/job';
 		
-		$.ajax('/api/job', {
+		$.ajax(url, {
 			type: 'POST',
 			processData: false,
 			contentType: 'application/json',
@@ -48,8 +53,9 @@ function JobApi() {
 	this.update = function(job) {
 		
 		var response = null;
+		var url = this.baseUrl + '/' + job.restId;
 		
-		$.ajax('/api/' + job.restId, {
+		$.ajax(url, {
 			type: 'PUT',
 			processData: false,
 			contentType: 'application/json',
@@ -70,13 +76,16 @@ function JobApi() {
 	}
 	
 	this.erase = function(restId) {
-		$.ajax('/api/' + restId, { 
+		
+		var url = this.baseUrl + '/' + restId;
+		
+		$.ajax(url, { 
 			type: 'DELETE' 
 		})
 	}
 	
 	this.checkStatus = function(restId, onSuccess) {
-		$.ajax('/api/event', {
+		$.ajax(this.baseUrl + '/event', {
 			type: 'GET',
 			data: { target: restId },
 			async: true,

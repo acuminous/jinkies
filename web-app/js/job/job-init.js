@@ -1,5 +1,8 @@
 $(document).ready(function() {
-	var dataSource = new JobApi();
+	
+	var baseUrl = $("base").attr("href") + '/api';
+		
+	var dataSource = new JobApi(baseUrl);
 	var renderer = new JobWidget();
 	
 	var dialogElement = $('#job-dialog');

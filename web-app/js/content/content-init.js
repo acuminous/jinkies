@@ -1,6 +1,8 @@
 $(document).ready(function() {
 		
-	var dataSource = new ContentApi();
+	var baseUrl = $("base").attr("href") + '/api';
+	
+	var dataSource = new ContentApi(baseUrl);
 	var renderer = new ContentWidget();
 	
 	var dialogElement = $('#content-dialog');

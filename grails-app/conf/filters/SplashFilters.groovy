@@ -38,8 +38,8 @@ class SplashFilters {
 			}
 			hide(uri: '/**') {
 				before = {
-					// Rendering rather than sending redirect because sitemesh doesn't get applied when running a deployed war
-					render status: SC_NOT_FOUND, view:'/ui/not-found'
+					println params
+					render view:'/not-found'
 					false 
 				}
 			}
