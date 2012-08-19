@@ -26,11 +26,13 @@
 
         filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#A2C97D', endColorstr='#608A3B'); /* for IE */
         background: -webkit-gradient(linear, left top, left bottom, from(#A2C97D), to(#608A3B)); /* for webkit browsers */
-        background: -moz-linear-gradient(top,  #A2C97D,  #608A3B); /* for firefox 3.6+ */                      
+        background: -moz-linear-gradient(top,  #A2C97D,  #608A3B); /* for firefox 3.6+ */
+        
+        margin-bottom: @grid-margin;
     }
 
     .main.panel {
-        margin-bottom: @grid-margin;
+        margin-bottom: 2 * @grid-margin;
         
         h1.title {
             margin-bottom: @grid-margin * 1.5;
