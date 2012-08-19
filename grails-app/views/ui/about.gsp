@@ -54,7 +54,7 @@ until you see the jobs page. From there click "Add Jenkins jobs" and supply the 
 mp3s and specifying a theme for the jobs.<br/>
 <br/>
 Please see the <a href="https://github.com/acuminous/jinkies/blob/master/README.md">documentation</a> for other installation options, including 
-instructions for getting the <a href="http://www.jinkies.co.uk/binaries/deployable/jinkies.war">alternative war</a> deployed to a Java Application Server.<br/>
+instructions for getting the <a href="http://www.jinkies.co.uk/binaries/deployable/jinkies.war">deployable war</a> running on a Java Application Server.<br/>
                             </span>
                         </div>
                     </div>
