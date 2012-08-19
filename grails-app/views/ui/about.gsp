@@ -21,8 +21,8 @@ hope to <a href="http://en.wikipedia.org/wiki/Iterative_and_incremental_developm
 <br/>
 <br/>
 For this reason Jinkies is currently limited to <a href="http://jenkins-ci.org/">Jenkins</a> servers (possibly <a href="http://hudson-ci.org/">Hudson</a> too) 
-and mp3 based notifications. If you would prefer to use other file formats then for now we recommend converting them using the excellent <a href="media.io">media.io</a> 
-online conversion service, but please watch this space for forthcoming improvements.
+and mp3 based notifications. If you would prefer to use other file formats then for now we recommend converting them using the <a href="media.io">media.io</a> 
+but watch this space for forthcoming improvements, lava lamp and siren support are on the way.
 <br/>
 <br/>
 Thanks for investigating Jinkies, we hope you enjoy the experience, but if not please vent your frustration <a href="https://github.com/acuminous/jinkies/issues">here</a>.
@@ -54,7 +54,7 @@ until you see the jobs page. From there click "Add Jenkins jobs" and supply the 
 mp3s and specifying a theme for the jobs.<br/>
 <br/>
 Please see the <a href="https://github.com/acuminous/jinkies/blob/master/README.md">documentation</a> for other installation options, including 
-instructions for getting the <a href="http://www.jinkies.co.uk/binaries/deployable/jinkies.war">deployable war</a> running on a Java Application Server.<br/>
+instructions for changing the port and getting the <a href="http://www.jinkies.co.uk/binaries/deployable/jinkies.war">deployable war</a> running on a Java Application Server.<br/>
                             </span>
                         </div>
                     </div>
