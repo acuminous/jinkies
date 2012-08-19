@@ -101,7 +101,7 @@
 									<label for="successEvent">Success</label>
 
 									<input id="failureEvent" type="checkbox" name="event" value="Failure" />
-									<label for="successEvent">Failure</label>
+									<label for="failureEvent">Failure</label>
 																		
 									<label id="otherEventsLabel"for="otherEvents">Other</label>									
 									<g:textField id="otherEvents" name="events" placeholder="e.g. Error, Stand-Up"/>
