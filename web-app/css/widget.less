@@ -62,29 +62,33 @@
 		height: @widget-accessory-height;	
 	}
 	
-	.theme, .type {
-		#absolute > .bottom-right(-0.75em, 1em); 		
-		.drop-shadow(@widget-alt-shadow-color);
-		float: right;						
-		line-height: @widget-button-height;			
-		max-width: @widget-width - 4.25em;				
-		padding: 0 1em;		
-		.rounded-corners;
-		.truncate-text;				
-		
-		.text {
-			font-size: 0.8em;
-		}
-	}	
+	.type, .theme {
+        line-height: @widget-button-height;         
+        max-width: @widget-width - 4.25em;              
+        padding: 0 1em;     
+        .rounded-corners;
+        .truncate-text;             
+        
+        .text {
+            font-size: 0.8em;
+        }	
+	}
+	
+	.type {
+        #absolute > .top-left(-0.75em, 1em);
+        float: left;                
+	}
+	
+    .theme {
+        #absolute > .bottom-right(-0.75em, 1em);        
+        .drop-shadow(@widget-alt-shadow-color);                    
+        float: right;                           
+    } 
 	
 	.channel {
-		.circle(@widget-button-height);
-	
-
+		.circle(@widget-button-height);	
 		float:left;
-		position: relative;
-		top: -@widget-button-indent;
-		left: 0;
+        #relative > .top-left(-@widget-button-indent, 0);
 		
 		&.audio .text {
 			font-style: italic;

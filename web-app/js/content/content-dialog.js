@@ -1,14 +1,11 @@
-ContentDialog.prototype = new Dialog();
-ContentDialog.prototype.constructor = ContentDialog;
-ContentDialog.prototype.parent = Dialog.prototype;
+var ContentDialog = Dialog.$extend({
 
-function ContentDialog(element, dataSource) {
-
-	this.element = element;
-	this.dataSource = dataSource;
-	this.file = null;
+	__init__ : function(element, dataSource, file) {
+		this.$super(element, dataSource);
+		this.file = null;		
+	},
 	
-	this.initialiseFileUpload = function() {
+	initialiseFileUpload : function() {
 		var dialog = this;		
 		this.element.fileupload({			
 	        dataType: 'json',
@@ -18,13 +15,13 @@ function ContentDialog(element, dataSource) {
                 dialog.setFilename(data.files[0].name);
             }
 	    });			
-	}
+	},
 	
-	this.getUploadMethod = function() {
+	getUploadMethod : function() {
 		return $('input[name=uploadMethod]:checked').val();
-	}
+	},
 	
-	this.setUploadMethod = function(url) {
+	setUploadMethod : function(url) {
 		var radioButton;
 		if (url) {
 			radioButton = $('#urlUploadMethod', this.element);			
@@ -35,86 +32,86 @@ function ContentDialog(element, dataSource) {
 		// Clicking causes the event handler to fire and
 		// results in the correct input element being displayed
 		radioButton.click();  
-	}
+	},
 	
-	this.uploadFromUrl = function() {
+	uploadFromUrl : function() {
 		return $('#urlUploadMethod', this.element).is(':checked');
-	}
+	},
 	
-	this.uploadFromFile = function() {
+	uploadFromFile : function() {
 		return $('#fileUploadMethod', this.element).is(':checked');
-	}	
+	},	
 	
-	this.getTitle = function() {
+	getTitle : function() {
 		return $('#title', this.element).val();
-	}
+	},
 	
-	this.setTitle = function(title) {		
+	setTitle : function(title) {		
 		$('#title', this.element).val(title);
 		$('#titleInHeading', this.element).text(title);
-	}
+	},
 
-	this.getFilename = function() {
+	getFilename : function() {
 		return $('#filename', this.element).val();
-	}
+	},
 	
-	this.setFilename = function(filename) {		
+	setFilename : function(filename) {		
 		$('#fileButton', this.element).siblings('.text').text(filename ? filename : '');		
 		$('#filename', this.element).val(filename);
-	}
+	},
 	
-	this.getContentUrl = function() {				
+	getContentUrl : function() {				
 		var url = $('#contentUrl', this.element).val();
 		return this.ensureScheme(url);
-	}
+	},
 	
-	this.setContentUrl = function(url) {
+	setContentUrl : function(url) {
 		$('#contentUrl', this.element).val(url);
-	}	
+	},	
 	
-	this.getDescription = function() {
+	getDescription : function() {
 		return $('#description', this.element).val();
-	}
+	},
 	
-	this.setDescription = function(description) {
+	setDescription : function(description) {
 		$('#description', this.element).val(description);
-	}
+	},
 		
-	this.getThemes = function() {
+	getThemes : function() {
 		var text = $('#themes', this.element).val();
 		return this.splitCommaSeparatedList(text);
-	}
+	},
 	
-	this.setThemes = function(themes) {
+	setThemes : function(themes) {
 		var themeNames = $.map(themes, function(theme) {
 			return theme.name;
 		});
 		var text = themeNames.join(', ');
 		$('#themes', this.element).val(text);
-	}
+	},
 	
-	this.getEvents = function() {
+	getEvents : function() {
 		var specialEvents = this.getSpecialEvents();
 		var otherEvents = this.getOtherEvents();
 		return $.merge(specialEvents, otherEvents);
-	}
+	},
 
-	this.getSpecialEvents = function() {
+	getSpecialEvents : function() {
 		var events = [];
 		var checkboxes = $('input[name=event]:checked', this.element);
 		$.each(checkboxes, function(index, checkbox) {
 			events[events.length] = $(checkbox).val();
 		});
 		return events;
-	}
+	},
 	
-	this.getOtherEvents = function() {
+	getOtherEvents : function() {
 		var text = $('#otherEvents', this.element).val();
 		return this.splitCommaSeparatedList(text);
-	}	
+	},	
 	
 	
-	this.setEvents = function(events) {
+	setEvents : function(events) {
 
 		this.clearEvents();
 		
@@ -136,21 +133,21 @@ function ContentDialog(element, dataSource) {
 		})
 		var textbox = $('#otherEvents', this.element);
 		textbox.val(otherEvents.join(', '))
-	}
+	},
 	
-	this.clearEvents = function() {
+	clearEvents : function() {
 		$('input[name=event]', this.element).each(function(index, checkbox) {
 			$(checkbox).attr('checked', false);
 		});
-	}
+	},
 	
 	
-	this.show = function(restId) {
+	show : function(restId) {
 		this.initialiseFileUpload();
-		this.parent.show.call(this, restId);
-	}
+		this.$super(restId);
+	},
 	
-	this.populateForm = function() {
+	populateForm : function() {
 		this.setUploadMethod(this.bean.url)
 		this.setTitle(this.bean.title);
 		this.setFilename(this.bean.filename);
@@ -159,9 +156,9 @@ function ContentDialog(element, dataSource) {
 		this.setThemes(this.bean.themes);
 		this.setEvents(this.bean.events);
 		this.file = null;		
-	}
+	},
 	
-	this.clearForm = function() {		
+	clearForm : function() {		
 		this.setTitle('');
 		this.setContentUrl('');				
 		this.setDescription('');
@@ -169,17 +166,17 @@ function ContentDialog(element, dataSource) {
 		this.setThemes([]);
 		this.setEvents([]);
 		this.file = null;
-	}
+	},
 			
-	this.getDataToSave = function() {
+	getDataToSave : function() {
 		if (this.mode == 'create') {
 			return {};
 		} else {
 			return this.bean;
 		}
-	}	
+	},	
 	
-	this.save = function(content) {
+	save : function(content) {
 		
 		/* File Content is saved in two steps, attributes (e.g. title, description) first,
 		 * then the file is uploaded using a separate request. I did this because...
@@ -208,9 +205,9 @@ function ContentDialog(element, dataSource) {
 		var response;
 		
 		if (content.restId) {				
-			response = dataSource.update(content);
+			response = this.dataSource.update(content);
 		} else {				
-			response = dataSource.create(content);
+			response = this.dataSource.create(content);
 		}
 		
 		if (response && this.uploadFromFile() && this.file) {
@@ -218,37 +215,41 @@ function ContentDialog(element, dataSource) {
 		}
 		
 		return response != null;
-	}
+	},
 	
-	this.uploadFile = function(url) {
+	uploadFile : function(url) {
 		this.element.fileupload('option', 'url', url);
 		this.file.submit();				
-	}
+	},
 	
-	this.hideInputMethods = function() {
+	hideInputMethods : function() {
 		var rows = $('.form-row', this.element).has('#filename, #contentUrl');
 		rows.each(function(index, row) {
 			$(row).hide();
 		})
-	}
+	},
 	
-	this.showInputMethod = function(radioValue) {
+	showInputMethod : function(radioValue) {
 		var selector = radioValue == 'url' ? '#contentUrl' : '#file'
 		var row = $('.form-row', this.element).has(selector);
 		row.show();
 		row.next('.form-tip').show();
-	}
+	},
 	
-	this.openDialogBox = function() {
+	openDialogBox : function() {
 		this.element.modal({
 			persist: true, 
 			onOpen: this.onOpen,
 			onClose: this.onClose,
 			focus: true
 		});
-	}	
+	},	
 	
-	this.bindEventHandlers = function(dialog) {
+	bindEventHandlers : function() {
+		
+		this.$super();
+		
+		var dialog = this;		
 		
 		$('#fileButton', this.element).on('click', function(event) {
 			var fileElement = $(event.target).siblings('#file');
@@ -267,8 +268,7 @@ function ContentDialog(element, dataSource) {
 		});				
 	}
 	
-	this.bindEventHandlers(this);	
-}
+});
 
 
 

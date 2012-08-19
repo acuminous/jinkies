@@ -15,32 +15,22 @@
  */
 package steps
 
+import fixtures.HttpStub
 import pages.*
 import modules.*
+import uk.co.acuminous.jinkies.content.Content
+import static fixtures.HttpStub.*
 
 this.metaClass.mixin(cucumber.runtime.groovy.EN)
 
-Map pages = [
-	jobs: JobsPage,
-	themes: ThemesPage
-]
-
-When (~'a user opens the (.*) page') { String pageName ->
-	destination = pages[pageName]
-	assert destination, "Unknown page: $pageName"
+Then (~'(?:display )?(\\d+) (.*) mp3s') { int n, String theme ->
 	
-	to destination
-	at destination
-}
-
-Then (~'take the user back to the (.*) page') { String pageName ->
-		
-	waitFor { !page.dialog.displayed }
+	waitFor panelToLoad
 	
-	destination = pages[pageName]
-	at destination
-}
-
-Then (~'inform the user that "(.*)"') { String message ->	
-	assert Alert.message == message 
+	def widgets = page.widgets.findAll { ContentWidget widget ->
+		widget.theme == theme
+	}
+	
+	assert widgets.size() == n
+		 
 }

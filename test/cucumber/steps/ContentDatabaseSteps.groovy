@@ -15,32 +15,17 @@
  */
 package steps
 
-import pages.*
-import modules.*
+import uk.co.acuminous.jinkies.content.Content
+import fixtures.RemoteContentRepository
 
 this.metaClass.mixin(cucumber.runtime.groovy.EN)
 
-Map pages = [
-	jobs: JobsPage,
-	themes: ThemesPage
-]
+RemoteContentRepository contentRepository = new RemoteContentRepository()
 
-When (~'a user opens the (.*) page') { String pageName ->
-	destination = pages[pageName]
-	assert destination, "Unknown page: $pageName"
-	
-	to destination
-	at destination
+Given (~'(?:that there are )?(\\d+) mp3s with the (.*) theme') { int number, String theme ->
+	content = []
+	number.times {
+		content << contentRepository.buildRandomContent(theme)		
+	}
 }
 
-Then (~'take the user back to the (.*) page') { String pageName ->
-		
-	waitFor { !page.dialog.displayed }
-	
-	destination = pages[pageName]
-	at destination
-}
-
-Then (~'inform the user that "(.*)"') { String message ->	
-	assert Alert.message == message 
-}

@@ -1,39 +1,32 @@
-JobDialog.prototype = new Dialog();
-JobDialog.prototype.constructor = JobDialog;
-JobDialog.prototype.parent = Dialog.prototype;
+var JobDialog = Dialog.$extend({
 
-function JobDialog(element, dataSource) {
-
-	this.element = element;
-	this.dataSource = dataSource;
-	
-	this.setDisplayName = function(displayName) {
+	setDisplayName : function(displayName) {
 		$('#displayNameInTitle').text(displayName);
-	}
+	},
 	
-	this.getCiServerUrl = function() {
+	getCiServerUrl : function() {
 		var url = $('#serverUrl', this.element).val();
 		return this.ensureScheme(url);
-	}
+	},
 	
-	this.setCiServerUrl = function(url) {
+	setCiServerUrl : function(url) {
 		var serverUrl = $('#serverUrl', this.element)
 		$('#serverUrl', this.element).val(url);
 		
 		var serverUrlLink = $('#serverUrl', this.element).siblings('a');
 		serverUrlLink.attr('href', url);
 		$('.text', serverUrlLink).text(url);
-	}	
+	},	
 		
-	this.getTheme = function() {
+	getTheme : function() {
 		return $('#theme', this.element).val();
-	}
+	},
 	
-	this.setTheme = function(theme) {
+	setTheme : function(theme) {
 		$('#theme', this.element).val(theme ? theme.name : '');
-	}
+	},
 	
-	this.getChannels = function() {
+	getChannels : function() {
 		var channels = [];
 		$('input[name=channel]', this.element).each(function(index, channel) {
 			if ($(channel).val() != "") {
@@ -41,35 +34,35 @@ function JobDialog(element, dataSource) {
 			}
 		})		
 		return channels;
-	}
+	},
 	
-	this.setChannels = function(channels) {		
+	setChannels : function(channels) {		
 		$('input.channel', this.element).attr('checked', false);
 		$.each(channels, function(index, channel) {
 			$('input[name=' + channel + ']', this.element).attr('checked', true);
 		});
-	}
+	},
 
-	this.toggleChannel = function(checkbox) {
+	toggleChannel : function(checkbox) {
 		var backingField = $('#' + checkbox.attr('name'), this.element);
 		var value = checkbox.is(':checked') ? backingField.attr('id') : '';			
 		backingField.val(value);
-	}		
+	},		
 	
-	this.populateForm = function() {
+	populateForm : function() {
 		this.setDisplayName(this.bean.displayName);
 		this.setCiServerUrl(this.bean.url);
 		this.setTheme(this.bean.theme);
 		this.setChannels(this.bean.channels);
-	}
+	},
 	
-	this.clearForm = function() {		
+	clearForm : function() {		
 		this.setCiServerUrl('');
 		this.setTheme('');
 		this.setChannels(['audio']);		
-	}
+	},
 		
-	this.getDataToSave = function() {
+	getDataToSave : function() {
 		var data;
 		if (this.mode == 'create') {
 			var ciServerUrl = this.getCiServerUrl();
@@ -78,9 +71,9 @@ function JobDialog(element, dataSource) {
 			data = [ this.bean ];			
 		}		
 		return data;
-	}	
+	},	
 	
-	this.save = function(jobs) {
+	save : function(jobs) {
 		
 		var dialog = this;
 		var theme = this.getTheme();
@@ -104,22 +97,20 @@ function JobDialog(element, dataSource) {
 		});
 		
 		return response != null;
-	}
+	},
 	
-	this.bindEventHandlers = function(dialog) {
+	bindEventHandlers : function() {
+					
+		this.$super();
 		
-		this.parent.bindEventHandlers.call(this, dialog);
+		var dialog = this;		
 		
 		$(document).on('click', '.dialog input[type=checkbox].channel', function(event) {
 			event.stopPropagation(); // using preventDefault prevents the checkbox from appearing to be selected			
 			var checkbox = $(event.target);
 			dialog.toggleChannel(checkbox);			
-		});
-		
+		});		
 	}		
-	
-	this.bindEventHandlers(this);
-}
 
-
+});
 

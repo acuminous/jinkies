@@ -140,6 +140,7 @@ grails.resources.modules = {
 		dependsOn 'jquery'
 		dependsOn '960'
 		dependsOn 'modal'
+		dependsOn 'classy'		
 		resource url:'/css/error.less', attrs:[rel: "stylesheet/less", type:'css']	
 		resource url:'/css/comic.less', attrs:[rel: "stylesheet/less", type:'css']
 		resource url:'/css/dialog.less', attrs:[rel: "stylesheet/less", type:'css']
@@ -160,6 +161,9 @@ grails.resources.modules = {
 		resource url:'/js/fileupload/jquery.iframe-transport.js', attrs:[type:'js']
 		resource url:'/js/fileupload/jquery.fileupload.js', attrs:[type:'js']
 	}
+	classy {
+		resource url:'/js/classy/classy-1.4.js', attrs:[type:'js']
+	}
 	splash {
 		dependsOn 'core'
 		resource url:'/css/splash.less', attrs:[rel: "stylesheet/less", type:'css']
@@ -173,12 +177,15 @@ grails.resources.modules = {
 		resource url:'/js/job/job-init.js', attrs:[type:'js']
 		resource url:'/js/job/job-api.js', attrs:[type:'js']
 		resource url:'/js/job/job-widget.js', attrs:[type:'js']
-		resource url:'/js/job/job-dialog.js', attrs:[type:'js']		
+		resource url:'/js/job/job-dialog.js', attrs:[type:'js']
+		resource url:'/js/job/job-status-checker.js', attrs:[type:'js']
 	}
 	content {
 		dependsOn 'core'
+		dependsOn 'classy'
 		dependsOn 'fileUpload'
 		resource url:'/js/content/content-init.js', attrs:[type:'js']
+		resource url:'/js/content/content-panel.js', attrs:[type:'js']
 		resource url:'/js/content/content-api.js', attrs:[type:'js']
 		resource url:'/js/content/content-widget.js', attrs:[type:'js']
 		resource url:'/js/content/content-dialog.js', attrs:[type:'js']		

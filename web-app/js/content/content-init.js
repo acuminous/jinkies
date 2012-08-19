@@ -9,7 +9,7 @@ $(document).ready(function() {
 	var dialog = new ContentDialog(dialogElement, dataSource);		
 	
 	var panelElement = $('#content-panel');		
-	var contentPanel = new WidgetPanel(panelElement, dataSource, dialog, renderer);	
+	var contentPanel = new ContentPanel(panelElement, dataSource, dialog, renderer);	
 	
 	contentPanel.refresh();
 	

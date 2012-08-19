@@ -1,17 +1,24 @@
-function WidgetPanel(element, dataSource, dialog, renderer) {
+var WidgetPanel = Class.$extend({
 	
-	this.element = element;
-	this.dataSource = dataSource;
-	this.dialog = dialog;	
-	this.renderer = renderer;
+	__init__ : function(element, dataSource, dialog, renderer) {
 	
-	this.refresh = function() {
+		this.element = element;
+		this.dataSource = dataSource;
+		this.dialog = dialog;	
+		this.renderer = renderer;
+		
+		this.bindEventHandlers();
+	},
+	
+	refresh : function() {
 		
 		this.freezeMinHeight();
 				
 		$('.widget', this.element).not('.fake, .prototype').remove();
+				
+		var widgets = this.dataSource.list();
+		widgets = this.sort(widgets);
 		
-		var widgets = dataSource.list();
 		var renderer = this.renderer;
 			
 		$.each(widgets, function(index, widget) {
@@ -21,22 +28,26 @@ function WidgetPanel(element, dataSource, dialog, renderer) {
 		this.releaseMinHeight();
 		
 		$(document).trigger("refresh-complete");		
-	}
+	},
 	
-	this.freezeMinHeight = function() {
+	sort : function(widgets) {
+		return widgets;
+	},
+	
+	freezeMinHeight : function() {
 		var currentHeight = this.element.css('height');
 		this.element.css('min-height', currentHeight);
-	}
+	},
 	
-	this.releaseMinHeight = function() {
+	releaseMinHeight : function() {
 		this.element.css('min-height', '');
-	}
+	},
 	
-	this.add = function(target) {		
+	add : function(target) {		
 		this.dialog.show();		
-	}
+	},
 	
-	this.edit = function(target) {
+	edit : function(target) {
 		var panel = this;
 		$(document).trigger('busy').delay(100).queue(function() {
 			var restId = new Widget(target).getRestId();		
@@ -44,15 +55,15 @@ function WidgetPanel(element, dataSource, dialog, renderer) {
 			$(document).trigger('not-busy');
 			$(this).dequeue();										
 		});
-	}
+	},
 	
-	this.confirmErasure = function(target) {
+	confirmErasure : function(target) {
 		var name = new Widget(target).getPrimaryField();
 		var message = "Are you sure you want to delete '" + name + "'?";		
 		return confirm(message);		
-	}
+	},
 	
-	this.erase = function(target) {
+	erase : function(target) {
 		if (this.confirmErasure(target)) {
 			var panel = this;
 			$(document).trigger('busy').delay(100).queue(function() {
@@ -63,10 +74,12 @@ function WidgetPanel(element, dataSource, dialog, renderer) {
 				$(this).dequeue();							
 			});
 		}
-	}
+	},
 
-	this.bindEventHandlers = function(panel) {
+	bindEventHandlers : function() {
 						
+		var panel = this;
+		
 		$(".widget.add", this.element).on("click", function(event) {
 			event.stopPropagation();			
 			var target = $(event.target).closest('.widget');
@@ -102,6 +115,4 @@ function WidgetPanel(element, dataSource, dialog, renderer) {
 			$('body').removeClass('busy');
 		});		
 	}
-	
-	this.bindEventHandlers(this);
-}
+})

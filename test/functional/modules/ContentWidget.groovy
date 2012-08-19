@@ -13,34 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package steps
+package modules
 
-import pages.*
-import modules.*
+import geb.Module
 
-this.metaClass.mixin(cucumber.runtime.groovy.EN)
+class ContentWidget extends Widget {
 
-Map pages = [
-	jobs: JobsPage,
-	themes: ThemesPage
-]
-
-When (~'a user opens the (.*) page') { String pageName ->
-	destination = pages[pageName]
-	assert destination, "Unknown page: $pageName"
-	
-	to destination
-	at destination
-}
-
-Then (~'take the user back to the (.*) page') { String pageName ->
-		
-	waitFor { !page.dialog.displayed }
-	
-	destination = pages[pageName]
-	at destination
-}
-
-Then (~'inform the user that "(.*)"') { String message ->	
-	assert Alert.message == message 
+	static content = {
+		title { $('.title .text').text() }
+		theme { $('.theme .text').text() }
+	}
 }
