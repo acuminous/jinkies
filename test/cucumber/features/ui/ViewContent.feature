@@ -1,6 +1,5 @@
 Feature: View content via the Web UI 
 
-    @RunOnly
 	Scenario: View all content
 		Given that there are 10 mp3s with the Scooby Doo theme
 		And 5 mp3s with the Star Wars theme
