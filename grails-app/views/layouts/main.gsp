@@ -11,7 +11,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="shortcut icon" href="${resource(dir: 'images', file: 'favicon.ico')}" type="image/x-icon">		
 	    <r:require module="core"/>
-	    <base href="${g.createLinkTo(absolute: true)}" />		
+	    <base href="${g.resource(absolute: true)}" />		
 		<g:layoutHead/>
         <r:layoutResources />
 	</head>

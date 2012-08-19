@@ -84,12 +84,12 @@ function JobApi(baseUrl) {
 		})
 	}
 	
-	this.listJenkinsJobs = function() {
+	this.listCiServerJobs = function(ciServerUrl) {
 		
 		var results;				
 		var url = this.baseUrl + '/jenkins';
 			
-		$.get(url, { url: this.getCiServerUrl() }, function(jobs) {
+		$.get(url, { url: ciServerUrl }, function(jobs) {
 	    	results = jobs;
 		});					
 		

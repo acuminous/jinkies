@@ -45,7 +45,7 @@ class UrlMappings {
 		"/$controller/$title" {
 			action = [GET:"index"]
 			constraints {
-				controller(in: ['audio', 'video',])
+				controller(in: ['audio', 'video'])
 			}
 		}
 		
@@ -64,7 +64,6 @@ class UrlMappings {
 
 		"/$controller/$action?/$id?" {}
 								
-		"/foo"(view:'/ui/jobs')
 		"500"(view:'/error')
 		"404"(view:'/not-found')
 	}

@@ -47,20 +47,14 @@ file after download but we recommend starting it by typing:<br/>
     java -jar jinkies.war
 </code><br/>
 <br/>
-This way you can specify an alternative port<br/>
+This way you can stop Jinkies using CTRL+C instead of finding and killing the process.<br/>
 <br/>
-<code>
-    java -jar jinkies.war -Dserver.port=NNNN
-</code><br/>
-<br/>
-and kill Jinkies using CTRL+C instead of finding and killing the process.<br/>
-<br/>
-The first time Jinkies starts it has to initialise an h2 database which can take a little while. Keep trying <a href="http://localhost:8080">http://localhost:8080</a> (or other specified port) until you see the 
-jobs page. From there click "Add Jenkins jobs" and supply the URL of your build server or build job. Once you've got this working try uploading your own 
+The first time Jinkies starts it has to initialise an h2 database which can take a little while. Keep trying <a href="http://localhost:8080">http://localhost:8080</a> 
+until you see the jobs page. From there click "Add Jenkins jobs" and supply the URL of your build server or build job. Once you've got this working try uploading your own 
 mp3s and specifying a theme for the jobs.<br/>
 <br/>
-Finally if you prefer to deploy Jinkies to an existing Java application server rather than run it standalone you can 
-<a href="http://www.jinkies.co.uk/binaries/deployable/jinkies.war">download</a> the Jinkies deployable war.
+Please see the <a href="https://github.com/acuminous/jinkies/blob/master/README.md">documentation</a> for other installation options, including 
+instructions for getting the <a href="http://www.jinkies.co.uk/binaries/deployable/jinkies.war">alternative war</a> deployed to a Java Application Server.<br/>
                             </span>
                         </div>
                     </div>

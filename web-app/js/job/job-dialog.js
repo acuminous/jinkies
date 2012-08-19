@@ -72,22 +72,12 @@ function JobDialog(element, dataSource) {
 	this.getDataToSave = function() {
 		var data;
 		if (this.mode == 'create') {
-			data = this.listJenkinsJobs();
+			var ciServerUrl = this.getCiServerUrl();
+			data = this.dataSource.listCiServerJobs(ciServerUrl);
 		} else {
 			data = [ this.bean ];			
 		}		
 		return data;
-	}	
-	
-	this.listJenkinsJobs = function() {
-				
-		var results;		
-			
-		$.get('/api/jenkins', { url: this.getCiServerUrl() }, function(jobs) {
-	    	results = jobs;
-		});					
-		
-		return results;				
 	}	
 	
 	this.save = function(jobs) {

@@ -56,6 +56,13 @@ need a computer capable of playing sound, on which to install Jinkies.
 3. Deploy the war file to your app server
 4. Give it a few moments to start then test it by opening [http://localhost:NNN/CONTEXT](http://localhost:NNNN)
 
+### Troubleshooting
+
+* The first time you start Jinkies, it will take a little time to initialise it's database, please be patient. 
+
+* The default java memory settings are quite stingy. If you get memory related exceptions try increasing the JVM memory via the -Xmx and -XX:MaxPermSize arguments.
+
+
 ## <a id="monitoringCiJobs"></a>Monitoring CI Jobs
 You can add Jenkins jobs one by one, or add every job on a specific server. Either way
 the process is the same...
