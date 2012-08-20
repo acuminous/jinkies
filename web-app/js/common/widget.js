@@ -1,24 +1,28 @@
-function Widget(element) {	
-	this.element = element;
-}
+var Widget = Class.$extend({
 
-Widget.prototype.clone = function() {
-	this.element = $('.widget.prototype').clone();	
-	$('.widget').last().after(this.element);
-}	
+	__init__ : function(element) {
+		this.element = element;		
+	},
+	
+	clone : function() {
+		this.element = $('.widget.prototype').clone();	
+		$('.widget').last().after(this.element);
+	},	
 
-Widget.prototype.getRestId = function() {
-	return $('input[name=restId]', this.element).val();
-}
+	getRestId : function() {
+		return $('input[name=restId]', this.element).val();
+	},
 
-Widget.prototype.setRestId = function(restId) {
-	$('input[name=restId]', this.element).val(restId);
-}
+	setRestId : function(restId) {
+		$('input[name=restId]', this.element).val(restId);
+	},
 
-Widget.prototype.getPrimaryField = function() {
-	return $('.primary .text', this.element).text();	
-}
+	getPrimaryField : function() {
+		return $('.primary .text', this.element).text();	
+	},
 
-Widget.prototype.show = function() {
-	this.element.removeClass('prototype');				
-}
+	show : function() {
+		this.element.removeClass('prototype');				
+	}
+	
+});

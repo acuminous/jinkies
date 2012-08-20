@@ -3,7 +3,7 @@ $(document).ready(function() {
 	var baseUrl = $("base").attr("href") + '/api';
 	
 	var dataSource = new ContentApi(baseUrl);
-	var renderer = new ContentWidget();
+	var renderer = new ContentWidget(null, dataSource);
 	
 	var dialogElement = $('#content-dialog');
 	var dialog = new ContentDialog(dialogElement, dataSource);		

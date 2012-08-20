@@ -87,4 +87,22 @@ function ContentApi(baseUrl) {
 			type: 'DELETE' 
 		})
 	}
+	
+	this.play = function(restId) {
+	
+		var url = this.baseUrl + '/event';
+		
+		$.ajax(url, {
+			type: 'POST',
+			async: true,
+			processData: false,
+			contentType: 'application/json',
+			data: JSON.stringify({
+				target: restId,
+				type: 'Preview',
+				channel: ['audio', 'test'],
+				content: [restId]
+			})
+		})		
+	}
 }
