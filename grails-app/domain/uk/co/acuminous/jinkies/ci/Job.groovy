@@ -15,7 +15,7 @@
  */
 package uk.co.acuminous.jinkies.ci
 
-import uk.co.acuminous.jinkies.test.ListValidator
+import uk.co.acuminous.jinkies.util.CommonValidators;
 import uk.co.acuminous.jinkies.content.Tag
 
 
@@ -34,7 +34,7 @@ class Job implements Serializable {
 		url blank:false, unique:true
 		type blank: false
 		theme nullable: true
-		channels validator: ListValidator.containsDuplicates
+		channels validator: CommonValidators.containsDuplicates
 	}
 	
 	static hasMany = [channels:String]

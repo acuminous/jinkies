@@ -21,5 +21,4 @@ class TestUtils {
 		String port = System.getProperty('grails.server.port.http') ?: '8080'
 		"http://localhost:$port"
 	}
-	
 }

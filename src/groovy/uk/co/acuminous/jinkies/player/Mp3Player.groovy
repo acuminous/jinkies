@@ -43,25 +43,20 @@ class Mp3Player implements ContentPlayer {
 	
 	@Override
 	synchronized void play(Content content) {
-		
-		
+				
 		if (contentTypes.contains(content.type)) {
 			
-			Thread t = Thread.start {
+			InputStream inputStream = new ByteArrayInputStream(content.bytes)
+			JLayerPlayer jLayerPlayer = new JLayerPlayer(inputStream)
 			
-				InputStream inputStream = new ByteArrayInputStream(content.bytes)
-				JLayerPlayer jLayerPlayer = new JLayerPlayer(inputStream)
-				
-				try {
-					jLayerPlayer.play()
-				} catch (Exception e) {
-					log.error("Error playing $content.title", e)
-				} finally {
-					jLayerPlayer.close()				
-				}
+			try {
+				jLayerPlayer.play()
+			} catch (Exception e) {
+				log.error("Error playing $content.title", e)
+			} finally {
+				jLayerPlayer.close()				
 			}
 
-			t.join(30000)			
 		}
 	}
 	

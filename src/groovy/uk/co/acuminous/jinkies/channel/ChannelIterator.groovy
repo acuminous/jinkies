@@ -28,9 +28,9 @@ class ChannelIterator extends ChainedEventHandler {
 	void handle(Map event) {
 		
 		log.debug "Received event: $event"
-					
+		
 		event.channels.each { String channelName ->	
-					
+								
 			log.debug "Received event: $event"			
 			
 			event.selectedChannel = channels[channelName]

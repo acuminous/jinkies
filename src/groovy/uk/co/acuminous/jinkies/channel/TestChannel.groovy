@@ -13,9 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
-quartz2.autoStartup = false
-betamax.enabled = true
-betamax.proxyPort = 5556
+package uk.co.acuminous.jinkies.channel
 
-jinkies.testChannel.enabled = true
+import java.util.Map;
+
+import groovy.util.logging.Slf4j
+
+@Slf4j
+class TestChannel extends BaseChannel {
+
+	boolean enabled
+	List<Map> events = []
+	
+	@Override
+	public void handle(Map event) {
+		 if (enabled) {		
+			events << event
+		 }		
+	}
+}

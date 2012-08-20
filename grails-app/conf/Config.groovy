@@ -89,6 +89,8 @@ grails.gorm.failOnError=false
 
 grails.logging.jul.usebridge = true
 
+grails.plugin.quartz2.autoStartup = false
+
 
 log4j = {
 
@@ -191,6 +193,7 @@ grails.resources.modules = {
 		resource url:'/js/content/content-dialog.js', attrs:[type:'js']		
 	}
 }
+
 jinkies.splash.enabled = false
 
-grails.plugin.quartz2.autoStartup = false
+jinkies.testChannel.enabled = false

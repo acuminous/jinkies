@@ -25,7 +25,7 @@ import uk.co.acuminous.jinkies.event.EventHandler
 class ContentProposerSpec extends Specification {
 
 	Channel audioChannel = [getContentTypes: {['audio/mpeg', 'audio/wav']}] as Channel
-	Channel nullChannel = [getContentTypes: {[]}] as Channel
+	Channel ipPowerChannel = [getContentTypes: {[]}] as Channel
 	Tag theme = new Tag('Scooby Doo', TagType.theme)
 	Tag eventType = new Tag('Success', TagType.event)
 
@@ -46,6 +46,37 @@ class ContentProposerSpec extends Specification {
 			1 * contentService.findAllEligibleContent(theme, eventType, audioChannel.contentTypes) >> results
 			1 * nextHandler.handle(event)			
 			event.eligibleContent == results
+	}
+	
+	
+	def "Does not attempt to propose content when elibible content already specified"() {
+		
+		given:
+			List eligibleContent = [1, 2, 3]
+			Map event = [theme: theme, type: eventType, selectedChannel: audioChannel, eligibleContent: eligibleContent]
+			
+		when:
+			proposer.handle(event)
+			
+		then:
+			0 * contentService._
+			1 * nextHandler.handle(event)			
+			event.eligibleContent == eligibleContent
+	}
+	
+	def "Does not attempt to propose content when no content types"() {
+		
+		given:
+			Map event = [theme: theme, type: eventType, selectedChannel: ipPowerChannel]
+			List results = [1, 2, 3]
+			
+		when:
+			proposer.handle(event)
+			
+		then:
+			0 * contentService._
+			1 * nextHandler.handle(event)
+			event.eligibleContent == []
 	}
 		
 	def "Tollerates no eligible content"() {

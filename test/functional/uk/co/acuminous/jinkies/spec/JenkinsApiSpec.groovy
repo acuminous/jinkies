@@ -18,7 +18,10 @@ package uk.co.acuminous.jinkies.spec
 import groovyx.net.http.RESTClient
 
 
+import uk.co.acuminous.jinkies.ci.Job
 import uk.co.acuminous.jinkies.ci.JobBuilder
+import uk.co.acuminous.jinkies.content.Tag
+import uk.co.acuminous.jinkies.content.TagType
 import spock.lang.Specification
 
 import betamax.Betamax
@@ -30,7 +33,6 @@ import spock.lang.Unroll
 @Mixin(RemoteUtils)
 @Mixin(TestUtils)
 
-@Ignore
 class JenkinsApiSpec extends Specification {
 
 	@Rule Recorder recorder = new Recorder()
@@ -80,7 +82,8 @@ class JenkinsApiSpec extends Specification {
 		
 		given: 
 			remote {
-				JobBuilder.build(displayName: 'Julez', url: 'http://build.acuminous.meh:8080/job/Julez/', theme: 'Scooby Doo', channels: ['audio']).save()				
+				Tag theme = new Tag('Scooby Doo', TagType.theme).save()				
+				JobBuilder.build(displayName: 'Julez', url: 'http://build.acuminous.meh:8080/job/Julez/', theme: theme, channels: ['audio']).save()
 			}
 		
 		when:
@@ -90,7 +93,7 @@ class JenkinsApiSpec extends Specification {
 			jobs.size() == 6
 			
 			jobs[3].displayName == 'Julez'
-			jobs[3].theme == 'Scooby Doo'
+			jobs[3].theme.name == 'Scooby Doo'
 			jobs[3].channels[0] == 'audio'
 			
 		where:
@@ -141,8 +144,11 @@ class JenkinsApiSpec extends Specification {
 	def "Merges the specified job with a known job"() {
 		
 		given:
-			remote {                                         
-				JobBuilder.build(displayName: 'Julez', url: 'http://build.acuminous.meh:8080/job/Julez/', theme: 'Scooby Doo').save()
+			remote {
+				Tag theme = new Tag('Scooby Doo', TagType.theme).save()				
+				Job job = JobBuilder.build(displayName: 'Julez', url: 'http://build.acuminous.meh:8080/job/Julez/').save()
+				job.theme = theme
+				job.save()
 			}
 		
 		when:
@@ -151,7 +157,7 @@ class JenkinsApiSpec extends Specification {
 		then:
 			jobs.size() == 1
 			jobs[0].displayName == 'Julez'
-			jobs[0].theme == 'Scooby Doo'
+			jobs[0].theme.name == 'Scooby Doo'
 			
 		where:
 			url << ['http://build.acuminous.meh:8080/job/Julez', 'http://build.acuminous.meh:8080/job/Julez/', 'http://build.acuminous.meh:8080/job/JULEZ']

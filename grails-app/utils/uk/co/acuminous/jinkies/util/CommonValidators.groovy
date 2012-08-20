@@ -13,15 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package uk.co.acuminous.jinkies.test
+package uk.co.acuminous.jinkies.util
 
-class ListValidator {
+class CommonValidators {
 	
 	static containsDuplicates = { List list, def obj ->
 		if (list?.size() != list?.unique()?.size()) {
 			['duplicate']
-		}
-		
+		}		
 	}
-	
 }

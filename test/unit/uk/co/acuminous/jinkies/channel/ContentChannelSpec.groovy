@@ -1,5 +1,5 @@
 /* 
- * Copyright 2012 Acuminous Ltd
+] * Copyright 2012 Acuminous Ltd
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ import uk.co.acuminous.jinkies.channel.ChannelIterator;
 import uk.co.acuminous.jinkies.content.Content
 import uk.co.acuminous.jinkies.content.ContentPlayer
 
-class ChannelSpec extends Specification {
+class ContentChannelSpec extends Specification {
 
 	EventHandler nextHandler = Mock(EventHandler)
 	
@@ -32,7 +32,7 @@ class ChannelSpec extends Specification {
 			ContentPlayer player1 = Mock(ContentPlayer)
 			ContentPlayer player2 = Mock(ContentPlayer)
 			Content content = new Content()
-			Channel channel = new Channel(name: 'audio', players: [player1, player2])
+			ContentChannel channel = new ContentChannel(name: 'audio', players: [player1, player2])
 			
 			Map event = [selectedContent: content]
 			
@@ -51,7 +51,7 @@ class ChannelSpec extends Specification {
 			ContentPlayer player1 = Mock(ContentPlayer)
 			ContentPlayer player2 = Mock(ContentPlayer)
 
-			Channel channel = new Channel(name: 'audio', players: [player1, player2])
+			ContentChannel channel = new ContentChannel(name: 'audio', players: [player1, player2])
 			
 		when:
 			List<String> contentTypes = channel.contentTypes
@@ -61,6 +61,24 @@ class ChannelSpec extends Specification {
 			1 * player2.getContentTypes() >> ['audio/mpeg', 'audio/wav']
 			
 			contentTypes == ['audio/mpeg', 'audio/wma', 'audio/wav'] 			
+	}
+	
+	
+	def "Tollerates no content"() {
+				
+		given:
+			ContentPlayer player = Mock(ContentPlayer)
+			ContentChannel channel = new ContentChannel(name: 'audio', players: [player])
+			
+		when:
+			channel.handle(event)
+			
+		then:
+			0 * player._
+			
+		where: 
+			event << [ [:], [selectedContent: null] ]
+		
 	}
 	
 }

@@ -23,8 +23,8 @@ import uk.co.acuminous.jinkies.channel.ChannelIterator;
 
 class ChannelIteratorSpec extends Specification {
 
-	Channel audio = new Channel()
-	Channel www = new Channel()
+	ContentChannel audio = new ContentChannel()
+	ContentChannel www = new ContentChannel()
 	EventHandler nextHandler = Mock(EventHandler)
 	ChannelIterator channelIterator = new ChannelIterator(channels: [audio: audio, www: www], nextHandler: nextHandler)
 	

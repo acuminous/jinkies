@@ -63,7 +63,6 @@ class ContentSpec extends Specification {
 			'url'         | null  | 'nullable'
 	}
 	
-	
 	@Unroll("Content filename #filename and url #url are mutually exclusive")
 	def "Content filename and url are mutually exclusive"() {
 		

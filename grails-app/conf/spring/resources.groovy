@@ -119,38 +119,45 @@ beans = {
 		nextHandler = ref('fallbackThemeApplier')			
 	}
 	
-	fallbackThemeApplier(FallbackThemeApplier) {
-		nextHandler = ref('contentProposer')
-	}
+	// >>>>> Repeat per channel >>>>>
 	
-	contentProposer(ContentProposer) {
-		contentService = ref('contentService')
-		nextHandler = ref('noCandidateContentFilter')
-	}
-		
-	noCandidateContentFilter(NoCandidateContentFilter) {
-		nextHandler = ref('contentSelector')
-	}
-		
-	contentSelector(RandomContentSelector) {
-		nextHandler = ref('audioSwitch')
-	}
-				
-	audioSwitch(ChannelSwitch) {
-		channel = { Channel audio ->
-			name = 'audio'
-			players = [
-				ref('mp3Player'),
-			]
+		fallbackThemeApplier(FallbackThemeApplier) {
+			nextHandler = ref('contentProposer')
 		}
-		nextHandler = ref('terminator')
-	}
-		
-	mp3Player(Mp3Player) {
-	}
 
-	terminator(EventTerminator) {		
-	}
+		contentProposer(ContentProposer) {
+			contentService = ref('contentService')
+			nextHandler = ref('contentSelector')
+		}
+			
+		contentSelector(RandomContentSelector) {
+			nextHandler = ref('audioSwitch')
+		}				
+		
+		audioSwitch(ChannelSwitch) {
+			channel = { ContentChannel channel ->
+				name = 'audio'
+				players = [
+					ref('mp3Player'),
+				]
+			}
+			nextHandler = ref('testSwitch')
+		}
+			
+		def testChannel = application.config.jinkies.testChannel		
+		testSwitch(ChannelSwitch) {
+			channel = { TestChannel test ->
+				name = 'test'
+				enabled = testChannel.enabled
+			}
+			nextHandler = ref('terminator')
+		}
+				
+		mp3Player(Mp3Player) {
+		}
 	
+		terminator(EventTerminator) {		
+		}
 	
+	// <<<<< Repeat per channel <<<<<
 }

@@ -15,10 +15,13 @@
  */
 package uk.co.acuminous.jinkies.event
 
+import org.springframework.validation.Errors
+
 import uk.co.acuminous.jinkies.content.*
 import uk.co.acuminous.jinkies.util.JinkiesErrorRenderer
 import static javax.servlet.http.HttpServletResponse.*
 import grails.converters.JSON
+import static uk.co.acuminous.jinkies.util.CommonValidators.*
 
 // Mixins are currently working properly, therefore extending (yuck)
 class EventController extends JinkiesErrorRenderer {
@@ -26,13 +29,13 @@ class EventController extends JinkiesErrorRenderer {
 	EventHandler eventHandler
 	EventHistory eventHistory
 
-	/* "Listing" events doesn't make much sense since
+	/* Since events don't have a unique id we can't 
+	   simply GET them with a rest id like /api/event/123 
+	   therefore using list.
+	   
+	   However "Listing" events doesn't make much sense since
 	   the eventHistory only holds the most recent event for 
 	   each target (usually a job). 
-	
-	   Since events don't have a unique id we can't 
-	   simply GET them with a rest id like /api/event/123 
-	   hence the following weird list implementation.
 	*/
 	def list() {
 		Map event = eventHistory.get(params.target)
@@ -42,16 +45,23 @@ class EventController extends JinkiesErrorRenderer {
 	
 	def create(EventCommand cmd) {
 		
-		Map event = [:]
+		if (!report(cmd.errors)) { 
 		
-		event.target = cmd.target
-		event.type = cmd.event
-		event.theme = cmd.theme
-		event.channels = cmd.channels
-		
-		eventHandler.handle(event)	
+			Map event = [:]
 			
-		report(cmd.errors) || render(status: SC_NO_CONTENT)		 
+			event.target = cmd.target
+			event.type = cmd.event
+			event.theme = cmd.theme
+			event.channels = cmd.channels
+			event.eligibleContent = cmd.eligibleContent
+			
+			if (!report(cmd.errors)) {
+			
+				eventHandler.handle(event)	
+			
+				render(status: SC_NO_CONTENT)
+			}
+		}		 
 	}	
 }
 
@@ -59,10 +69,13 @@ class EventCommand {
 	
 	String target
 	List<String> channel
+	List<String> content
+	List<Content> eligibleContent = []
 	
 	static constraints = {
 		target nullable: false, blank: false
 		channel nullable: true
+		content nullable: true, validator: contentValidator
 	}
 	
 	List<String> getChannels() {
@@ -75,6 +88,28 @@ class EventCommand {
 	
 	Tag getEvent() {
 		Tag.findByUri(Tag.generateUri(params.event, TagType.event))
+	}
+	
+	static def contentValidator = { List<String> restIds, EventCommand cmd ->
+		
+		def errorCode = null
+		
+		restIds.find { String restId ->
+			if (!(restId ==~ /\w+\/\d+/)) {
+				errorCode = ['eventCommand.content.invalid', restId]
+			} else {
+				Long id = Long.parseLong(restId.split('/').last())
+				Content content = Content.get(id)
+				if (!content) {
+					errorCode = ['eventCommand.content.unknown', restId]					
+				} else {
+					cmd.eligibleContent << content
+				}
+			}
+			errorCode != null
+		}
+		
+		errorCode
 	}
 	
 }

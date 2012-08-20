@@ -78,14 +78,13 @@ class Content implements Serializable {
 		"Content[id=$id,title=$title,type=$type]"
 	}
 	
-	static Closure filenameValidator = { String filename, Content content ->
+	static filenameValidator = { String filename, Content content ->
 		if (filename && content.url) {
 			'content.filename.url'
 		}
 	}
 
-	
-	static Closure bytesValidator = { byte[] bytes, Content content ->
+	static bytesValidator = { byte[] bytes, Content content ->
 		if (!(bytes || content.filename || content.url)) {
 			'content.bytes.nullable'
 		} else if (content.url && !bytes) {
@@ -95,9 +94,9 @@ class Content implements Serializable {
 		}
 	}
 	
-	static Closure contentTypeValidator = { String type, Content content ->
+	static contentTypeValidator = { String type, Content content ->
 		if (!type && content.bytes) {
 			'content.type.nullable'
 		}
-	}	
+	}
 }

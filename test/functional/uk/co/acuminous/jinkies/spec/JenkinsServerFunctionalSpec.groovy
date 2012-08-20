@@ -15,6 +15,7 @@
  */
 package uk.co.acuminous.jinkies.spec
 
+import spock.lang.Ignore;
 import spock.lang.Specification
 import spock.lang.Unroll
 import uk.co.acuminous.jinkies.ci.Build;
