@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-grails.serverURL = "http://www.jinkies.co.uk"
 migrations.enabled = true
 migrations.dropAll = false
 grails.plugin.quartz2.autoStartup = true
