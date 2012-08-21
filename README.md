@@ -39,7 +39,7 @@ need a computer capable of playing sound, on which to install Jinkies.
 
     grails.serverURL = 'http://localhost:NNNN'
     
-3. Run 'java -jar jinkies.war -Dport=NNNN'
+3. Run 'java -Dport=NNNN -jar jinkies.war'
 3. Give it a few moments to start then test it by opening [http://localhost:NNNN](http://localhost:NNNN) 
 
 ### Option 3 - Deploying to an Application Server under the root context and port 8080
