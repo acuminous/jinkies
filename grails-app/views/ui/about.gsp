@@ -21,7 +21,7 @@ hope to <a href="http://en.wikipedia.org/wiki/Iterative_and_incremental_developm
 <br/>
 <br/>
 For this reason Jinkies is currently limited to <a href="http://jenkins-ci.org/">Jenkins</a> servers (possibly <a href="http://hudson-ci.org/">Hudson</a> too) 
-and mp3 based notifications. If you would prefer to use other file formats then for now we recommend converting them using the <a href="media.io">media.io</a> 
+and mp3 based notifications. If you would prefer to use other file formats then for now we recommend converting them using <a href="media.io">media.io</a> 
 but watch this space for forthcoming improvements, lava lamp and siren support are on the way.
 <br/>
 <br/>
@@ -39,8 +39,8 @@ The Jinkies development team
                         <div>
                             <span class="text">                           
 Jinkies pre-requisits are a Java 6 runtime environment (or higher), a REST compliant web browser and a 
-PC that can play sound. After this all you need to do is <a href="http://www.jinkies.co.uk/binaries/executable/jinkies.war">download</a> and run the 
-Jinkies executable war. Depending on your PC setup you might be able to do this by double clicking the 
+PC that can play sound. After this all you need to do is download and run the 
+Jinkies <a href="http://www.jinkies.co.uk/binaries/executable/jinkies.war">executable war</a>. Depending on your PC setup you might be able to do this by double clicking the 
 file after download but we recommend starting it by typing:<br/>
 <br/>
 <code>
