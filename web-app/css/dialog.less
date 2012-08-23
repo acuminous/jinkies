@@ -58,7 +58,7 @@
 		min-width: 200px;						
 	}
 	
-	input[type="text"] {
+	input[type="text"], textarea {
 		.border;	
 		font-size: 1em;
 		padding: 0.2em;
@@ -70,6 +70,10 @@
 			padding-left: 0;
 			margin-left: @default-border-size * -1;
 		}
+	}
+	
+	textarea {
+	   min-height: 5em;
 	}
 	
 	.fileInput {

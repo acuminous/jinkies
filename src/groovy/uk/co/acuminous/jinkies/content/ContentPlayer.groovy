@@ -18,7 +18,7 @@ package uk.co.acuminous.jinkies.content
 interface ContentPlayer {
 
 	boolean isSupported(Content content)
-	void play(Content content)
+	void play(Content content, Map context)
 	List<String> getContentTypes()
 	
 }

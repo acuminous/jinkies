@@ -34,8 +34,8 @@ class ContentProposer extends ChainedEventHandler {
 		Tag eventType = event.type
 		List<String> contentTypes = event.selectedChannel.contentTypes	
 		
-		if (event.eligibleContent) {
-			// Do nothing
+		if (event.prescribedContent) {
+			event.eligibleContent = event.prescribedContent
 		} else if (contentTypes) {
 			event.eligibleContent = contentService.findAllEligibleContent(theme, eventType, contentTypes)
 		} else {

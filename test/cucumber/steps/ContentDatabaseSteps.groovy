@@ -29,3 +29,22 @@ Given (~'(?:that there are )?(\\d+) mp3s with the (.*) theme') { int number, Str
 	}
 }
 
+Then (~'create the content in the database') { ->
+	
+	Content databaseContent
+	waitFor {
+		databaseContent = contentRepository.findByTitle(content.title)
+	}
+	verifyDatabaseContent(databaseContent)
+}
+	
+verifyDatabaseContent = { Content databaseContent ->
+	assert databaseContent != null
+	assert databaseContent.title == content.title
+	assert databaseContent.bytes == content.bytes
+	assert databaseContent.type == content.type
+	
+	assert databaseContent.themes.collect { it.name } == content.themes.collect { it.name }
+	assert databaseContent.events.collect { it.name } == content.events.collect { it.name }
+}
+

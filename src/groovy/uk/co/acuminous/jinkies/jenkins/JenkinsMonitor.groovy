@@ -55,8 +55,10 @@ class JenkinsMonitor {
 			log.error("Error checking job: $job", e)
 						
 			Map event = [
+				job: job,
+				error: e.message,				
 				target: restId,
-				type: Tag.findEventTypeByName('Error'),
+				type: Tag.findEventTypeByName('Error'),				
 				theme: job.theme,
 				channels: job.channels
 			]

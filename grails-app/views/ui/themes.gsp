@@ -23,7 +23,7 @@
 					
 						<div id="contentContainer" class="widgetContainer">
 							<div class="content widget add fake">
-								<div class="name"><span class="text">Upload content...</span></div>
+								<div class="name"><span class="text">Add content...</span></div>
 							</div>								
 														
 							<div class="content widget edit prototype">

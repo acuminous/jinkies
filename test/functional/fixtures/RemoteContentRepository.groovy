@@ -38,6 +38,24 @@ class RemoteContentRepository {
 			return content
 		}
 	}	
+	
+	def methodMissing(String name, args) {
+		
+		new RemoteUtils().remote {
+			def target = app.domainClasses.find {
+				it.name == Content.class.simpleName
+			}
+			def results = target.clazz.invokeMethod(name, args)
+			
+			if (results?.class == Content) {	
+				// Avoid LazyInitializationException				
+				'' + results.themes.collect { "$it" }
+				'' + results.events.collect { "$it" }
+			}
+			return results			
+		}
+			
+	}
 
 		
 }

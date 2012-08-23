@@ -53,7 +53,7 @@ class EventController extends JinkiesErrorRenderer {
 			event.type = cmd.event
 			event.theme = cmd.theme
 			event.channels = cmd.channels
-			event.eligibleContent = cmd.eligibleContent
+			event.prescribedContent = cmd.prescribedContent
 			
 			if (!report(cmd.errors)) {
 			
@@ -70,7 +70,7 @@ class EventCommand {
 	String target
 	List<String> channel
 	List<String> content
-	List<Content> eligibleContent = []
+	List<Content> prescribedContent = []
 	
 	static constraints = {
 		target nullable: false, blank: false
@@ -103,7 +103,7 @@ class EventCommand {
 				if (!content) {
 					errorCode = ['eventCommand.content.unknown', restId]					
 				} else {
-					cmd.eligibleContent << content
+					cmd.prescribedContent << content
 				}
 			}
 			errorCode != null

@@ -47,13 +47,12 @@ class ContentProposerSpec extends Specification {
 			1 * nextHandler.handle(event)			
 			event.eligibleContent == results
 	}
-	
-	
-	def "Does not attempt to propose content when elibible content already specified"() {
+
+	def "Uses prescribed content is specified"() {
 		
 		given:
-			List eligibleContent = [1, 2, 3]
-			Map event = [theme: theme, type: eventType, selectedChannel: audioChannel, eligibleContent: eligibleContent]
+			List prescribedContent = [1, 2, 3]
+			Map event = [theme: theme, type: eventType, selectedChannel: audioChannel, prescribedContent: prescribedContent]
 			
 		when:
 			proposer.handle(event)
@@ -61,7 +60,7 @@ class ContentProposerSpec extends Specification {
 		then:
 			0 * contentService._
 			1 * nextHandler.handle(event)			
-			event.eligibleContent == eligibleContent
+			event.eligibleContent == prescribedContent
 	}
 	
 	def "Does not attempt to propose content when no content types"() {

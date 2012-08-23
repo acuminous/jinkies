@@ -37,12 +37,13 @@ class Mp3Player implements ContentPlayer {
 		'audio/x-mpegaudio'
 	]
 	
+	@Override	
 	boolean isSupported(Content content) {
 		contentTypes.find { it == content.type }
 	}
 	
 	@Override
-	synchronized void play(Content content) {
+	synchronized void play(Content content, Map context) {
 				
 		if (contentTypes.contains(content.type)) {
 			

@@ -93,7 +93,9 @@ class JenkinsMonitorSpec extends UnitSpec {
 			1 * jenkinsServer.getBuildHistory(_) >> [ build ]
 			1 * eventHandler.handle(_) >> { throw new QuietException() }
 			1 * errorHandler.handle({ Map event ->
-				event.target == "job/$job.id"
+				event.job == job &&
+				event.error == 'This is a test exception. Please ignore.' &&
+				event.target == "job/$job.id" &&
 				event.type == error && 
 				event.theme == scoobyDoo &&
 				event.channels == job.channels

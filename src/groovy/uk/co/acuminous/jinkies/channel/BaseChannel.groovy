@@ -5,6 +5,7 @@ import java.util.List;
 abstract class BaseChannel implements Channel {
 
 	String name
+	String wtf
 		
 	@Override	
 	List<String> getContentTypes() {

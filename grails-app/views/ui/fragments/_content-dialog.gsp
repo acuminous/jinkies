@@ -10,7 +10,7 @@
 						<form>							
 							<div class="form-row">	
 								<div class="grid_2">
-									<span class="heading">Upload Method</span>
+									<span class="heading">Source</span>
 								</div>													
 								<div class="grid_6">
 									<input id="fileUploadMethod" type="radio" name="uploadMethod" value="file" checked="checked"/>
@@ -18,6 +18,9 @@
 
 									<input id="urlUploadMethod" type="radio" name="uploadMethod" value="url"/>
 									<label for="urlUploadMethod">URL</label>
+									
+                                    <input id="textUploadMethod" type="radio" name="uploadMethod" value="text" checked="checked"/>
+                                    <label for="textUploadMethod">Text</label>									
 								</div>		
 								<div class="clear"></div>
 							</div>	
@@ -37,6 +40,13 @@
 								</div>		
 								<div class="clear"></div>
 							</div>							
+
+                            <div class="form-tip hidden">
+                                <div class="grid_8">
+                                    <div class="tip"><span class="text">Jinkies only supports mp3s. You can convert other formats with <a class="mediaio" href="http://media.io">media.io</a></span></div>                              
+                                </div>
+                                <div class="clear"></div>                           
+                            </div>
 							
 							<div class="form-row hidden">
 								<div class="grid_2">
@@ -48,12 +58,29 @@
 								<div class="clear"></div>
 							</div>
 							
-                            <div class="form-tip">
+                            <div class="form-tip hidden">
                                 <div class="grid_8">
                                     <div class="tip"><span class="text">Jinkies only supports mp3s. You can convert other formats with <a class="mediaio" href="http://media.io">media.io</a></span></div>                              
                                 </div>
                                 <div class="clear"></div>                           
-                            </div>  
+                            </div>
+                            
+                            <div class="form-row hidden">
+                                <div class="grid_2">
+                                    <label class="heading" for="text">Text</label>
+                                </div>
+                                <div class="grid_6">
+                                    <g:textArea id="text" name="text" placeholder="Build ${"\${build.number}"} of project ${"\${build.project}"} resulted in ${"\${build.result}"}."></g:textArea>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                                                        
+                            <div class="form-tip hidden">
+                                <div class="grid_8">
+                                    <div class="tip"><span class="text">See the <a href="https://github.com/acuminous/jinkies/blob/master/README.md#textToSpeech">documentation</a> for additional syntax</span></div>                              
+                                </div>
+                                <div class="clear"></div>                           
+                            </div>                                                          
 						
 							<div class="form-row">
 								<div class="grid_2">

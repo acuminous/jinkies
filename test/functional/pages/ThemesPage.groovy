@@ -17,6 +17,7 @@ package pages
 
 import geb.Page
 
+import modules.ContentDialog
 import modules.ContentWidget
 
 class ThemesPage extends Page {
@@ -29,6 +30,12 @@ class ThemesPage extends Page {
 	
 	static content = {
 		widgets(required: false) { moduleList ContentWidget, $('.panel .widget').not('.fake, .prototype') }
-		
+		widget(required: false) { String title -> module ContentWidget, $('.panel .widget').not('.fake, .prototype').find('.title', text: title).parent() }		
+		dialog { module ContentDialog, $('#content-dialog') }		
+	}
+	
+	void addContent() {
+		$('.content.widget.add').click()
+		waitFor { dialog.displayed }
 	}
 }

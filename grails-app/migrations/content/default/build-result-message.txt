@@ -1,0 +1,1 @@
+Build ${build.number} of project ${build.project} resulted in ${build.result}.

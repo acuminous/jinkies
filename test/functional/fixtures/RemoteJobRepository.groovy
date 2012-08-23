@@ -16,6 +16,7 @@
 package fixtures
 
 import uk.co.acuminous.jinkies.ci.Job
+import uk.co.acuminous.jinkies.ci.JobBuilder
 import uk.co.acuminous.jinkies.content.TagService
 import uk.co.acuminous.jinkies.content.TagType
 import static org.apache.commons.lang.RandomStringUtils.randomAlphabetic;
@@ -35,9 +36,9 @@ class RemoteJobRepository {
 	
 	Job buildJob(Map data) {
 		new RemoteUtils().remote {
-			Job job = Job.build(data)
-			assert job
-			return job
+			Job job = JobBuilder.build(data).save(flush:true)
+			assert job.id, job.errors
+			job
 		}
 	}
 	
@@ -76,6 +77,7 @@ class RemoteJobRepository {
 			// http://jira.grails.org/browse/GRAILS-8915?focusedCommentId=71362#comment-71362
 			List results = Job.findAllByDisplayName(displayName)		
 			
+			// Avoid LazyInitializationException
 			results.each {
 				"${it.theme}"
 			}

@@ -135,14 +135,31 @@ beans = {
 		}				
 		
 		audioSwitch(ChannelSwitch) {
-			channel = { ContentChannel channel ->
-				name = 'audio'
-				players = [
-					ref('mp3Player'),
-				]
-			}
+			channel = ref('audioChannel')
+			nextHandler = ref('speechSwitch')
+		}
+
+		// Cannot have multiple anonymous inner bean of the same class with a collection property - http://jira.grails.org/browse/GRAILS-8830
+		audioChannel(ContentChannel) {
+			name = 'audio'
+			players = [
+				ref('mp3Player')
+			]
+		}
+		
+		speechSwitch(ChannelSwitch) {
+			channel = ref('speechChannel')
 			nextHandler = ref('testSwitch')
 		}
+
+		// Cannot have multiple anonymous inner bean of the same class with a collection property - http://jira.grails.org/browse/GRAILS-8830
+		speechChannel(ContentChannel) {
+			name = 'speech'
+			players = [
+				ref('speechSynthesizer')
+			]
+		}
+		
 			
 		def testChannel = application.config.jinkies.testChannel		
 		testSwitch(ChannelSwitch) {
@@ -155,7 +172,12 @@ beans = {
 				
 		mp3Player(Mp3Player) {
 		}
-	
+		
+		speechSynthesizer(GroovyTemplatePlayerAdapter) {
+			player = { SpeechSynthesizer player ->				
+			}
+		}
+			
 		terminator(EventTerminator) {		
 		}
 	

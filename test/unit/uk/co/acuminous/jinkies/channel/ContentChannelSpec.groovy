@@ -40,11 +40,34 @@ class ContentChannelSpec extends Specification {
 			channel.handle(event)
 			
 		then:
-			1 * player1.play(content)
-			1 * player2.play(content)
+			1 * player1.isSupported(content) >> true
+			1 * player1.play(content, event)
+			
+			1 * player2.isSupported(content) >> true
+			1 * player2.play(content, event)
 		
 	}
 
+	def "Doesn't ask a player to play content it doesn't support"() {
+		given:
+			ContentPlayer player1 = Mock(ContentPlayer)
+			ContentPlayer player2 = Mock(ContentPlayer)
+			Content content = new Content()
+			ContentChannel channel = new ContentChannel(name: 'audio', players: [player1, player2])
+			
+			Map event = [selectedContent: content]
+			
+		when:
+			channel.handle(event)
+			
+		then:
+			1 * player1.isSupported(content) >> false
+			0 * player1.play(content, event)
+			
+			1 * player2.isSupported(content) >> true
+			1 * player2.play(content, event)
+	}
+	
 	def "Provides a list of supported content types"() {
 		
 		given:
@@ -61,8 +84,7 @@ class ContentChannelSpec extends Specification {
 			1 * player2.getContentTypes() >> ['audio/mpeg', 'audio/wav']
 			
 			contentTypes == ['audio/mpeg', 'audio/wma', 'audio/wav'] 			
-	}
-	
+	}	
 	
 	def "Tollerates no content"() {
 				

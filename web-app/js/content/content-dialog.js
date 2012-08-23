@@ -21,17 +21,20 @@ var ContentDialog = Dialog.$extend({
 		return $('input[name=uploadMethod]:checked').val();
 	},
 	
-	setUploadMethod : function(url) {
+	setUploadMethod : function(content) {
+		
 		var radioButton;
-		if (url) {
+		if (content.url) {
 			radioButton = $('#urlUploadMethod', this.element);			
+		} else if (content.type == 'text/plain') {
+			radioButton = $('#textUploadMethod', this.element);
 		} else {
 			radioButton = $('#fileUploadMethod', this.element);
 		}
 		
-		// Clicking causes the event handler to fire and
-		// results in the correct input element being displayed
-		radioButton.click();  
+		radioButton.attr('checked', true);
+		this.hideInputMethods();
+		this.showInputMethod(radioButton.val());
 	},
 	
 	uploadFromUrl : function() {
@@ -40,7 +43,11 @@ var ContentDialog = Dialog.$extend({
 	
 	uploadFromFile : function() {
 		return $('#fileUploadMethod', this.element).is(':checked');
-	},	
+	},
+	
+	uploadFromText : function() {
+		return $('#textUploadMethod', this.element).is(':checked');		
+	},
 	
 	getTitle : function() {
 		return $('#title', this.element).val();
@@ -67,7 +74,15 @@ var ContentDialog = Dialog.$extend({
 	
 	setContentUrl : function(url) {
 		$('#contentUrl', this.element).val(url);
-	},	
+	},
+	
+	getText : function() {
+		return $('#text', this.element).val()
+	},
+	
+	setText : function(text) {
+		$('#text', this.element).val(text)
+	},
 	
 	getDescription : function() {
 		return $('#description', this.element).val();
@@ -147,22 +162,32 @@ var ContentDialog = Dialog.$extend({
 		this.$super(restId);
 	},
 	
+	fetchTextData : function() {
+		if (this.bean.type == 'text/plain') {
+			var text = this.dataSource.get(this.bean.dataRestId)
+			this.setText(text);
+		}		
+	},
+	
 	populateForm : function() {
-		this.setUploadMethod(this.bean.url)
+		this.setUploadMethod(this.bean)
 		this.setTitle(this.bean.title);
 		this.setFilename(this.bean.filename);
-		this.setContentUrl(this.bean.url);		
-		this.setDescription(this.bean.description);
+		this.setContentUrl(this.bean.url);
+		this.setDescription(this.bean.description);		
 		this.setThemes(this.bean.themes);
 		this.setEvents(this.bean.events);
 		this.file = null;		
+		this.fetchTextData();		
 	},
 	
-	clearForm : function() {		
+	clearForm : function() {	
+		this.setUploadMethod({})
 		this.setTitle('');
 		this.setContentUrl('');				
 		this.setDescription('');
-		this.setFilename('');		
+		this.setFilename('');
+		this.setText('')
 		this.setThemes([]);
 		this.setEvents([]);
 		this.file = null;
@@ -178,7 +203,7 @@ var ContentDialog = Dialog.$extend({
 	
 	save : function(content) {
 		
-		/* File Content is saved in two steps, attributes (e.g. title, description) first,
+		/* File content is saved in two steps, attributes (e.g. title, description) first,
 		 * then the file is uploaded using a separate request. I did this because...
 		 * 
 		 *    a. Either my browser(s), the fileUpload plugin or Grails don't handle 
@@ -191,13 +216,14 @@ var ContentDialog = Dialog.$extend({
 		 *       and meant mixing create and update behaviour using the same "action" 
 		 *       on the server side.
 		 *       
-		 * Web Content is retrieved by the server and so only requires on step
+		 * Web and text content is retrieved by the server and so only requires on step
 		 */ 		
 		
 		content.title = this.getTitle();
 		content.uploadMethod = this.getUploadMethod();
 		content.url = this.getContentUrl();		
 		content.filename = this.getFilename();
+		content.text = this.getText();
 		content.description = this.getDescription();
 		content.themes = this.getThemes();
 		content.events = this.getEvents();
@@ -223,14 +249,16 @@ var ContentDialog = Dialog.$extend({
 	},
 	
 	hideInputMethods : function() {
-		var rows = $('.form-row', this.element).has('#filename, #contentUrl');
+		var rows = $('.form-row', this.element).has('#filename, #contentUrl, #text');
 		rows.each(function(index, row) {
 			$(row).hide();
+			$(row).next('.form-tip').hide();
 		})
 	},
 	
 	showInputMethod : function(radioValue) {
-		var selector = radioValue == 'url' ? '#contentUrl' : '#file'
+		var selectors = {url: '#contentUrl', file: '#file', text: '#text'};
+		var selector = selectors[radioValue]
 		var row = $('.form-row', this.element).has(selector);
 		row.show();
 		row.next('.form-tip').show();
@@ -253,8 +281,7 @@ var ContentDialog = Dialog.$extend({
 		
 		$('#fileButton', this.element).on('click', function(event) {
 			var fileElement = $(event.target).siblings('#file');
-			fileElement.click();
-			
+			fileElement.click();			
 		});
 		
 		$('input[name=uploadMethod]', this.element).on('change', function(event) {

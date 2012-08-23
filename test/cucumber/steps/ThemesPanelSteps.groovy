@@ -28,7 +28,7 @@ Then (~'(?:display )?(\\d+) (.*) mp3s') { int n, String theme ->
 	waitFor panelToLoad
 	
 	def widgets = page.widgets.findAll { ContentWidget widget ->
-		widget.theme == theme
+		widget.themes == theme
 	}
 	
 	assert widgets.size() == n

@@ -51,6 +51,10 @@
 									<input id="audio-checkbox" type="checkbox" class="channel" name="audio" />
 									<label class="checkbox" for="audio">Audio</label>									
 									<g:hiddenField id="audio" name="channel" value="audio" />
+									
+                                    <input id="speech-checkbox" type="checkbox" class="channel" name="speech" />
+                                    <label class="checkbox" for="speech">Speech</label>                                   
+                                    <g:hiddenField id="speech" name="channel" />									
 								</div>	
 								<div class="clear"></div>
 							</div>	

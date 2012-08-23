@@ -40,6 +40,7 @@ function ContentApi(baseUrl) {
 				uploadMethod: content.uploadMethod,
 				filename: content.filename,
 				url: content.url,
+				text: content.text,
 				description: content.description,
 				theme: content.themes,
 				event: content.events
@@ -66,7 +67,8 @@ function ContentApi(baseUrl) {
 				title: content.title,
 				uploadMethod: content.uploadMethod,
 				filename: content.filename,
-				url: content.url,				
+				url: content.url,
+				text: content.text,
 				description: content.description, 
 				theme: content.themes, 
 				event: content.events
@@ -100,7 +102,7 @@ function ContentApi(baseUrl) {
 			data: JSON.stringify({
 				target: restId,
 				type: 'Preview',
-				channel: ['audio', 'test'],
+				channel: ['audio', 'speech', 'test'],
 				content: [restId]
 			})
 		})		

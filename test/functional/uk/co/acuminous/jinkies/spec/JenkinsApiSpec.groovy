@@ -22,6 +22,7 @@ import uk.co.acuminous.jinkies.ci.Job
 import uk.co.acuminous.jinkies.ci.JobBuilder
 import uk.co.acuminous.jinkies.content.Tag
 import uk.co.acuminous.jinkies.content.TagType
+import spock.lang.Ignore;
 import spock.lang.Specification
 
 import betamax.Betamax

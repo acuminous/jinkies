@@ -255,5 +255,8 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="com.springsource.sts.grails.core.CLASSPATH_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/marytts-common-5.1-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/marytts-signalproc-5.1-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/marytts-runtime-5.1-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="target-eclipse/classes"/>
 </classpath>

@@ -21,8 +21,8 @@ hope to <a href="http://en.wikipedia.org/wiki/Iterative_and_incremental_developm
 <br/>
 <br/>
 For this reason Jinkies is currently limited to <a href="http://jenkins-ci.org/">Jenkins</a> servers (possibly <a href="http://hudson-ci.org/">Hudson</a> too) 
-and mp3 based notifications. If you would prefer to use other file formats then for now we recommend converting them using <a href="media.io">media.io</a> 
-but watch this space for forthcoming improvements, lava lamp and siren support are on the way.
+and audio based notifications in the form of mp3s and text-to-speech. If you would prefer to use other file formats then for now we recommend converting 
+them using <a href="media.io">media.io</a> but watch this space for forthcoming improvements, lava lamps and disco lights are on the way!
 <br/>
 <br/>
 Thanks for investigating Jinkies, we hope you enjoy the experience, but if not please vent your frustration <a href="https://github.com/acuminous/jinkies/issues">here</a>.
@@ -55,6 +55,8 @@ mp3s and specifying a theme for the jobs.<br/>
 <br/>
 Please see the <a href="https://github.com/acuminous/jinkies/blob/master/README.md">documentation</a> for other installation options, including 
 instructions for changing the port and getting the <a href="http://www.jinkies.co.uk/binaries/deployable/jinkies.war">deployable war</a> running on a Java Application Server.<br/>
+<br/>
+One more thing - please <em>don't install Jinkies on a publicly accessible server</em>. If you do, anyone will be able to upload and execute programs on your machine.
                             </span>
                         </div>
                     </div>

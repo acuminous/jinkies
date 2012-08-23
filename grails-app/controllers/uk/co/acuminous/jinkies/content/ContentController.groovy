@@ -97,6 +97,11 @@ class ContentController extends JinkiesErrorRenderer {
 			content.filename = null
 			content.url = cmd.url
 			content.aquire()
+		} else if (cmd.text) {
+			content.bytes = cmd.text.getBytes('utf-8')
+			content.type = 'text/plain'
+			content.url = null
+			content.filename = null
 		} else {
 			content.url = null
 			content.filename = cmd.filename
@@ -142,6 +147,7 @@ class ContentCommand {
 	String uploadMethod
 	String filename
 	String url
+	String text
 	String description
 	List<String> theme
 	List<String> event 

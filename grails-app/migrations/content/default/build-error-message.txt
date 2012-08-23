@@ -1,0 +1,1 @@
+Error processing build result for project ${project.displayName}. Error message is: ${error}

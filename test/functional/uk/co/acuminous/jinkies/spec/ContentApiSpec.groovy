@@ -68,8 +68,7 @@ class ContentApiSpec extends Specification {
 			content.description == params.description
 			content.filename == params.filename
 	}
-	
-	
+		
 	def "Creates content from url"() {
 		
 		given:
@@ -91,6 +90,28 @@ class ContentApiSpec extends Specification {
 			content.title == params.title
 			content.description == params.description
 			content.url == params.url
+	}
+	
+	def "Creates content from text"() {
+		
+		given:
+			Map params = [uploadMethod: 'text', text: 'Zoinks! Project-X has failed', title: 'Zoinks', description: 'Zoinks Text']
+			
+		when:
+			def response = client.post(path: '/api/content', body: params)
+			
+		then:
+			response.status == 200
+			
+			Content content = remote {
+				Content.findByTitle params.title
+			}
+			
+			content != null
+			content.title == params.title
+			content.description == params.description
+			new String(content.bytes) == params.text
+			content.type == 'text/plain'
 	}
 
 	def "Creates content with new themes"() {
@@ -243,7 +264,7 @@ class ContentApiSpec extends Specification {
 	def "Attempting to upload unsupported content returns 400"() {
 		
 		given:
-			String filename = 'zoinks.txt'
+			String filename = 'zoinks.js'
 			byte[] bytes = 'some data'.bytes
 			def id = remote {
 				Content content = Content.build(title: 'Zoinks', filename: filename)
@@ -255,14 +276,14 @@ class ContentApiSpec extends Specification {
 
 		then:		
 			response.status == 400
-			response.data[0] == "Content type 'text/plain' is unsupported."	
+			response.data[0] == "Content type 'application/octet-stream' is unsupported."	
 
 	}
 	
 	def "Attempting to upload unsupported content after a create deletes the incomplete record"() {
 		
 		given:
-			String filename = 'zoinks.txt'
+			String filename = 'zoinks.js'
 			byte[] bytes = 'some data'.bytes
 			def id = remote {
 				Content content = Content.build(title: 'Zoinks', filename: filename)
@@ -293,7 +314,7 @@ class ContentApiSpec extends Specification {
 			}
 			
 		when:
-			def response = postData("/api/content/$id/data".toString(),  'zoinks.txt', 'updated data'.bytes)
+			def response = postData("/api/content/$id/data".toString(),  'zoinks.js', 'updated data'.bytes)
 
 		then:
 			response.status == 400

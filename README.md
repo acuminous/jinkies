@@ -16,6 +16,10 @@ Non CI related events can be posted to Jinkies over HTTP, so it's also
 possible to use it to notify you of infrastructure related events such as 
 backup failures or downed servers.
 
+## Danger Will Robinson!!!
+Installing Jinkies on a publicly accessible server is a **VERY** bad idea. Doing so 
+would allow anyone to upload and execute programs on that machine. 
+
 ## <a id="quickStart"></a>Quick Start
 1. Check the [system requirements](#system-requirements)
 2. [Install Jinkies](#installation)
@@ -51,10 +55,10 @@ need a computer capable of playing sound, on which to install Jinkies.
 1. Download the [deployable binaries](http://www.jinkies.co.uk/binaries/deployable/jinkies.war)
 2. Create an [external configuration](#external-configuration) file and add the line
 
-    grails.serverURL = 'http://localhost:NNNN/CONTEXT'
+    grails.serverURL = 'http://localhost:NNNN/context'
     
 3. Deploy the war file to your app server
-4. Give it a few moments to start then test it by opening [http://localhost:NNN/CONTEXT](http://localhost:NNNN)
+4. Give it a few moments to start then test it by opening [http://localhost:NNN/context](http://localhost:NNNN)
 
 ### Troubleshooting
 
@@ -73,21 +77,21 @@ the process is the same...
 4. Optionally specify a theme
 5. Click "OK"
 
-Jinkies is configured with some default content, so you should start hearing notifications a few 
+Jinkies is configured with some default content (thanks to <a href="http://www.freesound.org">freesound.org</a>), so you should start hearing notifications a few 
 seconds after adding your first job. 
 
 ## <a id="creatingThemes"></a>Creating Themes & Uploading Theme Content
-The Jinkies default content is pretty dull. We'd love to have shipped it with our 
+The Jinkies default content is pretty limited. We'd love to have shipped it with our 
 Scooby Doo, Star Wars and Tron sound samples, but were too worried about copyright 
 infringment. To compensate we've tried to make it easy to add your own...
 
 1. Open the themes page (e.g. http://jinkies-host:8080/themes)
-2. Click "Upload content..."
-3. Decide whether you want to upload content from your computer, or from the interwebs*
-4. Select the file or enter the URL
+2. Click "Add content..."
+3. Say where the content should be sourced from - your computer, the interwebs* or text input 
+4. Select the file, enter the URL or type in the text
 5. Optionally add a description
 6. Enter themes the content is associated with (e.g. 'Scooby Doo')
-7. Tick "Success" or "Failure", or specify a custom event.
+7. Tick "Success" or "Failure", or specify a [custom event](#customEvent) type.
 8. Click OK
 
 Now whenever a job with this theme raises a matching event, this content becomes 
@@ -98,18 +102,43 @@ If instead of creating your own themes, you would like to add more content to th
 use 'Fallback' for the theme name
 
 \* We like [http://www.rosswalker.co.uk/movie_sounds/](http://www.rosswalker.co.uk/movie_sounds/) 
-although the wav files from this site need [some love](#audio) before they will work.
+although the wav files from this site need [some love](#mp3) before they will work.
 
-## <a id="supportedFormats"></a>Supported File Formats
-### <a id="audio"></a>Audio
+## <a id="contentTypes"></a>Content Types
+### <a id="mp3"></a>MP3
 Right now Jinkies can only play mp3s. We're investigating reliable ways to play other file formats (wav, ogg & flac), 
 but when it comes to java development we're much more familiar with the boring server side stuff, so it might be 
 some time. For now we recommend converting your files to mp3 using [MediaIO](http://media.io) who
 have a much better idea what they're doing.
 
+### <a id="textToSpeech">Text To Speech</a>
+We've taught Jinkies to read. If you upload a plain text file or type in the text directly, Jinkies will treat it as 
+audio content and read it aloud. You can even reference variables and include any other valid <a href="http://groovy.codehaus.org/Groovy+Templates">Groovy Template</a> syntax.
+For example:
+
+    Build ${build.number} of project ${job.displayName} resulted in ${build.result}
+    
+The following variables are available when a success or failure event occur
+
+ * build.number
+ * build.project
+ * build.result
+ 
+ If an error occurs while checking a remote build server then 
+ 
+ * job.displayName
+ * type
+ 
+ Or for [custom events](#customEvents)
+ 
+ * target
+ * type
+ 
+ When previewing the text-to-speech function, the variables won't exist so Jinkies substitutes "var 1", "var 2", etc.  
+
 ### Other
-Jinkies doesn't currently support any non-audio content. We're keen to add video and text
-(for text-to-speech), but haven't got there yet. 
+Jinkies doesn't currently support any non-audio content. We're keen to add video and <a href="http://www.aviosys.com/9255.html">IP9255</a> support, 
+but haven't got there yet. 
 
 ## <a id="proxyConfiguration"></a>Proxy Configuration
 You can configure Jinkies to use a proxy server for HTTP and HTTPS traffic by following the 
@@ -204,18 +233,19 @@ paste in the    following...
 Substitute 'projectX' with your project name, 'Scooby Doo' with your theme etc and give the trigger a valid cron expression 
 that represents when your Stand-Up event will fire. You can find more information about cron expressions [here](http://quartz-scheduler.org/api/2.0.0/org/quartz/CronExpression.html) 
 
-## Custom Events
+## <a id="customEvents">Custom Events</a>
 If you want to use Jinkies to report other events, you need to POST a request to /api/event with the following parameters...
 
 <table>
     <thead>
-        <tr><th>Parameter Name</th><th>Mandatory</th><th>Example</th></tr>     
+        <tr><th>Parameter Name</th><th>Purpose</th><th>Mandatory</th><th>Example</th></tr>     
     </thead>
     <tbody>
-        <tr><td>target</td><td>Yes</td><td>Floor 2</td></tr>
-        <tr><td>event</td><td>Yes</td><td>Sandwich Trolley</td></tr>
-        <tr><td>theme</td><td>No</td><td>Yogi Bear</td></tr>
-        <tr><td>channel</td><td>Yes</td><td>audio</td></tr>
+        <tr><td>target</td><td>Your identifier for the originator / owner / subject of this event</td><td>Yes</td><td>Floor 2</td></tr>
+        <tr><td>event</td><td>The event type (set to any value you want)</td><td>Yes</td><td>Sandwich Trolley</td></tr>
+        <tr><td>theme</td><td>Associate a theme with this event to help select appropriate content</td><td>No</td><td>Yogi Bear</td></tr>
+        <tr><td>channel</td><td>Specify which channels the notification should be sent to</td><td>Yes</td><td>audio</td></tr>
+        <tr><td>content</td><td>Instead of relying on a theme you can specify the content you would like to play. You will have find the "restId" of desired content by viewing the HTML on the content page.</td><td>No</td><td>content/123</td></tr>
     </tbody>
 </table>
 

@@ -33,6 +33,7 @@
 								<div class="spacer circular-button"><span class="text">&nbsp;</span></div>								
 								<div class="delete circular-button" title="Delete Job"><span class="text">&times;</span></div>
 								<div class="audio channel" title="Audio"><r:img uri="/images/quaver.png" alt="Audio channel enabled"/></div>
+								<div class="speech channel" title="Text To Speech"><r:img uri="/images/lips.png" alt="Text To Speech channel enabled"/></div>
 								<div class="video channel" title="Video"><r:img uri="/images/video.png" alt="Video channel enabled"/></div>
 								<div class="name primary"><span class="text">Jinkies</span></div>
 								<div class="theme"><span class="text">Raw Hide</span></div>						
