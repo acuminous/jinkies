@@ -26,7 +26,7 @@ new File(dir).traverse(
 	preDir     : { if (it.name == '.metadata') return SKIP_SUBTREE }) { file ->
 
 	// only add license if not already there
-	if (!file.text.contains('license')) {
+	if (!file.text.contains('http://www.apache.org/licenses/LICENSE-2.0')) {
 		def source = file.text
 		file.text = "$license$source"
 	}
