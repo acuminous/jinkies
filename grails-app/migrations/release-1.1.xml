@@ -25,7 +25,7 @@
         <customChange class="uk.co.acuminous.jinkies.liquibase.TagContent">
             <param name="content" value="Build Error Message"/>
             <param name="themes" value="Fallback"/>
-            <param name="events" value="Success, Failure"/>
+            <param name="events" value="Error"/>
         </customChange>         
 
 	</changeSet>

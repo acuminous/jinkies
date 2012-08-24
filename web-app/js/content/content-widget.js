@@ -10,7 +10,6 @@ var ContentWidget = Widget.$extend({
 		this.setRestId(content.restId);
 		this.setTitle(content.title);
 		this.setDescription(content.description);
-		this.setType(content.type);
 		this.setThemes(content.themes);
 		this.bindPlayHandler(content);
 		this.show();
@@ -36,10 +35,6 @@ var ContentWidget = Widget.$extend({
 		$('.title .text', this.element).attr('title', description);
 	},	
 		
-	setType : function(type) {
-		$('.type .text', this.element).text(type);
-	},
-	
 	setThemes : function(themes) {
 		var themeElement = $('.theme .text', this.element);
 				
