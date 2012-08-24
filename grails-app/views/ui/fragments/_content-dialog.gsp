@@ -77,7 +77,7 @@
                                                         
                             <div class="form-tip hidden">
                                 <div class="grid_8">
-                                    <div class="tip"><span class="text">See the <a href="https://github.com/acuminous/jinkies/blob/master/README.md#textToSpeech">documentation</a> for additional syntax</span></div>                              
+                                    <div class="tip"><span class="text">See the <a href="https://github.com/acuminous/jinkies/blob/${g.meta(name:'app.version')}/README.md">#textToSpeech">documentation</a> for additional syntax</span></div>                              
                                 </div>
                                 <div class="clear"></div>                           
                             </div>                                                          
