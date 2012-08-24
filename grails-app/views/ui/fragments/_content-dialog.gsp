@@ -70,7 +70,7 @@
                                     <label class="heading" for="text">Text</label>
                                 </div>
                                 <div class="grid_6">
-                                    <g:textArea id="text" name="text" placeholder="Build ${"\${build.number}"} of project ${"\${build.project}"} resulted in ${"\${build.result}"}."></g:textArea>
+                                    <g:textArea id="text" name="text" placeholder="Build ${"\${build.number}"} of project ${"\${build.job.displayName}"} resulted in ${"\${build.result}"}."></g:textArea>
                                 </div>
                                 <div class="clear"></div>
                             </div>
