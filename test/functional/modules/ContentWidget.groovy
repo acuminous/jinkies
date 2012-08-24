@@ -21,7 +21,6 @@ class ContentWidget extends Widget {
 
 	static content = {
 		title { $('.title .text').text() }
-		type { $('.type .text').text() }
 		themes { $('.theme .text').text() }		
 	}
 }

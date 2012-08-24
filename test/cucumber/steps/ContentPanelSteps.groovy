@@ -45,7 +45,6 @@ verifyContentWidget = { title ->
 	def widget = page.widget(title)
 	
 	assert content.title == widget.title
-	assert content.type == widget.type
 	
 	String themes = content.themes.collect { it.name }.join(', ')
 	assert themes == widget.themes
