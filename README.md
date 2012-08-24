@@ -124,17 +124,17 @@ The following variables are available when a success or failure event occur
  * build.project
  * build.result
  
- If an error occurs while checking a remote build server then 
+If an error occurs while checking a remote build server then 
  
  * job.displayName
  * type
  
- Or for [custom events](#customEvents)
+Or for [custom events](#customEvents)
  
  * target
  * type
  
- When previewing the text-to-speech function, the variables won't exist so Jinkies substitutes "var 1", "var 2", etc.  
+When previewing the text-to-speech function, the variables won't exist so Jinkies substitutes "var 1", "var 2", etc.  
 
 ### Other
 Jinkies doesn't currently support any non-audio content. We're keen to add video and <a href="http://www.aviosys.com/9255.html">IP9255</a> support, 
