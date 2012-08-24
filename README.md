@@ -111,7 +111,7 @@ but when it comes to java development we're much more familiar with the boring s
 some time. For now we recommend converting your files to mp3 using [MediaIO](http://media.io) who
 have a much better idea what they're doing.
 
-### <a id="textToSpeech">Text To Speech</a>
+### <a id="textToSpeech"></a>Text To Speech
 We've taught Jinkies to read. If you upload a plain text file or type in the text directly, Jinkies will treat it as 
 audio content and read it aloud. You can even reference variables and include any other valid <a href="http://groovy.codehaus.org/Groovy+Templates">Groovy Template</a> syntax.
 For example:
