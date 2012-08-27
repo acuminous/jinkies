@@ -75,7 +75,6 @@ beans = {
 	'uk.co.acuminous.jinkies.event.EventController'(EventController) { bean ->
 		bean.scope = 'prototype'
 		bean.autowire = 'byName'
-		eventHistory = ref('eventHistory')
 		eventHandler = ref('eventHistoryUpdater')
 	  }
 	

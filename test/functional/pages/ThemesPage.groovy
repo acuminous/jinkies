@@ -38,4 +38,17 @@ class ThemesPage extends Page {
 		$('.content.widget.add').click()
 		waitFor { dialog.displayed }
 	}
+		
+	void applyFilter(String filterDisplayName) {
+		int counter = 0;
+		while ($('#filter-name').text() != filterDisplayName) {
+			$('#filter').click()
+			counter++
+			assert counter < 100, "Cannot apply filter $filterDisplayName"
+		}
+	}
+
+	void refresh() {
+		$('#refresh').click()
+	}
 }

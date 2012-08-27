@@ -19,11 +19,15 @@ import uk.co.acuminous.jinkies.json.CustomJsonMarshaller
 import grails.converters.JSON
 
 import uk.co.acuminous.jinkies.ci.Job
+import uk.co.acuminous.jinkies.event.EventHistory
 
 class BootStrap {
 	
+	EventHistory eventHistory
+	
     def init = { servletContext ->
-		JSON.registerObjectMarshaller(Job, CustomJsonMarshaller.job)
+		
+		JSON.registerObjectMarshaller(Job,CustomJsonMarshaller.jobWithLastEvent.curry(eventHistory) )
 		JSON.registerObjectMarshaller(Content, CustomJsonMarshaller.content)
 		JSON.registerObjectMarshaller(Tag, CustomJsonMarshaller.tag)
     }

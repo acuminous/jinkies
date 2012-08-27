@@ -62,6 +62,7 @@ class JobController extends JinkiesErrorRenderer {
 			job.delete(flush:true)
 			Map json = CustomJsonMarshaller.job(job)
 			eventHistory.remove(json.restId)
+			println eventHistory
 		}		
 		render status: SC_NO_CONTENT 
 	}

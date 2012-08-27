@@ -18,10 +18,11 @@ package uk.co.acuminous.jinkies.json
 import uk.co.acuminous.jinkies.ci.Job
 import uk.co.acuminous.jinkies.content.Content
 import uk.co.acuminous.jinkies.content.Tag
+import uk.co.acuminous.jinkies.event.EventHistory
 
 
 public class CustomJsonMarshaller {
-	
+		
 	static Closure job = { Job job ->
 		
 		marshall {
@@ -40,6 +41,20 @@ public class CustomJsonMarshaller {
 			data			
 		}
 	}
+	
+	static Closure jobWithLastEvent = { EventHistory eventHistory, Job job ->
+		
+		Map data = CustomJsonMarshaller.job(job)
+		if (data.restId) {
+			Map lastEvent = eventHistory.get(data.restId)
+			if (lastEvent) {
+				data.lastEvent = lastEvent.type.name
+			} 
+		}
+		
+		data
+	}
+
 
 	static Closure content = { Content content ->
 		

@@ -20,6 +20,10 @@ import modules.*
 
 this.metaClass.mixin(cucumber.runtime.groovy.EN)
 
+When (~'applies the "(.*)" filter') { String filterDisplayName ->
+	page.applyFilter(filterDisplayName)
+}
+
 When (~'deletes (.*)') { String displayName ->
 	page.widget(displayName).delete()
 }

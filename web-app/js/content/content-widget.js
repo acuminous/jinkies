@@ -35,6 +35,10 @@ var ContentWidget = Widget.$extend({
 		$('.title .text', this.element).attr('title', description);
 	},	
 		
+	getThemes : function() {
+		return $('.theme .text', this.element).text();
+	},
+	
 	setThemes : function(themes) {
 		var themeElement = $('.theme .text', this.element);
 				

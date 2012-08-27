@@ -6,32 +6,47 @@ var WidgetPanel = Class.$extend({
 		this.dataSource = dataSource;
 		this.dialog = dialog;	
 		this.renderer = renderer;
+		this.filters = [];		
+		this.currentFilterName;
+
 		
 		this.bindEventHandlers();
 	},
 	
 	refresh : function() {
 		
-		this.freezeMinHeight();
-				
-		$('.widget', this.element).not('.fake, .prototype').remove();
-				
-		var widgets = this.dataSource.list();
-		widgets = this.sort(widgets);
-		
-		var renderer = this.renderer;
-			
-		$.each(widgets, function(index, widget) {
-			renderer.render(widget);
-		});
-		
+		this.freezeMinHeight();		
+		this.clear();		
+		var widgets = this.getWidgets();		
+		this.render(widgets);		
+		this.triggerFilter();				
 		this.releaseMinHeight();
 		
 		$(document).trigger("refresh-complete");		
 	},
 	
+	getRealWidgets : function() {
+		return $('.widget', this.element).not('.fake, .prototype');
+	},
+	
+	clear : function() {
+		this.getRealWidgets().remove();			
+	},
+	
+	getWidgets : function() {
+		var widgets = this.dataSource.list();
+		return this.sort(widgets);		
+	}, 
+	
 	sort : function(widgets) {
 		return widgets;
+	},
+	
+	render : function(widgets) {
+		var renderer = this.renderer;		
+		$.each(widgets, function(index, widget) {
+			renderer.render(widget);
+		});				
 	},
 	
 	freezeMinHeight : function() {
@@ -75,10 +90,62 @@ var WidgetPanel = Class.$extend({
 			});
 		}
 	},
+		
+	applyNextFilter: function() {
+		if (this.filters.length > 1) {
+			this.nextFilter();
+			this.renderFilterName();
+			this.triggerFilter();
+		}
+	},
+	
+	nextFilter: function() {
+		var currentIndex = $.inArray(this.currentFilterName, this.filters);
+		if (currentIndex == -1) {
+			this.currentFilterName = this.filters[0];
+		} else {
+			var newIndex = (currentIndex + 1) % this.filters.length;
+			this.currentFilterName = this.filters[newIndex];
+		}
+	},
+	
+	renderFilterName: function() {
+		var filterNameElement = $('#filter-name', this.element);
+		var displayName = this.getCurrentFilterDisplayName();
+		$(filterNameElement).text(displayName);
+	},
+	
+	triggerFilter: function() {
+		if (this.filters.length > 0) {			
+			this.element.trigger('filter', this.currentFilterName);
+		}
+	},
+	
+	getCurrentFilterDisplayName: function() {
+		var filterNameElement = $('#filter-name', this.element);
+		var displayName = filterNameElement.data(this.currentFilterName);
+		return displayName
+	},	
+	
+	clearFilter: function() {
+		this.getRealWidgets().each(function() {
+			$(this).removeClass('filter');
+		})
+	},
 
 	bindEventHandlers : function() {
 						
 		var panel = this;
+		
+		$('#refresh', this.element).on("click", function(event) {
+			event.stopPropagation();
+			panel.refresh();
+		});
+		
+		$("#filter", this.element).on("click", function(event) {
+			event.stopPropagation();
+			panel.applyNextFilter();
+		});
 		
 		$(".widget.add", this.element).on("click", function(event) {
 			event.stopPropagation();			

@@ -12,3 +12,10 @@ Feature: View jobs via the Web UI
 		And that Julez has a Star Wars theme		
 		When a user opens the jobs page		
 		Then display these details
+		
+    Scenario: User filters by failing jobs
+        Given that there are 7 successful jobs
+        And 3 failing jobs
+        When a user opens the jobs page
+        And applies the "failed jobs" filter     
+        Then display 3 jobs

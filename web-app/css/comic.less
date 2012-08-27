@@ -50,10 +50,28 @@
 			.border;
 			font-style: italic;		
 			padding: 0.3em;
+            position: relative;			
 			
 			a {
 				color: #00399E;
 			}	
+		
+            #refresh {
+                .clickable;
+                height: 1.2em;
+                position: absolute;
+                right: @grid-margin;
+                
+                &:hover {
+                    text-decoration: underline;
+                }                
+            }
+			
+			#filter {
+                .clickable;                
+                height: 1em;
+                vertical-align: top;
+			}
 		}
 	}
 }

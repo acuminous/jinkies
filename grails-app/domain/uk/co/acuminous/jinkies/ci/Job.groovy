@@ -17,6 +17,7 @@ package uk.co.acuminous.jinkies.ci
 
 import uk.co.acuminous.jinkies.util.CommonValidators;
 import uk.co.acuminous.jinkies.content.Tag
+import uk.co.acuminous.jinkies.event.EventHistory;
 
 
 class Job implements Serializable {
@@ -28,7 +29,7 @@ class Job implements Serializable {
 	String type	
 	Tag theme
 	List<String> channels
-		
+	
 	static constraints = {
 		displayName blank:false
 		url blank:false, unique:true
@@ -38,7 +39,7 @@ class Job implements Serializable {
 	}
 	
 	static hasMany = [channels:String]
-	static fetchMode = [channels: 'eager', theme: 'eager']	
+	static fetchMode = [channels: 'eager', theme: 'eager']
 	
 	static mapping = {
 		channels joinTable:[name:'job_channel', key:'job_id', column:'channel', type:'text']

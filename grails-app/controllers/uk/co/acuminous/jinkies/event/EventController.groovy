@@ -27,21 +27,6 @@ import static uk.co.acuminous.jinkies.util.CommonValidators.*
 class EventController extends JinkiesErrorRenderer {
 
 	EventHandler eventHandler
-	EventHistory eventHistory
-
-	/* Since events don't have a unique id we can't 
-	   simply GET them with a rest id like /api/event/123 
-	   therefore using list.
-	   
-	   However "Listing" events doesn't make much sense since
-	   the eventHistory only holds the most recent event for 
-	   each target (usually a job). 
-	*/
-	def list() {
-		Map event = eventHistory.get(params.target)
-		List result = event ? [event] : []
-		render(result as JSON)
-	}
 	
 	def create(EventCommand cmd) {
 		

@@ -29,10 +29,20 @@ Given (~'that a job called (.*) does not exist') { String displayName ->
 	assert jobRepository.findJobByDisplayName(displayName) == null
 }
 
-Given (~'that there are (.*) jobs') { int number ->		
+Given (~'that there are (.*) (?:jobs|successful jobs)') { int number ->		
 	jobs = []
 	number.times { 
 		jobs << jobRepository.buildRandomJob()
+	}
+}
+
+Given (~'(.*) failing jobs') { int number ->
+	jobs = []
+	number.times {
+		jobs << jobRepository.buildRandomJob()
+		jobs.each {
+			jobRepository.failJob(it)
+		}
 	}
 }
 

@@ -17,8 +17,10 @@ package fixtures
 
 import uk.co.acuminous.jinkies.ci.Job
 import uk.co.acuminous.jinkies.ci.JobBuilder
+import uk.co.acuminous.jinkies.content.Tag
 import uk.co.acuminous.jinkies.content.TagService
 import uk.co.acuminous.jinkies.content.TagType
+import uk.co.acuminous.jinkies.event.EventHistory
 import static org.apache.commons.lang.RandomStringUtils.randomAlphabetic;
 
 
@@ -39,6 +41,16 @@ class RemoteJobRepository {
 			Job job = JobBuilder.build(data).save(flush:true)
 			assert job.id, job.errors
 			job
+		}
+	}
+	
+	void failJob(Job job) {
+		new RemoteUtils().remote {
+			TagService tagService = app.mainContext.getBean('tagService')
+			Tag tag = tagService.findOrCreateEvents(['Failure'])[0]
+			
+			EventHistory eventHistory = app.mainContext.getBean('eventHistory')
+			eventHistory.update("job/${job.id}".toString(), tag)			
 		}
 	}
 	

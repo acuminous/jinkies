@@ -1,6 +1,5 @@
 Feature: Updates a job via the Web UI
 
-    @IgnoreRest	
 	Scenario: Successfully update a job on the CI server
 		Given that a Jenkins job called Julez is hosted at http://localhost:8080
 		And that Julez reports build events via the audio channel

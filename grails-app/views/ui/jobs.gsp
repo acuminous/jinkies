@@ -24,9 +24,17 @@
 					<div id="jobs-panel" class="main panel">
 				
 						<div id="jobs" class="widgetContainer">
+						
+                            <h1 class="title">
+                                <r:img id="filter" uri="/images/next-filter.png" alt="Next Filter" />
+                                Showing 
+                                <span id="filter-name" data-all="all jobs" data-failure="failed jobs" data-error="jobs that caused errors">all jobs</span>
+                                <r:img id="refresh" uri="/images/refresh.png" alt="Refresh" />
+                            </h1>						
+						
 							<div class="job widget add fake">							
 								<div class="name"><span class="text">Add Jenkins jobs...</span></div>
-							</div>				
+							</div>															
 							
 							<div class="job widget edit prototype">
 								<input type="hidden" name="restId" value="job/123" />

@@ -22,6 +22,10 @@ import static groovyx.net.http.ContentType.*
 
 class TestUtils {
 
+	static RESTClient getRestClient() {
+		getRestClient(baseUrl)
+	}
+	
 	static RESTClient getRestClient(String baseUrl) {
 		RESTClient client = new RESTClient(baseUrl)
 		client.defaultRequestContentType = URLENC

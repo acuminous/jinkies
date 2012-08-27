@@ -20,6 +20,7 @@ import geb.Module
 class JobWidget extends Widget {
 
 	static content = {
+		restId { $('input', name: 'restId').value() }
 		displayName { $('.name .text').text() }
 		theme { $('.theme .text').text() }
 		channels(required: false) { $('.channel') }

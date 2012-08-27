@@ -21,6 +21,10 @@
 @widget-alt-border-color: @widget-border-color;
 @widget-alt-shadow-color: @widget-shadow-color;
 
+@widget-error-text-color: #712c2f;
+@widget-error-background-color: #fcb2b5;
+@widget-error-border-color: @widget-error-text-color;
+
 .widget {
 	.colours(@widget-text-color, @widget-background-color);	
 	.clickable;
@@ -34,11 +38,20 @@
 	.drop-shadow(@widget-shadow-color);	
 	.rounded-corners;		 	
 
+    &.failure, &.error {
+        .border(@widget-error-border-color);
+        .colours(@widget-error-text-color, @widget-error-background-color);
+    }
+
+    &.filter {
+        display: none;
+    }
+
 	&.fake {
 		border: @default-border-size dashed @widget-border-color;	
 		.transparent(0.8, alpha(opacity=80));
 	}
-
+	
 	.name, .title {
 		#absolute > .top-left(0, 0);
 		line-height: @widget-height;		
@@ -48,11 +61,7 @@
 		.truncate-text;
 				
 		.text {		
-			font-size: 0.9em;			
-			
-			&.failure, &.error {
-				color: red;
-			}
+			font-size: 0.9em;						
 		}				
 	}
 
@@ -97,8 +106,8 @@
 		img {
 			height: @widget-accessory-height;
 		}		
-	}		
-	
+	}
+				
 	.circular-button {
 	
 		.colours(@widget-button-text-color, @widget-button-border-color);

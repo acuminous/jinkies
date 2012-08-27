@@ -177,10 +177,10 @@ grails.resources.modules = {
 	jobs {
 		dependsOn 'core'
 		resource url:'/js/job/job-init.js', attrs:[type:'js']
+		resource url:'/js/job/job-panel.js', attrs:[type:'js']
 		resource url:'/js/job/job-api.js', attrs:[type:'js']
 		resource url:'/js/job/job-widget.js', attrs:[type:'js']
 		resource url:'/js/job/job-dialog.js', attrs:[type:'js']
-		resource url:'/js/job/job-status-checker.js', attrs:[type:'js']
 	}
 	content {
 		dependsOn 'core'

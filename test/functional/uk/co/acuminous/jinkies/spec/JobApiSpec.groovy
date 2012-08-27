@@ -299,12 +299,15 @@ class JobApiSpec extends Specification  {
 			client.delete(path: '/api/' + restId).status == 204
 			
 		when:			
-			def response = client.get(path: '/api/event', query: [target: restId])
+			def response = client.get(path: "/api/job/$id")
 			def result = response.data			
 					
 		then:
-			response.status == 200
-			result.size() == 0
-
+			def history = remote {
+				def eventHistory = app.mainContext.getBean('eventHistory')
+				eventHistory.get(restId)
+			}
+			history == null
+			
 	}
 }

@@ -23,6 +23,14 @@ var Widget = Class.$extend({
 
 	show : function() {
 		this.element.removeClass('prototype');				
+	},
+	
+	filterIn : function() {
+		this.element.removeClass('filter')
+	},
+	
+	filterOut : function() {
+		this.element.addClass('filter');
 	}
 	
 });

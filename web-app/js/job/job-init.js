@@ -9,12 +9,9 @@ $(document).ready(function() {
 	var dialog = new JobDialog(dialogElement, dataSource);
 
 	var panelElement = $('#jobs-panel');		
-	var jobsPanel = new WidgetPanel(panelElement, dataSource, dialog, renderer);	
+	var jobsPanel = new JobPanel(panelElement, dataSource, dialog, renderer);	
 
-	var statusChecker = new JobStatusChecker(panelElement, dataSource);	
-	statusChecker.poll(60000);
-	statusChecker.bind('refresh-complete');
-	
 	jobsPanel.refresh();
+	
 	$(document).trigger('not-busy');	
 });

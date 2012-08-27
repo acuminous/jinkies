@@ -15,14 +15,16 @@
  */
 package steps
 
-import fixtures.HttpStub
+import groovyx.net.http.RESTClient
+import uk.co.acuminous.jinkies.ci.Job
+import uk.co.acuminous.jinkies.content.Tag
+import uk.co.acuminous.jinkies.content.TagType
+import uk.co.acuminous.jinkies.spec.TestUtils
 import pages.*
 import modules.*
-import uk.co.acuminous.jinkies.ci.Job
 import static fixtures.HttpStub.*
 
 this.metaClass.mixin(cucumber.runtime.groovy.EN)
-
 
 When (~'adds a new Jenkins server') { ->
 	
@@ -40,7 +42,8 @@ When (~'adds a new Jenkins job called (.*)') { String displayName ->
 
 Then (~'display (.*) jobs') { Integer n ->
 
-	assert page.widgets.size() == n	
+	List<JobWidget> failures = page.widgets.findAll { it.displayed }
+	failures.size() == n	
 }
 
 Then (~'display these details') { ->

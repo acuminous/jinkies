@@ -8,17 +8,26 @@ var JobWidget = Widget.$extend({
 		this.clone();		
 		this.setRestId(job.restId);
 		this.setDisplayName(job.displayName);
+		this.setStatus(job.lastEvent);
 		this.setTheme(job.theme);
 		this.pruneChannels(job.channels);
 		this.show();
 	},
 	
+	getStatus : function() {		
+		return this.element.data('status');		
+	},
+	
 	setStatus : function(status) {
-		var statusClass = status.toLowerCase();		
-		var displayNameText = $('.name .text', this.element);
+		var oldStatus = this.element.data('status');
 		
-		if (!displayNameText.hasClass(statusClass)) {
-			displayNameText.attr('class', 'text ' + statusClass);
+		if (oldStatus) {
+			this.element.removeClass(oldStatus);
+		}
+		
+		if (status) {
+			this.element.data('status', status.toLowerCase());
+			this.element.addClass(status.toLowerCase());			
 		}
 	},
 	

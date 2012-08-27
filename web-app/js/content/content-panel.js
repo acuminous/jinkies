@@ -1,5 +1,70 @@
 var ContentPanel = WidgetPanel.$extend({
 
+	__init__ : function(element, dataSource, dialog, renderer) {
+		
+		this.$super(element, dataSource, dialog, renderer);
+		this.currentFilterName = 'all';
+	},
+	
+	getWidgets : function() {		
+		var widgets = this.$super()				
+		this.createThemeFilters(widgets);				
+		return widgets;		
+	},	
+	
+	createThemeFilters : function(widgets) {
+		var themes = this.getThemeNames(widgets);
+		this.filters = this.createDynamicFilters(themes);				
+	},
+	
+	getThemeNames : function(widgets) {
+		
+		var themes = [];		
+		$.each(widgets, function(index, widget) {
+			
+			$.each(widget.themes, function(index, theme) {
+				if (($.inArray(theme.name, themes)) == -1) {
+					themes.push(theme.name)
+				}				
+			})
+		});		
+		return themes.sort();		
+	},
+	
+	createDynamicFilters : function(displayNames) {
+		
+		var filters = ['all'];
+		
+		$.each(displayNames, function(index, displayName) {
+			var filterName = 'filter-' + index;
+			filters.push(filterName);
+			$('#filter-name').data(filterName, displayName)
+		});
+		
+		return filters;
+	},
+	
+	applyThemeFilter: function(filterName) {
+		
+		var filterDisplayName = this.getCurrentFilterDisplayName();
+		
+		if (filterName == 'all') {
+			this.clearFilter();
+		} else {
+			this.getRealWidgets().each(function() {
+				var widget = new ContentWidget($(this));
+
+				var themes = widget.getThemes().split(', ');
+				
+				if ($.inArray(filterDisplayName, themes) >= 0) {						
+					widget.filterIn();
+				} else {
+					widget.filterOut();				
+				}
+			})				
+		}
+	},	
+	
 	sort : function(widgets) {
 		
 		var panel = this;
@@ -33,6 +98,21 @@ var ContentPanel = WidgetPanel.$extend({
 		return title1 > title2 ? 1 : title1 < title2 ? -1 : 0;		
 	},
 	
+		
+	bindEventHandlers: function() {
+		
+		this.$super();
+		
+		var panel = this;
+		
+		this.element.on('filter', function(event, name) {
+			if (name == 'all') {
+				panel.clearFilter();
+			} else {
+				panel.applyThemeFilter(name);
+			}
+		});		
+	}		
 });
 
 
