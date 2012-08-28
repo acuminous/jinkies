@@ -67,7 +67,7 @@ One more thing - please <em>don't install Jinkies on a publicly accessible serve
                         <div>
                             <span class="text">
 If you're having problems with Jinkies or find what looks like a bug, the first thing to do is read the 
-<a href="https://github.com/acuminous/jinkies/blob/${g.meta(name:'app.version')}/README.md">documentation</a>documentation</a> and if that doesn't help 
+<a href="https://github.com/acuminous/jinkies/blob/${g.meta(name:'app.version')}/README.md">documentation</a> and if that doesn't help 
 <a href="https://github.com/acuminous/jinkies/issues">report</a> it. If you're a little more adventurous you can 
 browse the <a href="https://github.com/acuminous/jinkies">source code</a> and if you're feeling incredibly generous, fix 
 the problem for us and submit a <a href="https://github.com/acuminous/jinkies/pulls">pull request</a>. Do this and 
