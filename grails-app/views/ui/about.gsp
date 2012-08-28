@@ -28,7 +28,8 @@ them using <a href="media.io">media.io</a> but watch this space for forthcoming 
 Thanks for investigating Jinkies, we hope you enjoy the experience, but if not please vent your frustration <a href="https://github.com/acuminous/jinkies/issues">here</a>.
 <br/>
 <br/>
-The Jinkies development team
+The Jinkies development team<br/>
+<br/>
                             </span>
                         </div>	                    
 	                </div>
@@ -56,7 +57,8 @@ mp3s and specifying a theme for the jobs.<br/>
 Please see the <a href="https://github.com/acuminous/jinkies/blob/${g.meta(name:'app.version')}/README.md">documentation</a> for other installation options, including 
 instructions for changing the port and getting the <a href="http://www.jinkies.co.uk/binaries/deployable/jinkies.war">deployable war</a> running on a Java Application Server.<br/>
 <br/>
-One more thing - please <em>don't install Jinkies on a publicly accessible server</em>. If you do, anyone will be able to upload and execute programs on your machine.
+One more thing - please <em>don't install Jinkies on a publicly accessible server</em>. If you do, anyone will be able to upload and execute programs on your machine.<br/>
+<br/>
                             </span>
                         </div>
                     </div>
@@ -71,7 +73,8 @@ If you're having problems with Jinkies or find what looks like a bug, the first 
 <a href="https://github.com/acuminous/jinkies/issues">report</a> it. If you're a little more adventurous you can 
 browse the <a href="https://github.com/acuminous/jinkies">source code</a> and if you're feeling incredibly generous, fix 
 the problem for us and submit a <a href="https://github.com/acuminous/jinkies/pulls">pull request</a>. Do this and 
-open source karma will be yours.                             
+open source karma will be yours.<br/>
+<br/>                             
                             </span>
                         </div>                            	                    
                     </div>
