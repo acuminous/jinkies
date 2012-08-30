@@ -60,7 +60,6 @@ class JobController extends JinkiesErrorRenderer {
 		if (job) {
 			job.delete(flush:true)
 			eventHistory.remove(job.resourceId)
-			println eventHistory
 		}		
 		render status: SC_NO_CONTENT 
 	}

@@ -34,7 +34,7 @@ class EventController extends JinkiesErrorRenderer {
 		
 			Map event = [:]
 			
-			event.target = cmd.target
+			event.resourceId = cmd.resourceId
 			event.type = cmd.event
 			event.theme = cmd.theme
 			event.channels = cmd.channels
@@ -52,13 +52,13 @@ class EventController extends JinkiesErrorRenderer {
 
 class EventCommand {
 	
-	String target
+	String resourceId
 	List<String> channel
 	List<String> content
 	List<Content> prescribedContent = []
 	
 	static constraints = {
-		target nullable: false, blank: false
+		resourceId nullable: false, blank: false
 		channel nullable: true
 		content nullable: true, validator: contentValidator
 	}

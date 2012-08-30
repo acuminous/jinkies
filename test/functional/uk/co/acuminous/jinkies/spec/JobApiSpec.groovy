@@ -295,7 +295,7 @@ class JobApiSpec extends Specification  {
 			String resourceId = "job/$id"
 			
 		expect:
-			client.post(path: '/api/event', body: [target: resourceId, event:'Success']).status == 204
+			client.post(path: '/api/event', body: [resourceId: resourceId, event:'Success']).status == 204
 			client.delete(path: '/api/' + resourceId).status == 204
 			
 		when:			

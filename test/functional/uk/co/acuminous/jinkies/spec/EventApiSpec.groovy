@@ -47,17 +47,17 @@ class EventApiSpec extends Specification  {
 		}
 	}
 
-	def "Creates an event for specified target"() {
+	def "Creates an event for specified resource"() {
 		
 		given:
-			String target = 'foo/bar'		
-			Map params = [target: 'foo/bar', event: success.name, channel: ['test']]
+			String resourceId = 'foo/bar'		
+			Map params = [resourceId: 'foo/bar', event: success.name, channel: ['test']]
 		
 		expect:
 			client.post(path: '/api/event', body: params).status == 204
 			
 			Map event = remoteEvent
-			event?.target == target		
+			event?.resourceId == resourceId		
 	}
 	
 	def "Events can specify content"() {
@@ -69,7 +69,7 @@ class EventApiSpec extends Specification  {
 				[zoinks, jinkies]
 			}
 			
-			Map params = [target: 'foo/bar', event: success.name, channel: ['test'], content: ["content/${content[0].id}", "content/${content[1].id}"]]
+			Map params = [resourceId: 'foo/bar', event: success.name, channel: ['test'], content: ["content/${content[0].id}", "content/${content[1].id}"]]
 		
 		expect:
 			client.post(path: '/api/event', body: params).status == 204
@@ -87,7 +87,7 @@ class EventApiSpec extends Specification  {
 				Content.build(title: 'Zoinks', filename: 'zoinks.mp3')
 			}
 			
-			Map params = [target: 'foo/bar', event: success.name, channel: ['test'], content: ["content/${content.id}", 'content/999']]
+			Map params = [resourceId: 'foo/bar', event: success.name, channel: ['test'], content: ["content/${content.id}", 'content/999']]
 		
 		when:
 			def response = client.post(path: '/api/event', body: params)
@@ -100,7 +100,7 @@ class EventApiSpec extends Specification  {
 	def "Handles invalid content"() {
 		
 		given:
-			Map params = [target: 'foo/bar', event: success.name, channel: ['test'], content: ['123']]
+			Map params = [resourceId: 'foo/bar', event: success.name, channel: ['test'], content: ['123']]
 		
 		when:
 			def response = client.post(path: '/api/event', body: params)
@@ -118,21 +118,21 @@ class EventApiSpec extends Specification  {
 		}
 	}
 		
-	@Unroll("Reports invalid targets: #target")
-	def "Reports invalid targets"() {
+	@Unroll("Reports invalid resourceIds: #resourceId")
+	def "Reports invalid resourceIds"() {
 		
 		given:
-			Map params = [target: target, event: success.name]
+			Map params = [resourceId: resourceId, event: success.name]
 		
 		when:
 			def response = client.post(path: '/api/event', body: params)
 
 		then: 
 			response.status == 400
-			response.data[0] == "A target is required."
+			response.data[0] == "A resource id is required."
 						
 		where:
-			target << ['', null]
+			resourceId << ['', null]
 		
 	}
 }

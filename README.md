@@ -218,7 +218,7 @@ paste in the    following...
 	grails.plugin.quartz2.jobSetup.projectXStandup = { quartzScheduler, ctx ->
 	
 		def job = ClosureJob.createJob({ jobCtx , appCtx->
-			Map params = [target: 'projectX', theme: 'Scooby Doo', event: 'Stand-Up', channel: ['audio']]
+			Map params = [resourceId: 'project/x', theme: 'Scooby Doo', event: 'Stand-Up', channel: ['audio']]
 			new HttpClientsFactory().getHttpBuilder('http://localhost:8080/api/event').post(body: params)
 		}
 	
@@ -241,7 +241,7 @@ If you want to use Jinkies to report other events, you need to POST a request to
         <tr><th>Parameter Name</th><th>Purpose</th><th>Mandatory</th><th>Example</th></tr>     
     </thead>
     <tbody>
-        <tr><td>target</td><td>Your identifier for the originator / owner / subject of this event</td><td>Yes</td><td>Floor 2</td></tr>
+        <tr><td>resourceId</td><td>Your identifier for subject of this event</td><td>Yes</td><td>Floor 2</td></tr>
         <tr><td>event</td><td>The event type (set to any value you want)</td><td>Yes</td><td>Sandwich Trolley</td></tr>
         <tr><td>theme</td><td>Associate a theme with this event to help select appropriate content</td><td>No</td><td>Yogi Bear</td></tr>
         <tr><td>channel</td><td>Specify which channels the notification should be sent to</td><td>Yes</td><td>audio</td></tr>

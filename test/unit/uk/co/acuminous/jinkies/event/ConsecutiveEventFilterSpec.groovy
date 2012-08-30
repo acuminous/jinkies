@@ -36,7 +36,7 @@ class ConsecutiveEventFilterSpec extends Specification {
 		
 		given:
 			Tag success = new Tag('Success', TagType.event)
-			Map event = [target: 'some job', type: success]
+			Map event = [resourceId: 'some job', type: success]
 		
 		when:
 			filter.handle(event)
@@ -51,7 +51,7 @@ class ConsecutiveEventFilterSpec extends Specification {
 			Tag success = new Tag('Success', TagType.event)
 			Tag failure = new Tag('Failure', TagType.event)
 			underlyingEventHistory.update('some job', failure)
-			Map event = [target: 'some job', type: success]
+			Map event = [resourceId: 'some job', type: success]
 		
 		when:
 			filter.handle(event)
@@ -66,7 +66,7 @@ class ConsecutiveEventFilterSpec extends Specification {
 			Tag success = new Tag('Success', TagType.event)
 			underlyingEventHistory.update('some job', success)
 			
-			Map event = [target: 'some job', type: success]
+			Map event = [resourceId: 'some job', type: success]
 		
 		when:
 			filter.handle(event)
@@ -81,7 +81,7 @@ class ConsecutiveEventFilterSpec extends Specification {
 			Tag success = new Tag('Success', TagType.event)
 			underlyingEventHistory.update('job1', success)
 			
-			Map event = [target: 'job2', type: success]
+			Map event = [resourceId: 'job2', type: success]
 		
 		when:
 			filter.handle(event)

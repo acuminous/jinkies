@@ -42,10 +42,10 @@ class RemoteContentRepository {
 	def methodMissing(String name, args) {
 		
 		new RemoteUtils().remote {
-			def target = app.domainClasses.find {
+			def domainClass = app.domainClasses.find {
 				it.name == Content.class.simpleName
 			}
-			def results = target.clazz.invokeMethod(name, args)
+			def results = domainClass.clazz.invokeMethod(name, args)
 			
 			if (results?.class == Content) {	
 				// Avoid LazyInitializationException				

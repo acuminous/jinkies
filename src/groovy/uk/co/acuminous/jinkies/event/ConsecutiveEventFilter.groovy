@@ -29,10 +29,10 @@ class ConsecutiveEventFilter extends ChainedEventHandler {
 		
 		log.debug "Received event: $event"		
 		
-		Tag previousEventType = eventHistory.get(event.target)?.type
+		Tag previousEventType = eventHistory.get(event.resourceId)?.type
 		
 		if (event.type == previousEventType) {
-			log.info "Suppressing ${event.type} event for ${event.target}"		
+			log.info "Suppressing ${event.type} event for ${event.resourceId}"		
 		} else {
 			forward event
 		}

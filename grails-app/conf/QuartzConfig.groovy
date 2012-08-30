@@ -38,7 +38,7 @@ grails.plugin.quartz2.jobSetup.jenkinsMonitor = { quartzScheduler, ctx ->
 grails.plugin.quartz2.jobSetup.projectXStandup = { quartzScheduler, ctx ->
 	
 	def job = ClosureJob.createJob({ jobCtx , appCtx->
-		Map params = [target: 'projectX', theme: 'Scooby Doo', event: 'Stand-Up', channel: ['audio']]
+		Map params = [resourceId: 'project/x', theme: 'Scooby Doo', event: 'Stand-Up', channel: ['audio']]
 		new HttpClientsFactory().getHttpBuilder('http://localhost:8080/api/event').post(body: params)
 	})
 

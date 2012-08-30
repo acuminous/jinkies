@@ -24,7 +24,7 @@ class EventHistoryUpdater extends ChainedEventHandler {
 	@Override
 	public void handle(Map event) {
 		log.debug "Received event: $event"
-		eventHistory.update(event.target, event.type)		
+		eventHistory.update(event.resourceId, event.type)		
 		forward event
 		
 	}

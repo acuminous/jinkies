@@ -44,7 +44,7 @@ class JenkinsMonitor {
 			List<Build> history = server.getBuildHistory(job)
 			
 			if (history) {				
-				Map event = [target: resourceId, build: history.first()]
+				Map event = [resourceId: resourceId, build: history.first()]
 				eventHandler.handle event
 			}
 			
@@ -54,7 +54,7 @@ class JenkinsMonitor {
 			Map event = [
 				job: job,
 				error: e.message,				
-				target: resourceId,
+				resourceId: resourceId,
 				type: Tag.findEventTypeByName('Error'),				
 				theme: job.theme,
 				channels: job.channels
