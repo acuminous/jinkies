@@ -245,7 +245,7 @@ If you want to use Jinkies to report other events, you need to POST a request to
         <tr><td>event</td><td>The event type (set to any value you want)</td><td>Yes</td><td>Sandwich Trolley</td></tr>
         <tr><td>theme</td><td>Associate a theme with this event to help select appropriate content</td><td>No</td><td>Yogi Bear</td></tr>
         <tr><td>channel</td><td>Specify which channels the notification should be sent to</td><td>Yes</td><td>audio</td></tr>
-        <tr><td>content</td><td>Instead of relying on a theme you can specify the content you would like to play. You will have find the "restId" of desired content by viewing the HTML on the content page.</td><td>No</td><td>content/123</td></tr>
+        <tr><td>content</td><td>Instead of relying on a theme you can specify the content you would like to play. You will have find the "resourceId" of desired content by viewing the HTML on the content page.</td><td>No</td><td>content/123</td></tr>
     </tbody>
 </table>
 

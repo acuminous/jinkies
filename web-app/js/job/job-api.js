@@ -14,10 +14,10 @@ function JobApi(baseUrl) {
 		return results;
 	}
 	
-	this.get = function(restId) {
+	this.get = function(resourceId) {
 		
 		var results;
-		var url = this.baseUrl + '/' + restId;
+		var url = this.baseUrl + '/' + resourceId;
 		
 		$.get(url, function(job) {
 			results = job;
@@ -53,7 +53,7 @@ function JobApi(baseUrl) {
 	this.update = function(job) {
 		
 		var response = null;
-		var url = this.baseUrl + '/' + job.restId;
+		var url = this.baseUrl + '/' + job.resourceId;
 		
 		$.ajax(url, {
 			type: 'PUT',
@@ -75,9 +75,9 @@ function JobApi(baseUrl) {
 		return response;	
 	}
 	
-	this.erase = function(restId) {
+	this.erase = function(resourceId) {
 		
-		var url = this.baseUrl + '/' + restId;
+		var url = this.baseUrl + '/' + resourceId;
 		
 		$.ajax(url, { 
 			type: 'DELETE' 
@@ -96,13 +96,13 @@ function JobApi(baseUrl) {
 		return results;				
 	}		
 	
-	this.checkStatus = function(restId, onSuccess) {
+	this.checkStatus = function(resourceId, onSuccess) {
 		
 		var url = this.baseUrl + '/event';
 		
 		$.ajax(url, {
 			type: 'GET',
-			data: { target: restId },
+			data: { target: resourceId },
 			async: true,
 			success: onSuccess			
 		});

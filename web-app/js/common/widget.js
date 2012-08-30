@@ -9,12 +9,12 @@ var Widget = Class.$extend({
 		$('.widget').last().after(this.element);
 	},	
 
-	getRestId : function() {
-		return $('input[name=restId]', this.element).val();
+	getResourceId : function() {
+		return $('input[name=resourceId]', this.element).val();
 	},
 
-	setRestId : function(restId) {
-		$('input[name=restId]', this.element).val(restId);
+	setResourceId : function(resourceId) {
+		$('input[name=resourceId]', this.element).val(resourceId);
 	},
 
 	getPrimaryField : function() {

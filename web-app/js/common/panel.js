@@ -65,8 +65,8 @@ var WidgetPanel = Class.$extend({
 	edit : function(target) {
 		var panel = this;
 		$(document).trigger('busy').delay(100).queue(function() {
-			var restId = new Widget(target).getRestId();		
-			panel.dialog.show(restId);	
+			var resourceId = new Widget(target).getResourceId();		
+			panel.dialog.show(resourceId);	
 			$(document).trigger('not-busy');
 			$(this).dequeue();										
 		});
@@ -82,8 +82,8 @@ var WidgetPanel = Class.$extend({
 		if (this.confirmErasure(target)) {
 			var panel = this;
 			$(document).trigger('busy').delay(100).queue(function() {
-				var restId = new Widget(target).getRestId();
-				panel.dataSource.erase(restId);
+				var resourceId = new Widget(target).getResourceId();
+				panel.dataSource.erase(resourceId);
 				panel.element.trigger('refresh');
 				$(document).trigger('not-busy');
 				$(this).dequeue();							

@@ -14,10 +14,10 @@ function ContentApi(baseUrl) {
 		return results;
 	}
 	
-	this.get = function(restId) {
+	this.get = function(resourceId) {
 		
 		var response = null;		
-		var url = this.baseUrl + '/' + restId;
+		var url = this.baseUrl + '/' + resourceId;
 		
 		$.get(url, function(content) {
 			response = content;
@@ -56,7 +56,7 @@ function ContentApi(baseUrl) {
 	this.update = function(content) {
 		
 		var response = null;
-		var url = this.baseUrl + '/' + content.restId;
+		var url = this.baseUrl + '/' + content.resourceId;
 				
 		$.ajax(url, {
 			type: 'PUT',
@@ -81,16 +81,16 @@ function ContentApi(baseUrl) {
 		return response;		
 	}
 	
-	this.erase = function(restId) {
+	this.erase = function(resourceId) {
 		
-		var url = this.baseUrl + '/' + restId;
+		var url = this.baseUrl + '/' + resourceId;
 		
 		$.ajax(url, { 
 			type: 'DELETE' 
 		})
 	}
 	
-	this.play = function(restId) {
+	this.play = function(resourceId) {
 	
 		var url = this.baseUrl + '/event';
 		
@@ -100,10 +100,10 @@ function ContentApi(baseUrl) {
 			processData: false,
 			contentType: 'application/json',
 			data: JSON.stringify({
-				target: restId,
+				target: resourceId,
 				type: 'Preview',
 				channel: ['audio', 'speech', 'test'],
-				content: [restId]
+				content: [resourceId]
 			})
 		})		
 	}

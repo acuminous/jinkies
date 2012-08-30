@@ -56,11 +56,11 @@ var Dialog = Class.$extend({
 		$.modal.close();		
 	},	
 
-	show : function(restId) {
+	show : function(resourceId) {
 	
-		if (restId) {
+		if (resourceId) {
 			this.enableUpdateMode();
-			this.getBean(restId);			
+			this.getBean(resourceId);			
 			this.populateForm();
 		} else {
 			this.enableCreateMode();
@@ -92,8 +92,8 @@ var Dialog = Class.$extend({
 		this.element.removeClass('createMode');
 	},
 	
-	getBean : function(restId) {
-		this.bean = this.dataSource.get(restId);
+	getBean : function(resourceId) {
+		this.bean = this.dataSource.get(resourceId);
 	},
 	
 	clearBean : function() {

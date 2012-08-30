@@ -75,18 +75,18 @@ class EventCommand {
 		Tag.findByUri(Tag.generateUri(params.event, TagType.event))
 	}
 	
-	static def contentValidator = { List<String> restIds, EventCommand cmd ->
+	static def contentValidator = { List<String> resourceIds, EventCommand cmd ->
 		
 		def errorCode = null
 		
-		restIds.find { String restId ->
-			if (!(restId ==~ /\w+\/\d+/)) {
-				errorCode = ['eventCommand.content.invalid', restId]
+		resourceIds.find { String resourceId ->
+			if (!(resourceId ==~ /\w+\/\d+/)) {
+				errorCode = ['eventCommand.content.invalid', resourceId]
 			} else {
-				Long id = Long.parseLong(restId.split('/').last())
+				Long id = Long.parseLong(resourceId.split('/').last())
 				Content content = Content.get(id)
 				if (!content) {
-					errorCode = ['eventCommand.content.unknown', restId]					
+					errorCode = ['eventCommand.content.unknown', resourceId]					
 				} else {
 					cmd.prescribedContent << content
 				}

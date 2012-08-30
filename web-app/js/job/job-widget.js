@@ -6,7 +6,7 @@ var JobWidget = Widget.$extend({
 	
 	render : function(job) {		
 		this.clone();		
-		this.setRestId(job.restId);
+		this.setResourceId(job.resourceId);
 		this.setDisplayName(job.displayName);
 		this.setStatus(job.lastEvent);
 		this.setTheme(job.theme);

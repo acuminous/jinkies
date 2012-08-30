@@ -7,7 +7,7 @@ var ContentWidget = Widget.$extend({
 	
 	render : function(content) {	
 		this.clone();		
-		this.setRestId(content.restId);
+		this.setResourceId(content.resourceId);
 		this.setTitle(content.title);
 		this.setDescription(content.description);
 		this.setThemes(content.themes);
@@ -23,12 +23,12 @@ var ContentWidget = Widget.$extend({
 		var widget = this;
 		$('.play img', this.element).on('click', function(event) {
 			event.stopPropagation();
-			widget.play(content.restId);
+			widget.play(content.resourceId);
 		});
 	},
 	
-	play : function(restId) {
-		this.dataSource.play(restId);
+	play : function(resourceId) {
+		this.dataSource.play(resourceId);
 	},
 	
 	setDescription : function(description) {

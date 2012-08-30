@@ -35,7 +35,7 @@ public class CustomJsonMarshaller {
 			]
 				
 			if (job.id) {
-				data.restId = job.resourceId
+				data.resourceId = job.resourceId
 			}	
 			
 			data			
@@ -45,8 +45,8 @@ public class CustomJsonMarshaller {
 	static Closure jobWithLastEvent = { EventHistory eventHistory, Job job ->
 		
 		Map data = CustomJsonMarshaller.job(job)
-		if (data.restId) {
-			Map lastEvent = eventHistory.get(data.restId)
+		if (data.resourceId) {
+			Map lastEvent = eventHistory.get(data.resourceId)
 			if (lastEvent) {
 				data.lastEvent = lastEvent.type.name
 			} 
@@ -71,8 +71,8 @@ public class CustomJsonMarshaller {
 			]
 			
 			if (content.id) {
-				data.restId = content.resourceId
-				data.dataRestId = content.dataResourceId
+				data.resourceId = content.resourceId
+				data.dataResourceId = content.dataResourceId
 				if (content.bytes) {
 					data.dataHashCode = content.bytes.hashCode()
 				}
@@ -92,7 +92,7 @@ public class CustomJsonMarshaller {
 			]
 			
 			if (tag.id) {
-				data.restId = "tag/${tag.id}".toString()
+				data.resourceId = "tag/${tag.id}".toString()
 			}
 			
 			data

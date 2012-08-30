@@ -37,7 +37,7 @@
 							</div>															
 							
 							<div class="job widget edit prototype">
-								<input type="hidden" name="restId" value="job/123" />
+								<input type="hidden" name="resourceId" value="job/123" />
 								<div class="spacer circular-button"><span class="text">&nbsp;</span></div>								
 								<div class="delete circular-button" title="Delete Job"><span class="text">&times;</span></div>
 								<div class="audio channel" title="Audio"><r:img uri="/images/quaver.png" alt="Audio channel enabled"/></div>

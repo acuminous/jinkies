@@ -207,7 +207,7 @@ class ContentApiSpec extends Specification {
 				Content.findByTitle(params.title).id
 			}
 		
-			result.restId == "content/$id"
+			result.resourceId == "content/$id"
 			result.title == params.title
 			result.description == params.description
 			
@@ -400,7 +400,7 @@ class ContentApiSpec extends Specification {
 		then:
 			response.status == 200	
 		
-			result.restId == "content/$id"
+			result.resourceId == "content/$id"
 			result.title == params.title
 			result.description == params.description
 			result.themes.size() == 1
@@ -439,12 +439,12 @@ class ContentApiSpec extends Specification {
 		then:
 			response.status == 200
 
-			result.restId == "content/$content.id"
+			result.resourceId == "content/$content.id"
 			result.title == content.title
 			result.description == content.description
 			result.type == content.type
 			result.dataHashCode != null 
-			result.dataRestId == "content/$content.id/data"
+			result.dataResourceId == "content/$content.id/data"
 			result.themes.size() == 1
 			result.themes[0].name == content.themes[0].name
 			result.events.size() == 1

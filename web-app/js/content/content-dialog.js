@@ -157,14 +157,14 @@ var ContentDialog = Dialog.$extend({
 	},
 	
 	
-	show : function(restId) {
+	show : function(resourceId) {
 		this.initialiseFileUpload();
-		this.$super(restId);
+		this.$super(resourceId);
 	},
 	
 	fetchTextData : function() {
 		if (this.bean.type == 'text/plain') {
-			var text = this.dataSource.get(this.bean.dataRestId)
+			var text = this.dataSource.get(this.bean.dataResourceId)
 			this.setText(text);
 		}		
 	},
@@ -230,14 +230,14 @@ var ContentDialog = Dialog.$extend({
 		
 		var response;
 		
-		if (content.restId) {				
+		if (content.resourceId) {				
 			response = this.dataSource.update(content);
 		} else {				
 			response = this.dataSource.create(content);
 		}
 		
 		if (response && this.uploadFromFile() && this.file) {
-			this.uploadFile('/api/' + response.dataRestId);
+			this.uploadFile('/api/' + response.dataResourceId);
 		}
 		
 		return response != null;

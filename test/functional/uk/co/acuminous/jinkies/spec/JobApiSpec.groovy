@@ -156,7 +156,7 @@ class JobApiSpec extends Specification  {
 				Job.findByDisplayName(params.displayName).id
 			}
 			
-			result.restId == "job/$id"
+			result.resourceId == "job/$id"
 			result.displayName == params.displayName
 			result.url == params.url
 			result.type == params.type
@@ -292,11 +292,11 @@ class JobApiSpec extends Specification  {
 				Job job = new Job(displayName: 'Blah', url: '../job/blah', type: 'jenkins').save(flush:true)
 				job.id
 			}
-			String restId = "job/$id"
+			String resourceId = "job/$id"
 			
 		expect:
-			client.post(path: '/api/event', body: [target: restId, event:'Success']).status == 204
-			client.delete(path: '/api/' + restId).status == 204
+			client.post(path: '/api/event', body: [target: resourceId, event:'Success']).status == 204
+			client.delete(path: '/api/' + resourceId).status == 204
 			
 		when:			
 			def response = client.get(path: "/api/job/$id")
@@ -305,7 +305,7 @@ class JobApiSpec extends Specification  {
 		then:
 			def history = remote {
 				def eventHistory = app.mainContext.getBean('eventHistory')
-				eventHistory.get(restId)
+				eventHistory.get(resourceId)
 			}
 			history == null
 			

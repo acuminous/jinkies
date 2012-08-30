@@ -87,7 +87,7 @@ var JobDialog = Dialog.$extend({
 			job.theme = theme;
 			job.channels = channels;
 			
-			if (job.restId) {				
+			if (job.resourceId) {				
 				response = dataSource.update(job);
 			} else {				
 				response = dataSource.create(job);					
