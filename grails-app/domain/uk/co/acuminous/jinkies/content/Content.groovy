@@ -49,6 +49,15 @@ class Content implements Serializable {
 	}
 	
 	static transients = ['httpClientsFactory']
+		
+	String getResourceId() {
+		id ? "content/$id" : null
+	}
+	
+	
+	String getDataResourceId() {
+		id ? "content/$id/data" : null
+	}
 	
 	public void aquire() {
 		if (url) {

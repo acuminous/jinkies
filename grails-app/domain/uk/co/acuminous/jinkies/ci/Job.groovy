@@ -45,6 +45,10 @@ class Job implements Serializable {
 		channels joinTable:[name:'job_channel', key:'job_id', column:'channel', type:'text']
 	}
 	
+	String getResourceId() {
+		id ? "job/$id" : null
+	}
+	
 	@Override
 	String toString() {
 		"Job[id=$id,displayName=$displayName,url=$url,theme=${theme?.name}]"

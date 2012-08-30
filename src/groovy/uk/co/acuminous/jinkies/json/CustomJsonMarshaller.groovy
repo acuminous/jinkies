@@ -35,7 +35,7 @@ public class CustomJsonMarshaller {
 			]
 				
 			if (job.id) {
-				data.restId = "job/${job.id}".toString()
+				data.restId = job.resourceId
 			}	
 			
 			data			
@@ -71,8 +71,8 @@ public class CustomJsonMarshaller {
 			]
 			
 			if (content.id) {
-				data.restId = "content/${content.id}".toString()
-				data.dataRestId = "content/${content.id}/data".toString()
+				data.restId = content.resourceId
+				data.dataRestId = content.dataResourceId
 				if (content.bytes) {
 					data.dataHashCode = content.bytes.hashCode()
 				}

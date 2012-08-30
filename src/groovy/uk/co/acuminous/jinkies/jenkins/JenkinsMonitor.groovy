@@ -16,13 +16,10 @@
 package uk.co.acuminous.jinkies.jenkins
 
 import groovy.util.logging.Slf4j
-import uk.co.acuminous.jinkies.channel.ChannelIterator
 import uk.co.acuminous.jinkies.ci.Build
 import uk.co.acuminous.jinkies.ci.Job
 import uk.co.acuminous.jinkies.content.Tag
-import uk.co.acuminous.jinkies.content.TagType
 import uk.co.acuminous.jinkies.event.EventHandler
-import uk.co.acuminous.jinkies.json.CustomJsonMarshaller
 
 
 @Slf4j
@@ -39,7 +36,7 @@ class JenkinsMonitor {
 	
 	def checkLatestBuild = { Job job ->
 		
-		String restId = CustomJsonMarshaller.job(job).restId
+		String restId = job.resourceId
 		 
 		try {
 			log.debug("Checking for new $job.displayName builds")
@@ -62,9 +59,7 @@ class JenkinsMonitor {
 				theme: job.theme,
 				channels: job.channels
 			]
-			
-			println event
-			
+						
 			errorHandler.handle event				
 		}
 	}

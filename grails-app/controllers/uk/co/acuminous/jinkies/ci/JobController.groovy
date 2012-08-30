@@ -24,7 +24,6 @@ import uk.co.acuminous.jinkies.content.Tag;
 import uk.co.acuminous.jinkies.content.TagService;
 import uk.co.acuminous.jinkies.content.TagType
 import uk.co.acuminous.jinkies.event.EventHistory
-import uk.co.acuminous.jinkies.json.CustomJsonMarshaller;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST
 import static javax.servlet.http.HttpServletResponse.SC_NO_CONTENT
@@ -60,8 +59,7 @@ class JobController extends JinkiesErrorRenderer {
 		Job job = Job.get(params.id)
 		if (job) {
 			job.delete(flush:true)
-			Map json = CustomJsonMarshaller.job(job)
-			eventHistory.remove(json.restId)
+			eventHistory.remove(job.resourceId)
 			println eventHistory
 		}		
 		render status: SC_NO_CONTENT 
