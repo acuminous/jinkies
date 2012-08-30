@@ -24,33 +24,45 @@ import uk.co.acuminous.jinkies.spring.*;
 import uk.co.acuminous.jinkies.util.HttpClientsFactory
 import uk.co.acuminous.jinkies.player.*
 
+// Please note: You cannot have multiple anonymous inner bean of the same class with a collection property 
+// See http://jira.grails.org/browse/GRAILS-8830
 beans = {	
-		
-	def betamax = application.config.betamax
-	if (betamax?.enabled) {
+			
+/******************************************************************************
+ * Infrastructure 
+ *****************************************************************************/
+	
+	def betamaxConfig = application.config.betamax
+	if (betamaxConfig?.enabled) {
 		recorder(Recorder) {
-			proxyPort = betamax.proxyPort
+			proxyPort = betamaxConfig.proxyPort
 		}
 	}
 		
-	def migrations = application.config.migrations	
-	if (migrations?.enabled) {
+	def migrationsConfig = application.config.migrations	
+	if (migrationsConfig?.enabled) {
 		liquibase(MigrationRunner) { bean ->
 			bean.initMethod = 'run'
 			dataSource = ref('dataSource')
-			dropAll = migrations.dropAll
+			dropAll = migrationsConfig.dropAll
 		}
 	}
 	
-	httpClientsFactory(HttpClientsFactory) { 
-		authConfig = application.config.http.auth	
+/******************************************************************************
+ * Managed Beans
+ *****************************************************************************/   
+
+	httpClientsFactory(HttpClientsFactory) {
+		authConfig = application.config.http.auth
 	}
 	
-	contentService(ContentServiceFactoryBean) {
+	jenkinsServer(JenkinsServer) {
+		httpClientsFactory = ref('httpClientsFactory')
 	}
 	
-	eventHistory(SimpleEventHistory) {		
-	}
+	contentService(ContentServiceFactoryBean)
+
+	eventHistory(SimpleEventHistory)
 	
 	expiringEventHistory(ExpiringEventHistory) {
 		underlyingEventHistory = ref('eventHistory')
@@ -67,16 +79,51 @@ beans = {
 		allowedEvents = ['Success']
 	}
 
-	jenkinsServer(JenkinsServer) {
-		httpClientsFactory = ref('httpClientsFactory')
+/******************************************************************************
+ * Players
+ *****************************************************************************/
+	
+	mp3Player(Mp3Player) { }
+	
+	speechSynthesizer(GroovyTemplatePlayerAdapter) {
+		player = { SpeechSynthesizer player ->
+		}
+	}
+
+/******************************************************************************
+ * Channels
+ *****************************************************************************/
+   
+	audioChannel(ContentChannel) {
+		name = 'audio'
+		players = [
+			ref('mp3Player')
+		]
 	}
 	
+	speechChannel(ContentChannel) {
+		name = 'speech'
+		players = [
+			ref('speechSynthesizer')
+		]
+	}
+	
+	def testChannelConfig = application.config.jinkies.testChannel	
+	testChannel(TestChannel) {
+		name = 'test'
+		enabled = testChannelConfig.enabled
+	}
+			
+/******************************************************************************
+ * Workflow
+ *****************************************************************************/
+   	
 	// Manually posted events enter here.
 	'uk.co.acuminous.jinkies.event.EventController'(EventController) { bean ->
 		bean.scope = 'prototype'
 		bean.autowire = 'byName'
 		eventHandler = ref('eventHistoryUpdater')
-	  }
+	}
 	
 	// Jenkins build events enter here.
 	jenkinsMonitor(JenkinsMonitor) {
@@ -137,48 +184,18 @@ beans = {
 			channel = ref('audioChannel')
 			nextHandler = ref('speechSwitch')
 		}
-
-		// Cannot have multiple anonymous inner bean of the same class with a collection property - http://jira.grails.org/browse/GRAILS-8830
-		audioChannel(ContentChannel) {
-			name = 'audio'
-			players = [
-				ref('mp3Player')
-			]
-		}
 		
 		speechSwitch(ChannelSwitch) {
 			channel = ref('speechChannel')
 			nextHandler = ref('testSwitch')
 		}
-
-		// Cannot have multiple anonymous inner bean of the same class with a collection property - http://jira.grails.org/browse/GRAILS-8830
-		speechChannel(ContentChannel) {
-			name = 'speech'
-			players = [
-				ref('speechSynthesizer')
-			]
-		}
-		
-			
-		def testChannel = application.config.jinkies.testChannel		
+					
 		testSwitch(ChannelSwitch) {
-			channel = { TestChannel test ->
-				name = 'test'
-				enabled = testChannel.enabled
-			}
+			channel = ref('testChannel')
 			nextHandler = ref('terminator')
 		}
-				
-		mp3Player(Mp3Player) {
-		}
-		
-		speechSynthesizer(GroovyTemplatePlayerAdapter) {
-			player = { SpeechSynthesizer player ->				
-			}
-		}
 			
-		terminator(EventTerminator) {		
-		}
+		terminator(EventTerminator)
 	
 	// <<<<< Repeat per channel <<<<<
 }
