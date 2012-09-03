@@ -18,7 +18,8 @@ package uk.co.acuminous.jinkies.json
 import uk.co.acuminous.jinkies.ci.Job
 import uk.co.acuminous.jinkies.content.Content
 import uk.co.acuminous.jinkies.content.Tag
-import uk.co.acuminous.jinkies.event.EventHistory
+import uk.co.acuminous.jinkies.event.Event
+import uk.co.acuminous.jinkies.event.EventService
 
 
 public class CustomJsonMarshaller {
@@ -42,11 +43,11 @@ public class CustomJsonMarshaller {
 		}
 	}
 	
-	static Closure jobWithLastEvent = { EventHistory eventHistory, Job job ->
+	static Closure jobWithLastEvent = { EventService eventService, Job job ->
 		
 		Map data = CustomJsonMarshaller.job(job)
 		if (data.resourceId) {
-			Map lastEvent = eventHistory.get(data.resourceId)
+			Event lastEvent = eventService.getLastEvent(data.resourceId)
 			if (lastEvent) {
 				data.lastEvent = lastEvent.type.name
 			} 

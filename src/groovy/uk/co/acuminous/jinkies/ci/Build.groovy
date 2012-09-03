@@ -15,6 +15,8 @@
  */
 package uk.co.acuminous.jinkies.ci
 
+import uk.co.acuminous.jinkies.content.Tag
+
 
 class Build {
 	
@@ -27,7 +29,19 @@ class Build {
 	boolean isSuccess() {
 		result == 'success'
 	}
-			
+	
+	Map toEvent() {
+		[
+			uuid: url,
+			resourceId: job.resourceId,
+			type: Tag.findEventTypeByName(result),
+			theme: job.theme,
+			channels: job.channels,
+			timestamp: timestamp, 
+			build: this
+		]
+	} 
+
 	@Override
 	boolean equals(Object other) {
 		this.is(other) || (

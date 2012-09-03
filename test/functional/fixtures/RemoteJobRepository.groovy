@@ -20,7 +20,7 @@ import uk.co.acuminous.jinkies.ci.JobBuilder
 import uk.co.acuminous.jinkies.content.Tag
 import uk.co.acuminous.jinkies.content.TagService
 import uk.co.acuminous.jinkies.content.TagType
-import uk.co.acuminous.jinkies.event.EventHistory
+import uk.co.acuminous.jinkies.event.Event
 import static org.apache.commons.lang.RandomStringUtils.randomAlphabetic;
 
 
@@ -49,8 +49,8 @@ class RemoteJobRepository {
 			TagService tagService = app.mainContext.getBean('tagService')
 			Tag tag = tagService.findOrCreateEvents(['Failure'])[0]
 			
-			EventHistory eventHistory = app.mainContext.getBean('eventHistory')
-			eventHistory.update("job/${job.id}".toString(), tag)			
+			Event event = new Event(uuid: UUID.randomUUID().toString(), resourceId: job.resourceId, type: tag, timestamp: System.currentTimeMillis())
+			event.save()			
 		}
 	}
 	

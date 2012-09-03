@@ -57,8 +57,7 @@ class JobSpec extends Specification {
 			field             | value | constraint
 			'theme'           | null  | 'nullable'
 	}
-	
-	
+		
 	@Unroll("Job #field is unique")
 	def "Job fields are unique"() {
 		

@@ -31,7 +31,7 @@ class Nuke {
 		sessionFactory.currentSession.flush()
 		Sql sql = new Sql(dataSource)
 		sql.execute 'UPDATE JINKIES.JOB SET THEME_ID = null'		
-		['CONTENT_TAG', 'TAG', 'CONTENT', 'JOB_CHANNEL', 'JOB'].each {
+		['EVENT', 'CONTENT_TAG', 'TAG', 'CONTENT', 'JOB_CHANNEL', 'JOB'].each {
 			sql.execute "DELETE JINKIES.$it".toString()
 		}
 		sessionFactory.currentSession.clear()

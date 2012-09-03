@@ -106,8 +106,9 @@ class JenkinsMonitorSpec extends UnitSpec {
 		
 		given:			
 			Job job = new Job(displayName: 'Jinkies', type: 'jenkins', url: '.../job/Jinkies/').save()
-			Build build5 = new Build(job: job, number: 5, url: '.../job/Jinkies/5/')
-			Build build6 = new Build(job: job, number: 6, url: '.../job/Jinkies/6/')
+			Tag success = new Tag('Success', TagType.event).save()
+			Build build5 = new Build(job: job, result: 'Failure', number: 5, url: '.../job/Jinkies/5/', timestamp: 123L)
+			Build build6 = new Build(job: job, result: 'Success', number: 6, url: '.../job/Jinkies/6/', timestamp: 124L)
 			
 		when:
 			jenkinsMonitor.check()
@@ -115,7 +116,10 @@ class JenkinsMonitorSpec extends UnitSpec {
 		then:
 			1 * jenkinsServer.getBuildHistory(job) >> [ build6, build5 ]		
 			1 * eventHandler.handle({ Map event ->
+				event.uuid == build6.url &&				
 				event.resourceId == "job/$job.id" &&
+				event.type == success &&				
+				event.timestamp == build6.timestamp &&
 				event.build == build6 
 			})
 	}

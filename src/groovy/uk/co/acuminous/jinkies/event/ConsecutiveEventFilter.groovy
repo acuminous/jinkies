@@ -22,16 +22,17 @@ import uk.co.acuminous.jinkies.content.Tag
 @Slf4j
 class ConsecutiveEventFilter extends ChainedEventHandler {
 
-	EventHistory eventHistory
+	String type
+	EventService eventService
 		
 	@Override
 	public synchronized void handle(Map event) {
 		
 		log.debug "Received event: $event"		
 		
-		Tag previousEventType = eventHistory.get(event.resourceId)?.type
-		
-		if (event.type == previousEventType) {
+		Event previous = eventService.getLastEvent(event.resourceId)
+				
+		if (event.type == previous?.type) {
 			log.info "Suppressing ${event.type} event for ${event.resourceId}"		
 		} else {
 			forward event

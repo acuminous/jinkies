@@ -20,6 +20,7 @@ import spock.lang.*
 
 import uk.co.acuminous.jinkies.ci.Job
 import uk.co.acuminous.jinkies.content.*
+import uk.co.acuminous.jinkies.event.Event
 import static groovyx.net.http.ContentType.*
 
 @Mixin(RemoteUtils)
@@ -289,6 +290,7 @@ class JobApiSpec extends Specification  {
 		
 		given:
 			def id = remote {
+				new Tag('Success', TagType.event).save()				
 				Job job = new Job(displayName: 'Blah', url: '../job/blah', type: 'jenkins').save(flush:true)
 				job.id
 			}
@@ -303,11 +305,10 @@ class JobApiSpec extends Specification  {
 			def result = response.data			
 					
 		then:
-			def history = remote {
-				def eventHistory = app.mainContext.getBean('eventHistory')
-				eventHistory.get(resourceId)
+			int count = remote {
+				Event.count()
 			}
-			history == null
+			count == 0
 			
 	}
 }

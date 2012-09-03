@@ -20,7 +20,6 @@ import org.springframework.validation.Errors
 import uk.co.acuminous.jinkies.content.*
 import uk.co.acuminous.jinkies.util.JinkiesErrorRenderer
 import static javax.servlet.http.HttpServletResponse.*
-import grails.converters.JSON
 import static uk.co.acuminous.jinkies.util.CommonValidators.*
 
 // Mixins are currently working properly, therefore extending (yuck)
@@ -34,45 +33,74 @@ class EventController extends JinkiesErrorRenderer {
 		
 			Map event = [:]
 			
+			event.uuid = cmd.uuid
 			event.resourceId = cmd.resourceId
-			event.type = cmd.event
-			event.theme = cmd.theme
+			event.type = cmd.retrieveEvent()
+			event.theme = cmd.retrieveTheme()
 			event.channels = cmd.channels
 			event.prescribedContent = cmd.prescribedContent
+			event.timestamp = cmd.timestamp
 			
-			if (!report(cmd.errors)) {
-			
-				eventHandler.handle(event)	
-			
-				render(status: SC_NO_CONTENT)
-			}
+			eventHandler.handle event	
+		
+			render status: SC_NO_CONTENT
 		}		 
 	}	
 }
 
 class EventCommand {
 	
+	String uuid
 	String resourceId
+	String event
+	String theme
 	List<String> channel
 	List<String> content
 	List<Content> prescribedContent = []
+	Long timestamp
+	
+	EventService eventService
 	
 	static constraints = {
+		uuid nullable: true, validator: duplicateEvent
 		resourceId nullable: false, blank: false
-		channel nullable: true
+		event nullable: false, validator: eventValidator
+		theme nullable: true
+		channel nullable: true		
 		content nullable: true, validator: contentValidator
+	}
+	
+	String getUuid() {
+		this.uuid ?: UUID.randomUUID().toString()
 	}
 	
 	List<String> getChannels() {
 		channel ?: []
 	}
 	
-	Tag getTheme() {
-		Tag.findByUri(Tag.generateUri(params.theme, TagType.theme))
+	Tag retrieveEvent() {
+		Tag.findByUri(Tag.generateUri(this.event, TagType.event))
 	}
 	
-	Tag getEvent() {
-		Tag.findByUri(Tag.generateUri(params.event, TagType.event))
+	Tag retrieveTheme() {
+		Tag.findByUri(Tag.generateUri(this.theme, TagType.theme))
+	}
+	
+	Long getTimestamp() {
+		this.timestamp ?: System.currentTimeMillis()
+	}
+	
+	static def duplicateEvent = { String uuid, EventCommand cmd ->		
+		if (cmd.eventService.exists(uuid)) {
+			'eventCommand.uuid.unique'
+		}		
+	}
+	
+	static def eventValidator = { String event, EventCommand cmd ->
+		Tag tag = cmd.retrieveEvent()
+		if (!tag) {
+			'eventCommand.event.notfound'
+		}
 	}
 	
 	static def contentValidator = { List<String> resourceIds, EventCommand cmd ->

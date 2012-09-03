@@ -62,22 +62,6 @@ beans = {
 	
 	contentService(ContentServiceFactoryBean)
 
-	eventHistory(SimpleEventHistory)
-	
-	expiringEventHistory(ExpiringEventHistory) {
-		underlyingEventHistory = ref('eventHistory')
-		maxAgeInMillis = 60 * 60 * 1000				
-	}
-
-	errorHistoryFilter(EventHistoryReadFilter) {
-		underlyingEventHistory = ref('expiringEventHistory')
-		allowedEvents = ['Error']
-	}
-	
-	successHistoryFilter(EventHistoryReadFilter) {
-		underlyingEventHistory = ref('eventHistory')
-		allowedEvents = ['Success']
-	}
 
 /******************************************************************************
  * Players
@@ -122,42 +106,37 @@ beans = {
 	'uk.co.acuminous.jinkies.event.EventController'(EventController) { bean ->
 		bean.scope = 'prototype'
 		bean.autowire = 'byName'
-		eventHandler = ref('eventHistoryUpdater')
+		eventHandler = { DuplicateEventFilter dedupe ->
+			eventService = ref('eventService')
+			nextHandler = ref('channelIterator')
+		}
 	}
 	
 	// Jenkins build events enter here.
 	jenkinsMonitor(JenkinsMonitor) {
 		server = ref('jenkinsServer')
+		eventHandler = { DuplicateEventFilter dedupe ->
+			eventService = ref('eventService')
+			nextHandler = ref('jenkinsBuildRetriever')
+		}
 		errorHandler = ref('consecutiveErrorFilter')
-		eventHandler = ref('repeatedBuildFilter')
 	}
-	
+		
 	consecutiveErrorFilter(ConsecutiveEventFilter) {
-		eventHistory = ref('errorHistoryFilter')
-		nextHandler = ref('eventHistoryUpdater')
-	}
-	
-	repeatedBuildFilter(RepeatedBuildFilter) {
-		nextHandler = ref('jenkinsBuildRetriever')
+		eventService = ref('eventService')		
+		type = 'Error'
+		nextHandler = ref('channelIterator')
 	}
 		
 	jenkinsBuildRetriever(JenkinsBuildRetriever) {
 		server = ref('jenkinsServer')
-		nextHandler = ref('buildTagCollator')		
+		nextHandler = ref('consecutiveSuccessFilter')		
 	}
 
-	buildTagCollator(BuildTagCollator) {
-		nextHandler = ref('consecutiveSuccessFilter')
-	}
-		
 	consecutiveSuccessFilter(ConsecutiveEventFilter) {
-		eventHistory = ref('successHistoryFilter')
-		nextHandler = ref('eventHistoryUpdater')
-	}
-	
-	eventHistoryUpdater(EventHistoryUpdater) {
-		eventHistory = ref('expiringEventHistory')
-		nextHandler = ref('channelIterator')		
+		eventService = ref('eventService')
+		type = 'Success'
+		nextHandler = ref('channelIterator')
 	}
 	
 	// The channel iterator repeats the remainder of the workflow for each eligible channel

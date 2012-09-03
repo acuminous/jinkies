@@ -36,32 +36,35 @@ class JenkinsMonitor {
 	
 	def checkLatestBuild = { Job job ->
 		
-		String resourceId = job.resourceId
-		 
 		try {
 			log.debug("Checking for new $job.displayName builds")
 			
 			List<Build> history = server.getBuildHistory(job)
 			
-			if (history) {				
-				Map event = [resourceId: resourceId, build: history.first()]
+			if (history) {
+				Build build = history.first()
+				Map event = build.toEvent()				
 				eventHandler.handle event
 			}
 			
 		} catch (Exception e) {
 			log.error("Error checking job: $job", e)
-						
-			Map event = [
-				job: job,
-				error: e.message,				
-				resourceId: resourceId,
-				type: Tag.findEventTypeByName('Error'),				
-				theme: job.theme,
-				channels: job.channels
-			]
-						
+
+			Map event = createErrorEvent(job, e)						
 			errorHandler.handle event				
 		}
+	}
+	
+	Map createErrorEvent(Job job, Exception e) {
+		[
+			uuid: UUID.randomUUID().toString(),
+			resourceId: job.resourceId,
+			type: Tag.findEventTypeByName('Error'),
+			theme: job.theme,
+			channels: job.channels,
+			job: job,
+			error: e.message
+		]
 	}
 	
 }

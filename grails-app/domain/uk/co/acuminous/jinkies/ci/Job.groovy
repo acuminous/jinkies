@@ -17,7 +17,7 @@ package uk.co.acuminous.jinkies.ci
 
 import uk.co.acuminous.jinkies.util.CommonValidators;
 import uk.co.acuminous.jinkies.content.Tag
-import uk.co.acuminous.jinkies.event.EventHistory;
+import uk.co.acuminous.jinkies.event.Event
 
 
 class Job implements Serializable {
@@ -47,6 +47,12 @@ class Job implements Serializable {
 	
 	String getResourceId() {
 		id ? "job/$id" : null
+	}
+	
+	def afterDelete() {
+		Event.withNewSession {
+			Event.findAllByResourceId(resourceId)*.delete()
+		}
 	}
 	
 	@Override

@@ -46,18 +46,54 @@ class EventApiSpec extends Specification  {
 			new Tag('Failure', TagType.event).save()
 		}
 	}
+		
+	def getRemoteEvent() {
+		remote {
+			TestChannel testChannel = app.mainContext.testSwitch.channel
+			Map event = testChannel.events.isEmpty() ? null : testChannel.events.last()
+			serializableEntries event
+		}
+	}
 
 	def "Creates an event for specified resource"() {
 		
 		given:
-			String resourceId = 'foo/bar'		
+			String uuid = '1234'		
+			String resourceId = 'foo/bar'
+			Map params = [uuid: uuid, resourceId: resourceId, event: success.name, channel: ['test'], timestamp: 123L]
+		
+		expect:
+			client.post(path: '/api/event', body: params).status == 204
+			
+			Map event = remoteEvent
+			event?.uuid == uuid
+			event?.resourceId == resourceId	
+			event?.timestamp == 123L	
+	}
+	
+	def "Generates a UUID if not specified"() {
+		given:
 			Map params = [resourceId: 'foo/bar', event: success.name, channel: ['test']]
 		
 		expect:
 			client.post(path: '/api/event', body: params).status == 204
 			
 			Map event = remoteEvent
-			event?.resourceId == resourceId		
+			event?.uuid =~ /\w+-\w+-\w+-\w+-\w+/
+	}	
+	
+	
+	def "Generates a timestamp if not specified"() {
+		
+		given:
+			Long currentTime = System.currentTimeMillis()
+			Map params = [resourceId: 'foo/bar', event: success.name, channel: ['test']]
+		
+		expect:
+			client.post(path: '/api/event', body: params).status == 204
+			
+			Map event = remoteEvent
+			event?.timestamp >= currentTime
 	}
 	
 	def "Events can specify content"() {
@@ -109,13 +145,18 @@ class EventApiSpec extends Specification  {
 			response.status == 400
 			response.data[0] == "Invalid content identifier '123'."			
 	}
-	
-	def getRemoteEvent() {
-		remote {
-			TestChannel testChannel = app.mainContext.testSwitch.channel
-			Map event = testChannel.events.isEmpty() ? null : testChannel.events.last()
-			serializableEntries event
-		}
+		
+	def "Handles invalid events"() {
+		
+		given:
+			Map params = [resourceId: 'foo/bar', event: 'cosmic ray', channel: ['test']]
+		
+		when:
+			def response = client.post(path: '/api/event', body: params)
+			
+		then:
+			response.status == 400
+			response.data[0] == "Invalid event 'cosmic ray'."				
 	}
 		
 	@Unroll("Reports invalid resourceIds: #resourceId")
@@ -132,7 +173,23 @@ class EventApiSpec extends Specification  {
 			response.data[0] == "A resource id is required."
 						
 		where:
-			resourceId << ['', null]
+			resourceId << ['', null]		
+	}
+	
+	def "Duplicate events are ignored"() {
 		
+		given:
+			String resourceId = 'foo/bar'		
+			Map params = [uuid: '123', resourceId: 'foo/bar', event: success.name, channel: ['test'], timestamp: 999L]
+		
+		expect:
+			client.post(path: '/api/event', body: params).status == 204
+			
+		when:
+			def response = client.post(path: '/api/event', body: params)
+			
+		then: 
+			response.status == 400
+			response.data[0] == "Duplicate uuid '${params.uuid}'."
 	}
 }
