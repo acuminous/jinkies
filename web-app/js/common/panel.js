@@ -65,7 +65,7 @@ var WidgetPanel = Class.$extend({
 	edit : function(target) {
 		var panel = this;
 		$(document).trigger('busy').delay(100).queue(function() {
-			var resourceId = new Widget(target).getResourceId();		
+			var resourceId = new Widget(target).getResourceId();
 			panel.dialog.show(resourceId);	
 			$(document).trigger('not-busy');
 			$(this).dequeue();										
@@ -148,12 +148,12 @@ var WidgetPanel = Class.$extend({
 		});
 		
 		$(".widget.add", this.element).on("click", function(event) {
-			event.stopPropagation();			
-			var target = $(event.target).closest('.widget');
+			event.stopPropagation();
+			var target = $(event.target).closest('.widget');			
 			panel.add(target);
 		});	
 		
-		this.element.on("click", ".widget.edit", function(event) {
+		this.element.on("click", ".widget.edit", function(event) {			
 			event.stopPropagation();	
 			var target = $(event.target).closest('.widget');								
 			panel.edit(target);
