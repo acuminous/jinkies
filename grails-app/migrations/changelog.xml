@@ -4,5 +4,6 @@
     
     <include file="/release-1.0.xml"/>
     <include file="/release-1.1.xml"/>    
+    <include file="/release-1.2.xml"/>    
     
 </databaseChangeLog>
