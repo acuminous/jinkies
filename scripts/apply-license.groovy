@@ -31,5 +31,5 @@ new File(dir).traverse(
 		file.text = "$license$source"
 	}
 	
-	assert file.text.contains(license)
+	assert file.text.contains('http://www.apache.org/licenses/LICENSE-2.0')
 }
