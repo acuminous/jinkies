@@ -184,16 +184,17 @@ setup an [external configuration](#external-configuration) file, paste in the
 contents of [QuartzConfig](./grails-app/conf/QuartzConfig.groovy) (see below),
 and set the 'repeatInterval' to the desired number of milliseconds.
 
-	import org.quartz.impl.triggers.CronTriggerImpl
-	import grails.plugin.quartz2.ClosureJob
-	import groovyx.net.http.HTTPBuilder
-	import org.quartz.impl.triggers.SimpleTriggerImpl
+    import grails.plugin.quartz2.ClosureJob
+    import org.apache.log4j.Logger
+    import org.quartz.impl.triggers.SimpleTriggerImpl
 	
 	grails.plugin.quartz2.jobSetup.jenkinsMonitor = { quartzScheduler, ctx ->
 	
-		def job = ClosureJob.createJob([concurrentExectionDisallowed: true]) { jobCtx , appCtx->
-			appCtx.jenkinsMonitor.check()
-		}
+        try {
+            appCtx.jenkinsMonitor.check()
+        } catch (Throwable t) {
+            Logger.getLogger('JenkinsMonitorJob').error('An error while handling Jenkins build events', t)
+        }
 	
 		def trigger = new SimpleTriggerImpl(
 			name: 'Jenkins Monitor Trigger',
@@ -209,18 +210,21 @@ and set the 'repeatInterval' to the desired number of milliseconds.
 We use Jinkies to tell everyone it's time for the daily stand-up. Someday we hope 
 to build a nice UI to do this, but right now you need a bit of HTTP and a text editor.
 To scheduling a notification, first setup an [external configuration](#external-configuration) file, then 
-paste in the    following...
+paste in the following...
 
+    import org.apache.log4j.Logger
 	import org.quartz.impl.triggers.CronTriggerImpl 
 	import grails.plugin.quartz2.ClosureJob
 	import uk.co.acuminous.jinkies.util.HttpClientsFactory
 
 	grails.plugin.quartz2.jobSetup.projectXStandup = { quartzScheduler, ctx ->
 	
-		def job = ClosureJob.createJob({ jobCtx , appCtx->
-			Map params = [resourceId: 'project/x', theme: 'Scooby Doo', event: 'Stand-Up', channel: ['audio']]
-			new HttpClientsFactory().getHttpBuilder('http://localhost:8080/api/event').post(body: params)
-		}
+        try {
+            Map params = [resourceId: 'project/x', theme: 'Scooby Doo', event: 'Stand-Up', channel: ['audio']]
+            new HttpClientsFactory().getHttpBuilder('http://localhost:8080/api/event').post(body: params)
+        } catch (Throwable t) {
+            Logger.getLogger('ProjectXStandupJob').error('An error while sounding the Project X standup', t)
+        }
 	
 		def trigger = new CronTriggerImpl(
 			name: 'ProjectX Stand-up Trigger',

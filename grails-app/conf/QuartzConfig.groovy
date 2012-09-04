@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 import grails.plugin.quartz2.ClosureJob
+import org.apache.log4j.Logger
 import org.quartz.impl.triggers.SimpleTriggerImpl
 
 grails.plugin.quartz2.jobSetup.jenkinsMonitor = { quartzScheduler, ctx ->
@@ -22,7 +23,7 @@ grails.plugin.quartz2.jobSetup.jenkinsMonitor = { quartzScheduler, ctx ->
 		try {
 			appCtx.jenkinsMonitor.check()
 		} catch (Throwable t) {
-			t.printStackTrace()
+			Logger.getLogger('JenkinsMonitorJob').error('An error while handling Jenkins build events', t)
 		}
 	}
 
@@ -36,23 +37,22 @@ grails.plugin.quartz2.jobSetup.jenkinsMonitor = { quartzScheduler, ctx ->
 	quartzScheduler.scheduleJob(job, trigger)
 }
 
-/* Uncomment and modify to schedule a daily stand-up notification
-grails.plugin.quartz2.jobSetup.projectXStandup = { quartzScheduler, ctx ->
-	
-	def job = ClosureJob.createJob({ jobCtx , appCtx->
-		try {
-			Map params = [resourceId: 'project/x', theme: 'Scooby Doo', event: 'Stand-Up', channel: ['audio']]
-			new HttpClientsFactory().getHttpBuilder('http://localhost:8080/api/event').post(body: params)
-		} catch (Throwable t) {
-			t.printStackTrace()
-		}
-	})
-
-	def trigger = new CronTriggerImpl(
-		name: 'ProjectX Stand-up Trigger',
-		cronExpression: '0 30 9 ? * MON-FRI' // 09:30 Monday - Friday
-	)
-
-	quartzScheduler.scheduleJob(job, trigger)
-}
-*/
+// Uncomment and modify to schedule a daily stand-up notification
+//grails.plugin.quartz2.jobSetup.projectXStandup = { quartzScheduler, ctx ->
+//	
+//	def job = ClosureJob.createJob({ jobCtx , appCtx->
+//		try {
+//			Map params = [resourceId: 'project/x', theme: 'Scooby Doo', event: 'Stand-Up', channel: ['audio']]
+//			new HttpClientsFactory().getHttpBuilder('http://localhost:8080/api/event').post(body: params)
+//		} catch (Throwable t) {
+//			Logger.getLogger('ProjectXStandupJob').error('An error while sounding the Project X standup', t)
+//		}
+//	})
+//
+//	def trigger = new CronTriggerImpl(
+//		name: 'ProjectX Stand-up Trigger',
+//		cronExpression: '0 30 9 ? * MON-FRI' // 09:30 Monday - Friday
+//	)
+//
+//	quartzScheduler.scheduleJob(job, trigger)
+//}

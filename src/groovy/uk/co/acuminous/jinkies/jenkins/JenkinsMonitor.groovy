@@ -52,7 +52,8 @@ class JenkinsMonitor {
 		
 			log.error("Error checking job: $job", e)
 
-			Map event = createErrorEvent(job, e)						
+			Map event = createErrorEvent(job, e)	
+											
 			errorHandler.handle event				
 		}
 	}
