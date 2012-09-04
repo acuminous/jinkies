@@ -109,7 +109,7 @@ beans = {
 		bean.autowire = 'byName'
 		eventHandler = { DuplicateEventFilter dedupe ->
 			eventService = ref('eventService')
-			nextHandler = ref('channelIterator')
+			nextHandler = ref('eventPersistor')
 		}
 	}
 	

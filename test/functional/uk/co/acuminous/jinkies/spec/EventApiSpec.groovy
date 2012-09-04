@@ -149,14 +149,14 @@ class EventApiSpec extends Specification  {
 	def "Handles invalid events"() {
 		
 		given:
-			Map params = [resourceId: 'foo/bar', event: 'cosmic ray', channel: ['test']]
+			Map params = [resourceId: 'foo/bar', channel: ['test']]
 		
 		when:
 			def response = client.post(path: '/api/event', body: params)
 			
 		then:
 			response.status == 400
-			response.data[0] == "Invalid event 'cosmic ray'."				
+			response.data[0] == "An event is required."				
 	}
 		
 	@Unroll("Reports invalid resourceIds: #resourceId")
@@ -176,7 +176,8 @@ class EventApiSpec extends Specification  {
 			resourceId << ['', null]		
 	}
 	
-	def "Duplicate events are ignored"() {
+	@IgnoreRest
+	def "Duplicate events are rejected"() {
 		
 		given:
 			String resourceId = 'foo/bar'		

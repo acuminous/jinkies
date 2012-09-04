@@ -31,10 +31,15 @@ class JenkinsBuildRetriever extends ChainedEventHandler {
 		log.info "Retrieving build details for $event.build.job.displayName #$event.build.number"
 		
 		server.populateMissingDetails event.build
-		
-		forward event.build.toEvent()
+
+		freshen event
+				
+		forward event
 	}
 
+	void freshen(Map event) {
+		event << event.build.toEvent()
+	}
 		
 	
 }

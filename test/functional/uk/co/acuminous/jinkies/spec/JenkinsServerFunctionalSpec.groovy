@@ -93,7 +93,7 @@ class JenkinsServerFunctionalSpec extends Specification {
 			Build build = new Build(job: job, number: 40, url: 'http://build.acuminous.meh:8080/job/Jinkies/40/')
 
 		when:
-			jenkins.populateMissingDetailsIn(build)
+			jenkins.populateMissingDetails(build)
 									
 		then:
 			build.url == 'http://build.acuminous.meh:8080/job/Jinkies/40/'
@@ -110,7 +110,7 @@ class JenkinsServerFunctionalSpec extends Specification {
 			Build build = new Build(job: job, url: 'http://build.acuminous.meh:8080/job/Nada/1/')
 
 		when:
-			jenkins.populateMissingDetailsIn(build)
+			jenkins.populateMissingDetails(build)
 									
 		then:
 			thrown HttpResponseException
@@ -125,7 +125,6 @@ class JenkinsServerFunctionalSpec extends Specification {
 		then:
 			jobs.size() == 6
 	}
-	
 	
 	@Betamax(tape="Jenkins Build History")
 	def "getJobs also supports a single job url"() {

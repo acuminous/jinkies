@@ -65,7 +65,7 @@ class EventCommand {
 	static constraints = {
 		uuid nullable: true, validator: duplicateEvent
 		resourceId nullable: false, blank: false
-		event nullable: false, validator: eventValidator
+		event nullable: false
 		theme nullable: true
 		channel nullable: true		
 		content nullable: true, validator: contentValidator
@@ -95,13 +95,6 @@ class EventCommand {
 		if (cmd.eventService.exists(uuid)) {
 			'eventCommand.uuid.unique'
 		}		
-	}
-	
-	static def eventValidator = { String event, EventCommand cmd ->
-		Tag tag = cmd.retrieveEvent()
-		if (!tag) {
-			'eventCommand.event.notfound'
-		}
 	}
 	
 	static def contentValidator = { List<String> resourceIds, EventCommand cmd ->

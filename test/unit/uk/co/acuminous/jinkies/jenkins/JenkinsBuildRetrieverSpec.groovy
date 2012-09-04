@@ -17,12 +17,13 @@ package uk.co.acuminous.jinkies.jenkins
 
 import spock.lang.Specification
 import uk.co.acuminous.jinkies.ci.*
+import uk.co.acuminous.jinkies.content.Tag
 import uk.co.acuminous.jinkies.event.EventHandler
 
-import grails.test.mixin.Mock as DomainMock
+import grails.test.mixin.Mock
 
 
-@DomainMock(Job)
+@Mock([Tag, Job])
 class JenkinsBuildRetrieverSpec extends Specification {
 
 	EventHandler nextHandler = Mock(EventHandler)
