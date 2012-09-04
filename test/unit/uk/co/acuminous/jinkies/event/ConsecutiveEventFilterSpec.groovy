@@ -16,8 +16,11 @@
 package uk.co.acuminous.jinkies.event
 
 import grails.plugin.spock.UnitSpec
+import spock.lang.Unroll
+
 import grails.test.mixin.Mock
 
+import spock.lang.Unroll
 import uk.co.acuminous.jinkies.content.Tag
 import uk.co.acuminous.jinkies.content.TagType
 import uk.co.acuminous.jinkies.event.EventHandler
@@ -38,7 +41,21 @@ class ConsecutiveEventFilterSpec extends UnitSpec {
 		filter = new ConsecutiveEventFilter(eventService: eventService, type: success.name, nextHandler: nextHandler)
 	}
 	
-	def "Does not filter first event"() {
+	
+	def "Forwards events of an unmatched type"() {
+		
+		given:
+			Map event = [resourceId: 'foo/bar', type: failure]
+		
+		when:
+			filter.handle event
+		
+		then:
+			1 * eventService.getLastEvent(event.resourceId) >> null
+			1 * nextHandler.handle(event)
+	}
+	
+	def "Forwards the first event with a matched type"() {
 		
 		given:
 			Map event = [resourceId: 'foo/bar', type: success]
@@ -50,27 +67,42 @@ class ConsecutiveEventFilterSpec extends UnitSpec {
 			1 * eventService.getLastEvent(event.resourceId) >> null
 			1 * nextHandler.handle(event)
 	}
-	
-	def "Does not filter different events"() {
-	
+
+	def "Suppresses second event of a matched type for the same resource"() {
+		
 		given:
-			Event previous = new Event(uuid: '1', resourceId: 'foo/bar', type: failure, timestamp: 1L)
+			Event previous = new Event(uuid: '1', resourceId: 'foo/bar', type: success, timestamp: 1L).save()
 			Map event = [resourceId: previous.resourceId, type: success]
 								
 		when:
 			filter.handle event
 		
 		then:
-			1 * eventService.getLastEvent(event.resourceId) >> previous		
+			1 * eventService.getLastEvent(event.resourceId) >> previous
+			0 * nextHandler.handle(_)
+	}
+			
+	def "Forwards second event of a matched type for a different resources"() {
+	
+		given:
+			Event previous = new Event(uuid: '1', resourceId: 'foo/bar', type: success, timestamp: 1L).save()
+			Map event = [resourceId: 'foo/other', type: success]
+								
+		when:
+			filter.handle event
+		
+		then:
+			1 * eventService.getLastEvent(event.resourceId) >> null		
 			1 * nextHandler.handle(event)
 	}
 	
-	def "Does not filter consecutive events of different type"() {
+	
+	def "Suppresses second event of an unmatched type"() {
 		
 		given:
-			Event previous = new Event(uuid: '1', resourceId: 'foo/bar', type: failure, timestamp: 1L)
+			Event previous = new Event(uuid: '1', resourceId: 'foo/bar', type: failure, timestamp: 1L).save()
 			Map event = [resourceId: previous.resourceId, type: failure]
-		
+								
 		when:
 			filter.handle event
 		
@@ -79,17 +111,48 @@ class ConsecutiveEventFilterSpec extends UnitSpec {
 			1 * nextHandler.handle(event)
 	}
 	
-	def "Filters consecutive events of the specified type"() {
+	def "Supresses second event of a matched type when the previous event has not expired"() {
 		
 		given:
-			Event previous = new Event(uuid: '1', resourceId: 'foo/bar', type: success, timestamp: 1L)		
+			Event previous = new Event(uuid: '1', resourceId: 'foo/bar', type: success, timestamp: System.currentTimeMillis())
 			Map event = [resourceId: previous.resourceId, type: success]
+			filter.cutoff = 1000L
 		
 		when:
 			filter.handle event
 		
 		then:
-			1 * eventService.getLastEvent(event.resourceId) >> previous		
+			1 * eventService.getLastEvent(event.resourceId) >> previous
 			0 * nextHandler.handle(_)
 	}
+	
+	def "Forwards second event of a machted type when the previous event has expired"() {
+	
+		given:
+			Event previous = new Event(uuid: '1', resourceId: 'foo/bar', type: success, timestamp: System.currentTimeMillis() - 2000L)
+			Map event = [resourceId: previous.resourceId, type: success]
+			filter.cutoff = 1000L
+		
+		when:
+			filter.handle event
+		
+		then:
+			1 * eventService.getLastEvent(event.resourceId) >> previous
+			1 * nextHandler.handle(event)				
+	}
+	
+	def "Forwards event of matched type when the previous unmatched event has not expired"() {
+		
+			given:
+				filter.cutoff = 1000L
+				Event previous = new Event(uuid: '1', resourceId: 'foo/bar', type: failure, timestamp: System.currentTimeMillis())
+				Map event = [resourceId: previous.resourceId, type: success]
+			
+			when:
+				filter.handle event
+			
+			then:
+				1 * eventService.getLastEvent(event.resourceId) >> previous
+				1 * nextHandler.handle(event)
+		}
 }

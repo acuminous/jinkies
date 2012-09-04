@@ -23,27 +23,41 @@ import uk.co.acuminous.jinkies.content.Tag
 class ConsecutiveEventFilter extends ChainedEventHandler {
 
 	String type
+	Long cutoff = Long.MAX_VALUE
 	EventService eventService
 		
 	@Override
 	public synchronized void handle(Map event) {
 		
 		log.debug "Received event: $event"		
-			
-		Event previous = eventService.getLastEvent(event.resourceId)
-		
-		if (isRequiredType(event.type) && isConsecutive(previous, event)) {
+					
+		if (shouldSuppress(event)) {
 			log.info "Suppressing ${event.type} event for ${event.resourceId}"		
 		} else {
 			forward event
 		}
 	}
 	
+	boolean shouldSuppress(Map current) {
+		
+		Event previous = eventService.getLastEvent(current.resourceId)
+		
+		previous && 
+		isRequiredType(current.type) &&
+		isRecent(previous) &&		
+		isConsecutive(previous, current)
+		
+	}
+	
 	boolean isRequiredType(Tag tag) {
 		tag.name == type
 	}
+		
+	boolean isRecent(Event previous) {
+		previous.timestamp >= (System.currentTimeMillis() - cutoff)
+	}
 	
 	boolean isConsecutive(Event previous, Map current) {
-		current.type == previous?.type
+		current.type == previous.type
 	}
 }

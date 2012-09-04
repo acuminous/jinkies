@@ -47,7 +47,7 @@ class JenkinsMonitor {
 				Map event = build.toEvent()				
 				eventHandler.handle event
 			}
-			
+						
 		} catch (Exception e) {
 		
 			log.error("Error checking job: $job", e)

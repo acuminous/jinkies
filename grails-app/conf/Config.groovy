@@ -195,5 +195,4 @@ grails.resources.modules = {
 }
 
 jinkies.splash.enabled = false
-
 jinkies.testChannel.enabled = false

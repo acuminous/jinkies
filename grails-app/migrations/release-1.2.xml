@@ -38,6 +38,22 @@
 	</changeSet>
     
     <changeSet author="steve" id="GENERAL_INDEXES_1">
+
+        <createIndex indexName="CONT_VERS_IDX" schemaName="JINKIES" tableName="CONTENT">
+            <column name="VERSION"/>
+        </createIndex>
+
+        <createIndex indexName="JOB_VERS_IDX" schemaName="JINKIES" tableName="JOB">
+            <column name="VERSION"/>
+        </createIndex>
+        
+        <createIndex indexName="TAG_VERS_IDX" schemaName="JINKIES" tableName="TAG">
+            <column name="VERSION"/>
+        </createIndex>
+        
+        <createIndex indexName="EVEN_VERS_IDX" schemaName="JINKIES" tableName="EVENT">
+            <column name="VERSION"/>
+        </createIndex>
       
         <createIndex indexName="CONT_TYPE_IDX" schemaName="JINKIES" tableName="CONTENT">
             <column name="TYPE"/>
@@ -51,7 +67,9 @@
         <createIndex indexName="COTA_TAG_COEV_IDX" schemaName="JINKIES" tableName="CONTENT_TAG">
             <column name="TAG_ID"/>        
             <column name="CONTENT_EVENTS_ID"/>
-        </createIndex>        
+        </createIndex> 
+        
+               
               
     </changeSet>
     

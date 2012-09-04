@@ -237,6 +237,16 @@ paste in the following...
 Substitute 'projectX' with your project name, 'Scooby Doo' with your theme etc and give the trigger a valid cron expression 
 that represents when your Stand-Up event will fire. You can find more information about cron expressions [here](http://quartz-scheduler.org/api/2.0.0/org/quartz/CronExpression.html) 
 
+##<a id="suppressingErrors"></a>Suppressing Errors
+If Jinkies encounters an error when retrieving or processing a build event it
+attempts to notify you using the Job's channel and theme. This could get very 
+annoying if your build server is temporarily offline so Jinkies is configured 
+to suppress repeated errors for one hour. You can override this by creating an 
+[external configuration](#external-configuration) file and assigning a 
+supression duration.
+
+    jinkies.alerts.suppressRepeatedErrors = 60 * 1000
+
 ## <a id="customEvents">Custom Events</a>
 If you want to use Jinkies to report other events, you need to POST a request to /api/event with the following parameters...
 

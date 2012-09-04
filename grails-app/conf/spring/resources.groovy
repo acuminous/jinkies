@@ -28,6 +28,8 @@ import uk.co.acuminous.jinkies.player.*
 // See http://jira.grails.org/browse/GRAILS-8830
 beans = {	
 			
+	def jinkiesConfig = application.config.jinkies
+	
 /******************************************************************************
  * Infrastructure 
  *****************************************************************************/
@@ -91,11 +93,10 @@ beans = {
 			ref('speechSynthesizer')
 		]
 	}
-	
-	def testChannelConfig = application.config.jinkies.testChannel	
+		
 	testChannel(TestChannel) {
 		name = 'test'
-		enabled = testChannelConfig.enabled
+		enabled = jinkiesConfig.testChannel.enabled
 	}
 			
 /******************************************************************************
@@ -119,11 +120,7 @@ beans = {
 			eventService = ref('eventService')
 			nextHandler = ref('jenkinsBuildRetriever')
 		}
-		errorHandler = { ConsecutiveEventFilter filter ->
-			eventService = ref('eventService')		
-			type = 'Error'
-			nextHandler = ref('consecutiveSuccessFilter')
-		} 
+		errorHandler = ref('consecutiveErrorFilter')
 	}			
 		
 	jenkinsBuildRetriever(JenkinsBuildRetriever) {
@@ -137,6 +134,13 @@ beans = {
 		nextHandler = ref('eventPersistor')
 	}
 	
+	consecutiveErrorFilter(ConsecutiveEventFilter) {
+		eventService = ref('eventService')
+		type = 'Error'
+		cutoff = jinkiesConfig.alerts.suppressRepeatedErrors.size() ? jinkiesConfig.alerts.suppressRepeatedErrors : 60 * 60 * 1000L
+		nextHandler = ref('eventPersistor')
+	}
+	
 	eventPersistor(EventPersistor) {
 		eventService = ref('eventService')
 		nextHandler = ref('channelIterator')		
@@ -144,23 +148,25 @@ beans = {
 	
 	// The channel iterator repeats the remainder of the workflow for each eligible channel
 	channelIterator(ChannelIteratorFactoryBean) {			
-		nextHandler = ref('fallbackThemeApplier')			
+		nextHandler = ref('contentProposer')			
 	}
 	
-	// >>>>> Repeat per channel >>>>>
+	// >>>>> Repeat per active channel >>>>>
 	
-		fallbackThemeApplier(FallbackThemeApplier) {
-			nextHandler = ref('contentProposer')
-		}
-
 		contentProposer(ContentProposer) {
 			contentService = ref('contentService')
-			nextHandler = ref('contentSelector')
+			nextHandler = ref('fallbackContentProposer')
 		}
-			
+
+		fallbackContentProposer(FallbackContentProposer) {
+			fallbackTheme = 'Fallback'
+			contentService = ref('contentService')
+			nextHandler = ref('contentSelector')			
+		}
+					
 		contentSelector(RandomContentSelector) {
 			nextHandler = ref('audioSwitch')
-		}				
+		}
 		
 		audioSwitch(ChannelSwitch) {
 			channel = ref('audioChannel')
@@ -179,5 +185,5 @@ beans = {
 			
 		terminator(EventTerminator)
 	
-	// <<<<< Repeat per channel <<<<<
+	// <<<<< Repeat per active channel <<<<<
 }

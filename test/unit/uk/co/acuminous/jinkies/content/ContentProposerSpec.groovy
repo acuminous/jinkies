@@ -92,7 +92,6 @@ class ContentProposerSpec extends Specification {
 			event.eligibleContent == []			
 	}
 	
-	
 	def "Tollerates null theme"() {
 		
 		given:
