@@ -25,6 +25,10 @@
             </column>
         </createTable>
         
+        <createIndex indexName="EVEN_VERS_IDX" schemaName="JINKIES" tableName="EVENT">
+            <column name="VERSION"/>
+        </createIndex>        
+        
         <createIndex indexName="EVEN_UUID_UQ" schemaName="JINKIES" tableName="EVENT" unique="true">
             <column name="UUID"/>
         </createIndex>
@@ -32,6 +36,14 @@
         <createIndex indexName="EVEN_REID_IDX" schemaName="JINKIES" tableName="EVENT">
             <column name="RESOURCE_ID"/>
         </createIndex>        
+
+        <createIndex indexName="EVEN_TYID_IDX" schemaName="JINKIES" tableName="EVENT">
+            <column name="TYPE_ID"/>
+        </createIndex>        
+        
+        <createIndex indexName="EVEN_TIME_IDX" schemaName="JINKIES" tableName="EVENT">
+            <column name="TIMESTAMP"/>
+        </createIndex>
         
         <addForeignKeyConstraint baseColumnNames="TYPE_ID" baseTableName="EVENT" baseTableSchemaName="JINKIES" constraintName="EVEN_TA_ID_FK" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="TAG" referencedTableSchemaName="JINKIES"/>
 
@@ -48,10 +60,6 @@
         </createIndex>
         
         <createIndex indexName="TAG_VERS_IDX" schemaName="JINKIES" tableName="TAG">
-            <column name="VERSION"/>
-        </createIndex>
-        
-        <createIndex indexName="EVEN_VERS_IDX" schemaName="JINKIES" tableName="EVENT">
             <column name="VERSION"/>
         </createIndex>
       
