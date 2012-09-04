@@ -32,7 +32,6 @@ class EventHousekeeper {
 	}
 	
 	List listOldEvents(String resourceId) {
-		println "Purging resourceId: $resourceId"
 		def c = Event.createCriteria()
 		c.list {
 			eq('resourceId', resourceId)
