@@ -296,7 +296,7 @@ into the [external configuration](#external-configuration) file and update the c
     
         def trigger = new CronTriggerImpl(
             name: 'Event Housekeeper Trigger',
-            cronExpression: '0 10 0 * * ?' // 03:00 Daily
+            cronExpression: '0 0 3 * * ?' // 03:00 Daily
         )
     
         quartzScheduler.scheduleJob(job, trigger)
