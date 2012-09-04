@@ -30,7 +30,7 @@ class DuplicateEventFilterSpec extends UnitSpec {
 		filter = new DuplicateEventFilter(eventService: eventService, nextHandler: nextHandler)		
 	}
 	
-	def "Adds new events"() {
+	def "Allows unique events"() {
 		
 		given:
 			Map event = [uuid: '123']
@@ -40,7 +40,6 @@ class DuplicateEventFilterSpec extends UnitSpec {
 			
 		then: 
 			1 * eventService.exists(event.uuid) >> false
-			1 * eventService.save(event)
 			1 * nextHandler.handle(event)
 	}
 	
@@ -54,9 +53,7 @@ class DuplicateEventFilterSpec extends UnitSpec {
 			
 		then: 
 			1 * eventService.exists(event.uuid) >> true
-			0 * eventService.save(_)
-			0 * nextHandler.handle(event)
-		
+			0 * nextHandler.handle(event)		
 	}
 	
 }

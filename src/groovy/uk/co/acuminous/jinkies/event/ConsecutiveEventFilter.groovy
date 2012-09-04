@@ -29,13 +29,21 @@ class ConsecutiveEventFilter extends ChainedEventHandler {
 	public synchronized void handle(Map event) {
 		
 		log.debug "Received event: $event"		
-		
+			
 		Event previous = eventService.getLastEvent(event.resourceId)
-				
-		if (event.type == previous?.type) {
+		
+		if (isRequiredType(event.type) && isConsecutive(previous, event)) {
 			log.info "Suppressing ${event.type} event for ${event.resourceId}"		
 		} else {
 			forward event
 		}
+	}
+	
+	boolean isRequiredType(Tag tag) {
+		tag.name == type
+	}
+	
+	boolean isConsecutive(Event previous, Map current) {
+		current.type == previous?.type
 	}
 }

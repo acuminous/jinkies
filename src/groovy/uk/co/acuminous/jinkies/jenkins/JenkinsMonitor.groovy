@@ -35,8 +35,9 @@ class JenkinsMonitor {
 	}
 	
 	def checkLatestBuild = { Job job ->
-		
+				
 		try {
+
 			log.debug("Checking for new $job.displayName builds")
 			
 			List<Build> history = server.getBuildHistory(job)
@@ -48,6 +49,7 @@ class JenkinsMonitor {
 			}
 			
 		} catch (Exception e) {
+		
 			log.error("Error checking job: $job", e)
 
 			Map event = createErrorEvent(job, e)						
@@ -63,7 +65,8 @@ class JenkinsMonitor {
 			theme: job.theme,
 			channels: job.channels,
 			job: job,
-			error: e.message
+			error: e.message,
+			timestamp: System.currentTimeMillis()
 		]
 	}
 	

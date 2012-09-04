@@ -76,6 +76,7 @@ class JenkinsMonitorSpec extends UnitSpec {
 	def "Rasies error events for failures"() {
 		
 		given:
+			Long currentTime = System.currentTimeMillis()
 			Tag error = new Tag('Error', TagType.event).save(flush:true)
 			Tag scoobyDoo = new Tag('Scooby Doo', TagType.theme).save(flush:true)
 			
@@ -98,7 +99,8 @@ class JenkinsMonitorSpec extends UnitSpec {
 				event.resourceId == "job/$job.id" &&
 				event.type == error && 
 				event.theme == scoobyDoo &&
-				event.channels == job.channels
+				event.channels == job.channels &&
+				event.timestamp >= currentTime
 			})
 	}
 		

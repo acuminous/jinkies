@@ -13,15 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import org.quartz.impl.triggers.CronTriggerImpl
 import grails.plugin.quartz2.ClosureJob
 import org.quartz.impl.triggers.SimpleTriggerImpl
-import uk.co.acuminous.jinkies.util.HttpClientsFactory
 
 grails.plugin.quartz2.jobSetup.jenkinsMonitor = { quartzScheduler, ctx ->
 
 	def job = ClosureJob.createJob([concurrentExectionDisallowed: true]) { jobCtx , appCtx->
-		appCtx.jenkinsMonitor.check()
+		try {
+			appCtx.jenkinsMonitor.check()
+		} catch (Throwable t) {
+			t.printStackTrace()
+		}
 	}
 
 	def trigger = new SimpleTriggerImpl(
@@ -38,8 +40,12 @@ grails.plugin.quartz2.jobSetup.jenkinsMonitor = { quartzScheduler, ctx ->
 grails.plugin.quartz2.jobSetup.projectXStandup = { quartzScheduler, ctx ->
 	
 	def job = ClosureJob.createJob({ jobCtx , appCtx->
-		Map params = [resourceId: 'project/x', theme: 'Scooby Doo', event: 'Stand-Up', channel: ['audio']]
-		new HttpClientsFactory().getHttpBuilder('http://localhost:8080/api/event').post(body: params)
+		try {
+			Map params = [resourceId: 'project/x', theme: 'Scooby Doo', event: 'Stand-Up', channel: ['audio']]
+			new HttpClientsFactory().getHttpBuilder('http://localhost:8080/api/event').post(body: params)
+		} catch (Throwable t) {
+			t.printStackTrace()
+		}
 	})
 
 	def trigger = new CronTriggerImpl(

@@ -39,7 +39,20 @@ class JenkinsBuildRetrieverSpec extends Specification {
 			retriever.handle(event)
 		
 		then:
-			1 * jenkinsServer.populateMissingDetailsIn(build)
+			1 * jenkinsServer.populateMissingDetails(build)
+	}
+	
+	def "Updates event with mandatory fields"() {
+		
+		given:
+			Build build = new BuildBuilder().build(timestamp:123L)
+			Map event = [build: build]
+					
+		when:
+			retriever.handle(event)
+		
+		then:
+			event.timestamp == 123L
 	}
 		
 	def "Forwards event to next handler"() {

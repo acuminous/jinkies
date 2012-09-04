@@ -119,14 +119,12 @@ beans = {
 			eventService = ref('eventService')
 			nextHandler = ref('jenkinsBuildRetriever')
 		}
-		errorHandler = ref('consecutiveErrorFilter')
-	}
-		
-	consecutiveErrorFilter(ConsecutiveEventFilter) {
-		eventService = ref('eventService')		
-		type = 'Error'
-		nextHandler = ref('channelIterator')
-	}
+		errorHandler = { ConsecutiveEventFilter filter ->
+			eventService = ref('eventService')		
+			type = 'Error'
+			nextHandler = ref('consecutiveSuccessFilter')
+		} 
+	}			
 		
 	jenkinsBuildRetriever(JenkinsBuildRetriever) {
 		server = ref('jenkinsServer')
@@ -136,7 +134,12 @@ beans = {
 	consecutiveSuccessFilter(ConsecutiveEventFilter) {
 		eventService = ref('eventService')
 		type = 'Success'
-		nextHandler = ref('channelIterator')
+		nextHandler = ref('eventPersistor')
+	}
+	
+	eventPersistor(EventPersistor) {
+		eventService = ref('eventService')
+		nextHandler = ref('channelIterator')		
 	}
 	
 	// The channel iterator repeats the remainder of the workflow for each eligible channel

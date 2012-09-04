@@ -65,7 +65,7 @@ class JenkinsServer {
 		return results
 	}
 	
-	void populateMissingDetailsIn(Build build) {
+	void populateMissingDetails(Build build) {
 		
 		log.info("Requesting build details from $build.url")
 				

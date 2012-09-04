@@ -15,25 +15,29 @@
  */
 package uk.co.acuminous.jinkies.event
 
-import groovy.util.logging.Slf4j;
+import grails.plugin.spock.UnitSpec
 
-import java.util.Map;
-
-@Slf4j
-class DuplicateEventFilter extends ChainedEventHandler {
-
+class EventPersistorSpec extends UnitSpec {
+	
 	EventService eventService
-
-	@Override
-	public void handle(Map event) {
+	EventHandler nextHandler = Mock(EventHandler)
+	EventPersistor persistor
+	
+	def setup() {
+		eventService = Mock(EventService)
+		persistor = new EventPersistor(eventService: eventService, nextHandler: nextHandler)		
+	}
+	
+	def "Persists events"() {
 		
-		log.debug "Received event: $event"		
+		given:
+			Map event = [uuid: '123']
 		
-		if (eventService.exists(event.uuid)) {
-			log.debug "Event ${event.uuid} is a duplicate"			
-		} else {
-			forward event
-		}
-		
-	}	
+		when:
+			persistor.handle event
+			
+		then: 
+			1 * eventService.save(event)
+			1 * nextHandler.handle(event)
+	}
 }

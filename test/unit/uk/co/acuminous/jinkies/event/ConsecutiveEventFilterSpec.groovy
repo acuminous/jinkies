@@ -65,7 +65,21 @@ class ConsecutiveEventFilterSpec extends UnitSpec {
 			1 * nextHandler.handle(event)
 	}
 	
-	def "Filters consecutive events"() {
+	def "Does not filter consecutive events of different type"() {
+		
+		given:
+			Event previous = new Event(uuid: '1', resourceId: 'foo/bar', type: failure, timestamp: 1L)
+			Map event = [resourceId: previous.resourceId, type: failure]
+		
+		when:
+			filter.handle event
+		
+		then:
+			1 * eventService.getLastEvent(event.resourceId) >> previous
+			1 * nextHandler.handle(event)
+	}
+	
+	def "Filters consecutive events of the specified type"() {
 		
 		given:
 			Event previous = new Event(uuid: '1', resourceId: 'foo/bar', type: success, timestamp: 1L)		

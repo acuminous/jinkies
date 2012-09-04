@@ -71,21 +71,39 @@ class EventServiceSpec extends IntegrationSpec {
 			event.uuid == data.uuid
 			event.resourceId == data.resourceId
 			event.type == data.type
-			event.timestamp == data.timestamp
-			
+			event.timestamp == data.timestamp			
 	}
 	
 	def "Save failures are reported"() {
 		
-			given:
-				Tag tag = new Tag('Success', TagType.event).save()
-				Map data = [uuid: 'abc', type: tag, timestamp: System.currentTimeMillis()]
-				
-			when:
-				eventService.save(data)
-				
-			then:
-				thrown ValidationException
-		}
+		given:
+			Tag tag = new Tag('Success', TagType.event).save()
+			Map data = [uuid: 'abc', type: tag, timestamp: System.currentTimeMillis()]
+			
+		when:
+			eventService.save(data)
+			
+		then:
+			thrown ValidationException
+	}
 	
+	def "Returns last event for resource id"() {
+		
+		given:
+			Long baseTimestamp = System.currentTimeMillis()
+			Tag tag = new Tag('Success', TagType.event).save()			
+			Event event1 = new Event(uuid: '1', resourceId: 'foo/bar', type: tag, timestamp: baseTimestamp).save()
+			Event event2 = new Event(uuid: '2', resourceId: 'foo/bar', type: tag, timestamp: baseTimestamp + 1000).save()
+			Event event3 = new Event(uuid: '3', resourceId: 'foo/bar', type: tag, timestamp: baseTimestamp).save()
+		
+		expect:
+			eventService.getLastEvent('foo/bar') == event2
+	}
+	
+	
+	def "Get last event tollerates no events"() {
+		
+		expect:
+			eventService.getLastEvent('foo') == null		
+	}
 }

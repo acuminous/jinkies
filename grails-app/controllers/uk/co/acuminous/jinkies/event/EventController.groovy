@@ -59,6 +59,7 @@ class EventCommand {
 	List<Content> prescribedContent = []
 	Long timestamp
 	
+	TagService tagService
 	EventService eventService
 	
 	static constraints = {
@@ -79,11 +80,11 @@ class EventCommand {
 	}
 	
 	Tag retrieveEvent() {
-		Tag.findByUri(Tag.generateUri(this.event, TagType.event))
+		event != null ? tagService.findOrCreateTag(event, TagType.event) : null
 	}
 	
 	Tag retrieveTheme() {
-		Tag.findByUri(Tag.generateUri(this.theme, TagType.theme))
+		theme != null ? tagService.findOrCreateTag(theme, TagType.theme) : null
 	}
 	
 	Long getTimestamp() {
