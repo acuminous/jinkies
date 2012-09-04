@@ -179,7 +179,7 @@ you can change this by adding a -Djinkies.config=/path/to/config-file at startup
 Further information about Grails configuration can be found [here](http://grails.org/doc/latest/guide/conf.html).
 
 ##<a id="pollFrequency"></a>Changing The CI Server Poll Frequency
-Jinkies is configured to poll all jobs jobs every 15 seconds. To change this
+Jinkies is configured to poll all jobs every 15 seconds. To change this
 setup an [external configuration](#external-configuration) file, paste in the
 contents of [QuartzConfig](./grails-app/conf/QuartzConfig.groovy) (see below),
 and set the 'repeatInterval' to the desired number of milliseconds.
@@ -228,7 +228,7 @@ paste in the following...
 	
 		def trigger = new CronTriggerImpl(
 			name: 'ProjectX Stand-up Trigger',
-			cronExpression: '0 30 9 ? * MON-FRI'
+			cronExpression: '0 30 9 ? * MON-FRI' // 09:30 Monday - Friday
 		)
 	
 		quartzScheduler.scheduleJob(job, trigger)
@@ -245,9 +245,9 @@ to suppress repeated errors for one hour. You can override this by creating an
 [external configuration](#external-configuration) file and assigning a 
 supression duration.
 
-    jinkies.alerts.suppressRepeatedErrors = 60 * 1000
+    jinkies.events.suppressRepeatedErrors = 60 * 60 * 1000
 
-## <a id="customEvents">Custom Events</a>
+## <a id="customEvents"></a>Custom Events</a>
 If you want to use Jinkies to report other events, you need to POST a request to /api/event with the following parameters...
 
 <table>
@@ -267,6 +267,41 @@ If you want to use Jinkies to report other events, you need to POST a request to
 
 There must be at least one piece of content for the given event and theme (or 'Fallback' theme if you didn't specify one).
 
+## <a id="duplicateChecking"></a>Duplicate Checking
+By default Jinkies purges events that are a day old (although it will always 
+keep at least one event in order to detect state changes). This means that 
+it will not detect duplicate events where the original was older than one 
+day. You can override this by creating [external configuration](#external-configuration) file and 
+assigning a time to live.
+
+    jinkies.events.ttl = 24 * 60 * 60 * 1000
+    
+The housekeeping job that purges old events is run nightly at 03:00. To change this paste the following
+into the [external configuration](#external-configuration) file and update the cron expression
+
+    import org.apache.log4j.Logger
+    import org.quartz.impl.triggers.CronTriggerImpl 
+    import grails.plugin.quartz2.ClosureJob
+    import uk.co.acuminous.jinkies.util.HttpClientsFactory
+
+    grails.plugin.quartz2.jobSetup.eventHouskeeper = { quartzScheduler, ctx ->
+        
+        def job = ClosureJob.createJob([concurrentExectionDisallowed: true]) { jobCtx , appCtx->
+            try {
+                 appCtx.eventHousekeeper().run()
+            } catch (Throwable t) {
+                Logger.getLogger('EventHousekeeperJob').error('An error while tidying up old events', t)
+            }
+        }
+    
+        def trigger = new CronTriggerImpl(
+            name: 'Event Housekeeper Trigger',
+            cronExpression: '0 10 0 * * ?' // 03:00 Daily
+        )
+    
+        quartzScheduler.scheduleJob(job, trigger)
+    }
+
 ## <a id="developerNotes"></a>Developer Notes
 STS complains about compilation errors in Spock tests that use the @Build annotation
 immediately after a clean. Making a superficial change to the test causes it to be
@@ -275,7 +310,6 @@ because of this and other problems.
 
 
 ## And Finally...
-
 We hope you enjoy using Jinkies. Please do provide <a href="https://github.com/acuminous/jinkies/issues">feedback<a/> (especially the negative kind). 
 
 The Jinkies development team.

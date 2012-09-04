@@ -176,7 +176,6 @@ class EventApiSpec extends Specification  {
 			resourceId << ['', null]		
 	}
 	
-	@IgnoreRest
 	def "Duplicate events are rejected"() {
 		
 		given:

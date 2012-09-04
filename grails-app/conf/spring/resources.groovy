@@ -63,6 +63,10 @@ beans = {
 	}
 	
 	contentService(ContentServiceFactoryBean)
+	
+	eventHousekeeper(EventHousekeeper) {
+		cutoff = jinkiesConfig.events.ttl.size() ? jinkiesConfig.events.ttl : 24 * 60 * 60 * 1000L
+	}
 
 
 /******************************************************************************
@@ -137,7 +141,7 @@ beans = {
 	consecutiveErrorFilter(ConsecutiveEventFilter) {
 		eventService = ref('eventService')
 		type = 'Error'
-		cutoff = jinkiesConfig.alerts.suppressRepeatedErrors.size() ? jinkiesConfig.alerts.suppressRepeatedErrors : 60 * 60 * 1000L
+		cutoff = jinkiesConfig.events.suppressRepeatedErrors.size() ? jinkiesConfig.events.suppressRepeatedErrors : 60 * 60 * 1000L
 		nextHandler = ref('eventPersistor')
 	}
 	

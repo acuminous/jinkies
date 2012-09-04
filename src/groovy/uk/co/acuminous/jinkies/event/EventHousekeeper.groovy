@@ -15,23 +15,42 @@
  */
 package uk.co.acuminous.jinkies.event
 
-class EventService {
-
-	synchronized boolean exists(String uuid) {
-		Event.findByUuid(uuid)
+class EventHousekeeper {
+	
+	long cutoff
+	
+	void run() {				
+		resourceIds.each { String resourceId ->
+			List doomed = listOldEvents(resourceId)
+			pardonLastEvent(doomed)
+			deleteOldEvents(doomed)
+		}
 	}
 	
-	synchronized Event save(Map data) {
-		Event event = new Event(data)
-		event.save(flush:true, failOnError:true)
+	List getResourceIds() {
+		Event.executeQuery('select distinct e.resourceId from Event e')
 	}
 	
-	Event getLastEvent(String resourceId) {
+	List listOldEvents(String resourceId) {
+		println "Purging resourceId: $resourceId"
 		def c = Event.createCriteria()
-		Event previous = c.get {
+		c.list {
 			eq('resourceId', resourceId)
-			maxResults(1)
+			lt('timestamp', System.currentTimeMillis() - cutoff)
 			order('timestamp', 'desc')
 		}
-	}	
+	}
+	
+	void pardonLastEvent(List doomed) {
+		String resourceId = doomed.first().resourceId
+		List allEvents = Event.findAllByResourceId(resourceId)
+		if (doomed.size() == allEvents.size()) {
+			doomed.remove(0)
+		}
+	}
+	
+	void deleteOldEvents(List doomed) {
+		doomed*.delete()		
+	}
+
 }
