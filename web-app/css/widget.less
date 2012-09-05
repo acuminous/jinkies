@@ -1,7 +1,3 @@
-#widgetContainer {
-	margin: 0 0.6em;
-}
-
 @widget-width: 16em;
 @widget-height: 5em;
 @widget-text-color: #625b48;
@@ -21,12 +17,27 @@
 @widget-alt-border-color: @widget-border-color;
 @widget-alt-shadow-color: @widget-shadow-color;
 
+@widget-success-text-color: #712c2f;
+@widget-success-background-color: #fcb2b5;
+@widget-success-border-color: @widget-error-text-color;
+
+@widget-failure-text-color: #712c2f;
+@widget-failure-background-color: #fcb2b5;
+@widget-failure-border-color: @widget-error-text-color;
+
 @widget-error-text-color: #712c2f;
-@widget-error-background-color: #fcb2b5;
+@widget-error-background-color: #FC7C84;
 @widget-error-border-color: @widget-error-text-color;
 
+@widget-unknown-text-color: @widget-text-color;
+@widget-unknown-background-color: #ccc;
+@widget-unknown-border-color: @widget-unknown-text-color;
+
+#widgetContainer {
+    margin: 0 0.6em;
+}
+
 .widget {
-	.colours(@widget-text-color, @widget-background-color);	
 	.clickable;
 	float: left;
 	position: relative;
@@ -34,20 +45,42 @@
 	.size(@widget-height, @widget-width);
     text-align: center;
 	
-	.border(@widget-border-color);
 	.drop-shadow(@widget-shadow-color);	
 	.rounded-corners;		 	
 
-    &.failure, &.error {
-        .border(@widget-error-border-color);
-        .colours(@widget-error-text-color, @widget-error-background-color);
-    }
+    &.job {    
+        .border(@widget-unknown-border-color);
+        .colours(@widget-unknown-text-color, @widget-unknown-background-color);
+        
+        &.success {
+            .colours(@widget-text-color, @widget-background-color);
+            .border(@widget-border-color);            
+        }
 
+        &.failure {
+            .border(@widget-failure-border-color);
+            .colours(@widget-failure-text-color, @widget-failure-background-color);
+        }
+        
+        &.error {
+            .border(@widget-error-border-color);
+            .colours(@widget-error-text-color, @widget-error-background-color);
+        }        
+        
+    }
+    
+    &.content {
+        .colours(@widget-text-color, @widget-background-color);
+        .border(@widget-border-color);            
+    }
+    
     &.filter {
         display: none;
     }
 
 	&.fake {
+        .colours(@widget-text-color, @widget-background-color);
+        .border(@widget-border-color);            	
 		border: @default-border-size dashed @widget-border-color;	
 		.transparent(0.8, alpha(opacity=80));
 	}

@@ -21,6 +21,7 @@ import uk.co.acuminous.jinkies.json.CustomJsonMarshaller
 import grails.converters.JSON
 
 import uk.co.acuminous.jinkies.ci.Job
+import uk.co.acuminous.jinkies.event.Event
 import uk.co.acuminous.jinkies.event.EventService
 
 class BootStrap {
@@ -34,7 +35,7 @@ class BootStrap {
 		JSON.registerObjectMarshaller(Job,CustomJsonMarshaller.jobWithLastEvent.curry(eventService) )
 		JSON.registerObjectMarshaller(Content, CustomJsonMarshaller.content)
 		JSON.registerObjectMarshaller(Tag, CustomJsonMarshaller.tag)
-		
+		JSON.registerObjectMarshaller(Event, CustomJsonMarshaller.event)
 
 		if (grailsApplication.config.grails.plugin.quartz2.immediateStandby == true) {
 			quartzScheduler.standby()

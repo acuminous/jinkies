@@ -137,11 +137,6 @@ var WidgetPanel = Class.$extend({
 						
 		var panel = this;
 		
-		$('#refresh', this.element).on("click", function(event) {
-			event.stopPropagation();
-			panel.refresh();
-		});
-		
 		$("#filter", this.element).on("click", function(event) {
 			event.stopPropagation();
 			panel.applyNextFilter();

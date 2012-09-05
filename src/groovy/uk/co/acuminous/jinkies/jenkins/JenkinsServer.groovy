@@ -72,7 +72,7 @@ class JenkinsServer {
 		HTTPBuilder httpBuilder = httpClientsFactory.getHttpBuilder()
 		
 		httpBuilder.get(uri: jsonApi(build.url), contentType: JSON) { resp, json ->
-			build.result = json.result
+			build.result = json.result ?: 'BUILDING'
 			build.timestamp = json.timestamp
 		}
 	}

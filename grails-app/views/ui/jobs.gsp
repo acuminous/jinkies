@@ -26,10 +26,9 @@
 						<div id="jobs" class="widgetContainer">
 						
                             <h1 class="title">
-                                <r:img id="filter" uri="/images/next-filter.png" alt="Next Filter" />
                                 Showing 
                                 <span id="filter-name" data-all="all jobs" data-failure="failed jobs" data-error="jobs that caused errors">all jobs</span>
-                                <r:img id="refresh" uri="/images/refresh.png" alt="Refresh" />
+                                <r:img id="filter" uri="/images/next-filter.png" alt="Next Filter" />
                             </h1>						
 						
 							<div class="job widget add fake">							

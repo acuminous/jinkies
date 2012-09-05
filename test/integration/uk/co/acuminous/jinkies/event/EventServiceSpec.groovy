@@ -23,12 +23,18 @@ import grails.validation.ValidationException
 class EventServiceSpec extends IntegrationSpec {
 
 	EventService eventService
+	Tag success
+	Tag failure
+	
+	def setup() {		
+		success = new Tag('Success', TagType.event).save()
+		failure = new Tag('Failure', TagType.event).save()
+	}
 	
 	def "Reports duplicate events"() {
 		
 		given:
-			Tag tag = new Tag('Success', TagType.event).save()
-			Event event = new Event(uuid: 'abc', sourceId: 'foo/bar', type: tag, timestamp: System.currentTimeMillis()).save()
+			Event event = new Event(uuid: 'abc', sourceId: 'foo/bar', type: success, timestamp: System.currentTimeMillis()).save()
 			
 		expect:
 			eventService.exists(event.uuid)		
@@ -43,8 +49,7 @@ class EventServiceSpec extends IntegrationSpec {
 	def "Saves events"() {
 	
 		given:
-			Tag tag = new Tag('Success', TagType.event).save()
-			Map data = [uuid: 'abc', sourceId: 'foo/bar', type: tag, timestamp: System.currentTimeMillis()]
+			Map data = [uuid: 'abc', sourceId: 'foo/bar', type: success, timestamp: System.currentTimeMillis()]
 			
 		when:
 			eventService.save(data)
@@ -60,8 +65,7 @@ class EventServiceSpec extends IntegrationSpec {
 	def "Saving an event returns a domain object"() {
 	
 		given:
-			Tag tag = new Tag('Success', TagType.event).save()
-			Map data = [uuid: 'abc', sourceId: 'foo/bar', type: tag, timestamp: System.currentTimeMillis()]
+			Map data = [uuid: 'abc', sourceId: 'foo/bar', type: success, timestamp: System.currentTimeMillis()]
 			
 		when:
 			Event event = eventService.save(data)
@@ -77,8 +81,7 @@ class EventServiceSpec extends IntegrationSpec {
 	def "Save failures are reported"() {
 		
 		given:
-			Tag tag = new Tag('Success', TagType.event).save()
-			Map data = [uuid: 'abc', type: tag, timestamp: System.currentTimeMillis()]
+			Map data = [uuid: 'abc', type: success, timestamp: System.currentTimeMillis()]
 			
 		when:
 			eventService.save(data)
@@ -87,14 +90,30 @@ class EventServiceSpec extends IntegrationSpec {
 			thrown ValidationException
 	}
 	
-	def "Returns last event for resource id"() {
+	def "Returns last event for each distinct source id"() {
+		given: 
+			new EventBuilder().build(sourceId: 'a/1', type: success, timestamp: 1L).save()
+			new EventBuilder().build(sourceId: 'a/1', type: failure, timestamp: 2L).save()
+			new EventBuilder().build(uuid: 'this-one', sourceId: 'a/1', type: success, timestamp: 3L).save()
+			
+			new EventBuilder().build(sourceId: 'a/2', type: success, timestamp: 1L).save()
+			new EventBuilder().build(uuid: 'and-this-one', sourceId: 'a/2', type: failure, timestamp: 2L).save()
+		
+		when:
+			List events = eventService.getLastEvents()
+			
+		then:
+			events.size() == 2
+			events[0].uuid == 'this-one'
+			events[1].uuid == 'and-this-one'
+	}
+	
+	def "Returns last event for source id"() {
 		
 		given:
 			Long baseTimestamp = System.currentTimeMillis()
-			Tag tag = new Tag('Success', TagType.event).save()			
-			Event event1 = new Event(uuid: '1', sourceId: 'foo/bar', type: tag, timestamp: baseTimestamp).save()
-			Event event2 = new Event(uuid: '2', sourceId: 'foo/bar', type: tag, timestamp: baseTimestamp + 1000).save()
-			Event event3 = new Event(uuid: '3', sourceId: 'foo/bar', type: tag, timestamp: baseTimestamp).save()
+			Event event1 = new Event(uuid: '1', sourceId: 'foo/bar', type: success, timestamp: baseTimestamp).save()
+			Event event2 = new Event(uuid: '2', sourceId: 'foo/bar', type: success, timestamp: baseTimestamp + 1000).save()
 		
 		expect:
 			eventService.getLastEvent('foo/bar') == event2

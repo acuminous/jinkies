@@ -76,11 +76,11 @@ class GroovyTemplatePlayerAdapterSpec extends UnitSpec {
 		
 	def "Reports errors"() {
 		
-		given:
-			Content content = new Content(title: 'xyz', bytes: '${throw new uk.co.acuminous.jinkies.test.QuietException()}'.bytes)
+		given:			
+			Content content = new Content(title: 'xyz', bytes: '${barf()}'.bytes)
 			
 		when:
-			adapter.play(content, [:])
+			adapter.play(content, [barf: { throw new QuietException() }] )
 			
 		then:
 			1 * player.play({ Content transformedContent ->

@@ -20,6 +20,7 @@ import spock.lang.*
 
 import uk.co.acuminous.jinkies.channel.TestChannel
 import uk.co.acuminous.jinkies.content.*
+import uk.co.acuminous.jinkies.event.EventBuilder
 import static uk.co.acuminous.jinkies.util.MapUtils.*
 import static groovyx.net.http.ContentType.*
 
@@ -54,7 +55,36 @@ class EventApiSpec extends Specification  {
 			serializableEntries event
 		}
 	}
-
+	
+	@IgnoreRest
+	def "Returns a json representation of the most recent events by sourceId"() {
+		
+		given:
+			remote {
+				Tag success = Tag.findByName('Success')
+				Tag failure = Tag.findByName('Failure')
+				new EventBuilder().build(sourceId: 'a/1', type: success, timestamp: 1L).save()
+				new EventBuilder().build(sourceId: 'a/1', type: failure, timestamp: 2L).save()
+				new EventBuilder().build(sourceId: 'a/1', type: success, timestamp: 3L).save()
+				
+				new EventBuilder().build(sourceId: 'a/2', type: success, timestamp: 1L).save()
+				new EventBuilder().build(sourceId: 'a/2', type: failure, timestamp: 2L).save()
+			}
+			
+		when:
+			def response = client.get(path: '/api/event')
+			def result = response.data			
+			
+		then:
+			response.status == 200
+			result.size() == 2
+			result[0].sourceId == 'a/1'
+			result[0].timestamp == 3
+			
+			result[1].sourceId == 'a/2'
+			result[1].timestamp == 2
+	}
+	
 	def "Creates an event for specified resource"() {
 		
 		given:

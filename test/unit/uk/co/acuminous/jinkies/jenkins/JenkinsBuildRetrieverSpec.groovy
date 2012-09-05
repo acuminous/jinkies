@@ -18,6 +18,7 @@ package uk.co.acuminous.jinkies.jenkins
 import spock.lang.Specification
 import uk.co.acuminous.jinkies.ci.*
 import uk.co.acuminous.jinkies.content.Tag
+import uk.co.acuminous.jinkies.content.TagType
 import uk.co.acuminous.jinkies.event.EventHandler
 
 import grails.test.mixin.Mock
@@ -59,13 +60,27 @@ class JenkinsBuildRetrieverSpec extends Specification {
 	def "Forwards event to next handler"() {
 		
 		given:
-			Map event = [build: new BuildBuilder().build()]			
+			Tag success = new Tag('Success', TagType.event).save()
+			Map event = [build: new BuildBuilder().build(result: 'SUCCESS')]			
 		
 		when:
 			retriever.handle(event)
 		
 		then:
 			1 * nextHandler.handle(event)
+	}
+	
+	
+	def "Suppresses event if the event type is undefined"() {
+		
+		given:
+			Map event = [build: new BuildBuilder().build()]
+		
+		when:
+			retriever.handle(event)
+		
+		then:
+			0 * nextHandler._
 	}
 	
 }

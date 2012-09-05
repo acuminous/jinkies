@@ -96,13 +96,12 @@ function JobApi(baseUrl) {
 		return results;				
 	}		
 	
-	this.checkStatus = function(resourceId, onSuccess) {
+	this.checkStatus = function(onSuccess) {
 		
 		var url = this.baseUrl + '/event';
 		
 		$.ajax(url, {
 			type: 'GET',
-			data: { target: resourceId },
 			async: true,
 			success: onSuccess			
 		});

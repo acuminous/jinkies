@@ -25,7 +25,14 @@ class EventService {
 		Event event = new Event(data)
 		event.save(flush:true, failOnError:true)
 	}
-	
+
+	List<Event> getLastEvents() {
+		List sourceIds = Event.executeQuery('select distinct e.sourceId from Event e order by e.sourceId asc')
+		sourceIds.collect { String sourceId ->
+			getLastEvent sourceId
+		}		
+	}
+		
 	Event getLastEvent(String sourceId) {
 		def c = Event.createCriteria()
 		Event previous = c.get {

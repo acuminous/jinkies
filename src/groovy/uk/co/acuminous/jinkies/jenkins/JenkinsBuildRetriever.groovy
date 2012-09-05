@@ -33,8 +33,10 @@ class JenkinsBuildRetriever extends ChainedEventHandler {
 		server.populateMissingDetails event.build
 
 		freshen event
-				
-		forward event
+		
+		if (event.type) {				
+			forward event
+		}
 	}
 
 	void freshen(Map event) {

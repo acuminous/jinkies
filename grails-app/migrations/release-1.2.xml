@@ -76,9 +76,6 @@
             <column name="TAG_ID"/>        
             <column name="CONTENT_EVENTS_ID"/>
         </createIndex> 
-        
-               
-              
     </changeSet>
     
     <changeSet author="steve" id="REMOVE_STARTUP_EVENT">
@@ -98,6 +95,14 @@
         </sql>
         <sql>DELETE FROM JINKIES.TAG T WHERE T.NAME='Shutdown'</sql>
     </changeSet>   
+
+    <changeSet author="steve" id="INSERT_MORE_DEFAULT_EVENTS">
+        <customChange class="uk.co.acuminous.jinkies.liquibase.InsertTag">
+            <param name="names" value="Building, Aborted"/>
+            <param name="type" value="event"/>
+        </customChange>    
+    </changeSet>        
+        
 
      
 </databaseChangeLog>

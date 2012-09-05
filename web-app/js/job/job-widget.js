@@ -8,7 +8,7 @@ var JobWidget = Widget.$extend({
 		this.clone();		
 		this.setResourceId(job.resourceId);
 		this.setDisplayName(job.displayName);
-		this.setStatus(job.lastEvent);
+		this.setStatus(job.lastEvent ? job.lastEvent : null);
 		this.setTheme(job.theme);
 		this.pruneChannels(job.channels);
 		this.show();
@@ -19,6 +19,7 @@ var JobWidget = Widget.$extend({
 	},
 	
 	setStatus : function(status) {
+				
 		var oldStatus = this.element.data('status');
 		
 		if (oldStatus) {

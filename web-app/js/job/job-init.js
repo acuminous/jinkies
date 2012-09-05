@@ -11,6 +11,9 @@ $(document).ready(function() {
 	var panelElement = $('#jobs-panel');		
 	var jobsPanel = new JobPanel(panelElement, dataSource, dialog, renderer);	
 
+	var statusChecker = new JobStatusChecker(panelElement, dataSource);	
+	statusChecker.poll(5000);	
+	
 	jobsPanel.refresh();
 	
 	$(document).trigger('not-busy');	

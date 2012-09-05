@@ -15,6 +15,7 @@
  */
 package uk.co.acuminous.jinkies.event
 
+import grails.converters.JSON
 import org.springframework.validation.Errors
 
 import uk.co.acuminous.jinkies.content.*
@@ -26,6 +27,12 @@ import static uk.co.acuminous.jinkies.util.CommonValidators.*
 class EventController extends JinkiesErrorRenderer {
 
 	EventHandler eventHandler
+	EventService eventService
+	
+	def list() {
+		List events = eventService.getLastEvents()
+		render events as JSON
+	}
 	
 	def create(EventCommand cmd) {
 		
