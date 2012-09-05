@@ -34,7 +34,7 @@ class EventController extends JinkiesErrorRenderer {
 			Map event = [:]
 			
 			event.uuid = cmd.uuid
-			event.resourceId = cmd.resourceId
+			event.sourceId = cmd.sourceId
 			event.type = cmd.retrieveEvent()
 			event.theme = cmd.retrieveTheme()
 			event.channels = cmd.channels
@@ -51,7 +51,7 @@ class EventController extends JinkiesErrorRenderer {
 class EventCommand {
 	
 	String uuid
-	String resourceId
+	String sourceId
 	String event
 	String theme
 	List<String> channel
@@ -64,7 +64,7 @@ class EventCommand {
 	
 	static constraints = {
 		uuid nullable: true, validator: duplicateEvent
-		resourceId nullable: false, blank: false
+		sourceId nullable: false, blank: false
 		event nullable: false
 		theme nullable: true
 		channel nullable: true		
@@ -97,18 +97,18 @@ class EventCommand {
 		}		
 	}
 	
-	static def contentValidator = { List<String> resourceIds, EventCommand cmd ->
+	static def contentValidator = { List<String> sourceIds, EventCommand cmd ->
 		
 		def errorCode = null
 		
-		resourceIds.find { String resourceId ->
-			if (!(resourceId ==~ /\w+\/\d+/)) {
-				errorCode = ['eventCommand.content.invalid', resourceId]
+		sourceIds.find { String sourceId ->
+			if (!(sourceId ==~ /\w+\/\d+/)) {
+				errorCode = ['eventCommand.content.invalid', sourceId]
 			} else {
-				Long id = Long.parseLong(resourceId.split('/').last())
+				Long id = Long.parseLong(sourceId.split('/').last())
 				Content content = Content.get(id)
 				if (!content) {
-					errorCode = ['eventCommand.content.unknown', resourceId]					
+					errorCode = ['eventCommand.content.unknown', sourceId]					
 				} else {
 					cmd.prescribedContent << content
 				}

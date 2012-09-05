@@ -51,7 +51,7 @@ class HousekeepingSpec extends Specification  {
 		
 			remote {
 				[cutoff - oneDay, cutoff - oneMinute, cutoff + oneMinute, cutoff + oneDay].each { long timestamp ->
-					new EventBuilder().build(resourceId : 'foo/bar', type: Tag.findByName('Success'), timestamp: timestamp).save()
+					new EventBuilder().build(sourceId : 'foo/bar', type: Tag.findByName('Success'), timestamp: timestamp).save()
 				}
 			}
 		

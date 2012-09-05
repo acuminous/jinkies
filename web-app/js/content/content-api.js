@@ -100,7 +100,7 @@ function ContentApi(baseUrl) {
 			processData: false,
 			contentType: 'application/json',
 			data: JSON.stringify({
-				resourceId: resourceId,
+				sourceId: resourceId,
 				event: 'Preview',
 				channel: ['audio', 'speech', 'test'],
 				content: [resourceId]

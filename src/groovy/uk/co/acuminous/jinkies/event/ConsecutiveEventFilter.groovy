@@ -32,7 +32,7 @@ class ConsecutiveEventFilter extends ChainedEventHandler {
 		log.debug "Received event: $event"		
 					
 		if (shouldSuppress(event)) {
-			log.info "Suppressing ${event.type} event for ${event.resourceId}"		
+			log.info "Suppressing ${event.type} event for ${event.sourceId}"		
 		} else {
 			forward event
 		}
@@ -40,7 +40,7 @@ class ConsecutiveEventFilter extends ChainedEventHandler {
 	
 	boolean shouldSuppress(Map current) {
 		
-		Event previous = eventService.getLastEvent(current.resourceId)
+		Event previous = eventService.getLastEvent(current.sourceId)
 		
 		previous && 
 		isRequiredType(current.type) &&

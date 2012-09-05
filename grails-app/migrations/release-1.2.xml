@@ -14,7 +14,7 @@
             <column name="UUID" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="RESOURCE_ID" type="VARCHAR(255)">
+            <column name="SOURCE_ID" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
             <column name="TYPE_ID" type="BIGINT">
@@ -33,8 +33,8 @@
             <column name="UUID"/>
         </createIndex>
         
-        <createIndex indexName="EVEN_REID_IDX" schemaName="JINKIES" tableName="EVENT">
-            <column name="RESOURCE_ID"/>
+        <createIndex indexName="EVEN_SOID_IDX" schemaName="JINKIES" tableName="EVENT">
+            <column name="SOURCE_ID"/>
         </createIndex>        
 
         <createIndex indexName="EVEN_TYID_IDX" schemaName="JINKIES" tableName="EVENT">

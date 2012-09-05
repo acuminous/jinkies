@@ -96,7 +96,7 @@ class JenkinsMonitorSpec extends UnitSpec {
 			1 * errorHandler.handle({ Map event ->
 				event.job == job &&
 				event.error == 'This is a test exception. Please ignore.' &&
-				event.resourceId == "job/$job.id" &&
+				event.sourceId == "job/$job.id" &&
 				event.type == error && 
 				event.theme == scoobyDoo &&
 				event.channels == job.channels &&
@@ -119,7 +119,7 @@ class JenkinsMonitorSpec extends UnitSpec {
 			1 * jenkinsServer.getBuildHistory(job) >> [ build6, build5 ]		
 			1 * eventHandler.handle({ Map event ->
 				event.uuid == build6.url &&				
-				event.resourceId == "job/$job.id" &&
+				event.sourceId == "job/$job.id" &&
 				event.type == success &&				
 				event.timestamp == build6.timestamp &&
 				event.build == build6 

@@ -45,54 +45,54 @@ class ConsecutiveEventFilterSpec extends UnitSpec {
 	def "Forwards events of an unmatched type"() {
 		
 		given:
-			Map event = [resourceId: 'foo/bar', type: failure]
+			Map event = [sourceId: 'foo/bar', type: failure]
 		
 		when:
 			filter.handle event
 		
 		then:
-			1 * eventService.getLastEvent(event.resourceId) >> null
+			1 * eventService.getLastEvent(event.sourceId) >> null
 			1 * nextHandler.handle(event)
 	}
 	
 	def "Forwards the first event with a matched type"() {
 		
 		given:
-			Map event = [resourceId: 'foo/bar', type: success]
+			Map event = [sourceId: 'foo/bar', type: success]
 		
 		when:
 			filter.handle event
 		
 		then:
-			1 * eventService.getLastEvent(event.resourceId) >> null
+			1 * eventService.getLastEvent(event.sourceId) >> null
 			1 * nextHandler.handle(event)
 	}
 
 	def "Suppresses second event of a matched type for the same resource"() {
 		
 		given:
-			Event previous = new Event(uuid: '1', resourceId: 'foo/bar', type: success, timestamp: 1L).save()
-			Map event = [resourceId: previous.resourceId, type: success]
+			Event previous = new Event(uuid: '1', sourceId: 'foo/bar', type: success, timestamp: 1L).save()
+			Map event = [sourceId: previous.sourceId, type: success]
 								
 		when:
 			filter.handle event
 		
 		then:
-			1 * eventService.getLastEvent(event.resourceId) >> previous
+			1 * eventService.getLastEvent(event.sourceId) >> previous
 			0 * nextHandler.handle(_)
 	}
 			
 	def "Forwards second event of a matched type for a different resources"() {
 	
 		given:
-			Event previous = new Event(uuid: '1', resourceId: 'foo/bar', type: success, timestamp: 1L).save()
-			Map event = [resourceId: 'foo/other', type: success]
+			Event previous = new Event(uuid: '1', sourceId: 'foo/bar', type: success, timestamp: 1L).save()
+			Map event = [sourceId: 'foo/other', type: success]
 								
 		when:
 			filter.handle event
 		
 		then:
-			1 * eventService.getLastEvent(event.resourceId) >> null		
+			1 * eventService.getLastEvent(event.sourceId) >> null		
 			1 * nextHandler.handle(event)
 	}
 	
@@ -100,44 +100,44 @@ class ConsecutiveEventFilterSpec extends UnitSpec {
 	def "Suppresses second event of an unmatched type"() {
 		
 		given:
-			Event previous = new Event(uuid: '1', resourceId: 'foo/bar', type: failure, timestamp: 1L).save()
-			Map event = [resourceId: previous.resourceId, type: failure]
+			Event previous = new Event(uuid: '1', sourceId: 'foo/bar', type: failure, timestamp: 1L).save()
+			Map event = [sourceId: previous.sourceId, type: failure]
 								
 		when:
 			filter.handle event
 		
 		then:
-			1 * eventService.getLastEvent(event.resourceId) >> previous
+			1 * eventService.getLastEvent(event.sourceId) >> previous
 			1 * nextHandler.handle(event)
 	}
 	
 	def "Supresses second event of a matched type when the previous event has not expired"() {
 		
 		given:
-			Event previous = new Event(uuid: '1', resourceId: 'foo/bar', type: success, timestamp: System.currentTimeMillis())
-			Map event = [resourceId: previous.resourceId, type: success]
+			Event previous = new Event(uuid: '1', sourceId: 'foo/bar', type: success, timestamp: System.currentTimeMillis())
+			Map event = [sourceId: previous.sourceId, type: success]
 			filter.cutoff = 1000L
 		
 		when:
 			filter.handle event
 		
 		then:
-			1 * eventService.getLastEvent(event.resourceId) >> previous
+			1 * eventService.getLastEvent(event.sourceId) >> previous
 			0 * nextHandler.handle(_)
 	}
 	
 	def "Forwards second event of a machted type when the previous event has expired"() {
 	
 		given:
-			Event previous = new Event(uuid: '1', resourceId: 'foo/bar', type: success, timestamp: System.currentTimeMillis() - 2000L)
-			Map event = [resourceId: previous.resourceId, type: success]
+			Event previous = new Event(uuid: '1', sourceId: 'foo/bar', type: success, timestamp: System.currentTimeMillis() - 2000L)
+			Map event = [sourceId: previous.sourceId, type: success]
 			filter.cutoff = 1000L
 		
 		when:
 			filter.handle event
 		
 		then:
-			1 * eventService.getLastEvent(event.resourceId) >> previous
+			1 * eventService.getLastEvent(event.sourceId) >> previous
 			1 * nextHandler.handle(event)				
 	}
 	
@@ -145,14 +145,14 @@ class ConsecutiveEventFilterSpec extends UnitSpec {
 		
 			given:
 				filter.cutoff = 1000L
-				Event previous = new Event(uuid: '1', resourceId: 'foo/bar', type: failure, timestamp: System.currentTimeMillis())
-				Map event = [resourceId: previous.resourceId, type: success]
+				Event previous = new Event(uuid: '1', sourceId: 'foo/bar', type: failure, timestamp: System.currentTimeMillis())
+				Map event = [sourceId: previous.sourceId, type: success]
 			
 			when:
 				filter.handle event
 			
 			then:
-				1 * eventService.getLastEvent(event.resourceId) >> previous
+				1 * eventService.getLastEvent(event.sourceId) >> previous
 				1 * nextHandler.handle(event)
 		}
 }

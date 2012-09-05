@@ -28,7 +28,7 @@ class EventServiceSpec extends IntegrationSpec {
 		
 		given:
 			Tag tag = new Tag('Success', TagType.event).save()
-			Event event = new Event(uuid: 'abc', resourceId: 'foo/bar', type: tag, timestamp: System.currentTimeMillis()).save()
+			Event event = new Event(uuid: 'abc', sourceId: 'foo/bar', type: tag, timestamp: System.currentTimeMillis()).save()
 			
 		expect:
 			eventService.exists(event.uuid)		
@@ -44,7 +44,7 @@ class EventServiceSpec extends IntegrationSpec {
 	
 		given:
 			Tag tag = new Tag('Success', TagType.event).save()
-			Map data = [uuid: 'abc', resourceId: 'foo/bar', type: tag, timestamp: System.currentTimeMillis()]
+			Map data = [uuid: 'abc', sourceId: 'foo/bar', type: tag, timestamp: System.currentTimeMillis()]
 			
 		when:
 			eventService.save(data)
@@ -52,7 +52,7 @@ class EventServiceSpec extends IntegrationSpec {
 		then:
 			Event event = Event.findByUuid('abc')
 			event != null
-			event.resourceId == data.resourceId
+			event.sourceId == data.sourceId
 			event.type == data.type
 			event.timestamp == data.timestamp			
 	}
@@ -61,7 +61,7 @@ class EventServiceSpec extends IntegrationSpec {
 	
 		given:
 			Tag tag = new Tag('Success', TagType.event).save()
-			Map data = [uuid: 'abc', resourceId: 'foo/bar', type: tag, timestamp: System.currentTimeMillis()]
+			Map data = [uuid: 'abc', sourceId: 'foo/bar', type: tag, timestamp: System.currentTimeMillis()]
 			
 		when:
 			Event event = eventService.save(data)
@@ -69,7 +69,7 @@ class EventServiceSpec extends IntegrationSpec {
 		then:
 			event != null
 			event.uuid == data.uuid
-			event.resourceId == data.resourceId
+			event.sourceId == data.sourceId
 			event.type == data.type
 			event.timestamp == data.timestamp			
 	}
@@ -92,9 +92,9 @@ class EventServiceSpec extends IntegrationSpec {
 		given:
 			Long baseTimestamp = System.currentTimeMillis()
 			Tag tag = new Tag('Success', TagType.event).save()			
-			Event event1 = new Event(uuid: '1', resourceId: 'foo/bar', type: tag, timestamp: baseTimestamp).save()
-			Event event2 = new Event(uuid: '2', resourceId: 'foo/bar', type: tag, timestamp: baseTimestamp + 1000).save()
-			Event event3 = new Event(uuid: '3', resourceId: 'foo/bar', type: tag, timestamp: baseTimestamp).save()
+			Event event1 = new Event(uuid: '1', sourceId: 'foo/bar', type: tag, timestamp: baseTimestamp).save()
+			Event event2 = new Event(uuid: '2', sourceId: 'foo/bar', type: tag, timestamp: baseTimestamp + 1000).save()
+			Event event3 = new Event(uuid: '3', sourceId: 'foo/bar', type: tag, timestamp: baseTimestamp).save()
 		
 		expect:
 			eventService.getLastEvent('foo/bar') == event2

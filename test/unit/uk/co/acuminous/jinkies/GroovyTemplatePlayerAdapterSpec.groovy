@@ -18,6 +18,7 @@ package uk.co.acuminous.jinkies
 import uk.co.acuminous.jinkies.content.Content
 import uk.co.acuminous.jinkies.content.ContentPlayer
 import uk.co.acuminous.jinkies.player.GroovyTemplatePlayerAdapter;
+import uk.co.acuminous.jinkies.test.QuietException
 import grails.plugin.spock.UnitSpec
 
 class GroovyTemplatePlayerAdapterSpec extends UnitSpec {
@@ -76,15 +77,14 @@ class GroovyTemplatePlayerAdapterSpec extends UnitSpec {
 	def "Reports errors"() {
 		
 		given:
-			Content content = new Content(title: 'xyz', bytes: '${1 / 0}'.bytes)
+			Content content = new Content(title: 'xyz', bytes: '${throw new uk.co.acuminous.jinkies.test.QuietException()}'.bytes)
 			
 		when:
 			adapter.play(content, [:])
 			
 		then:
 			1 * player.play({ Content transformedContent ->
-				println new String(transformedContent.bytes)
-				new String(transformedContent.bytes) == 'Error in tem-plate for content xyz. Error message is: Division by zero'
+				new String(transformedContent.bytes) == 'Error in tem-plate for content xyz. Error message is: This is a test exception. Please ignore.'
 			}, _)
 	}
 

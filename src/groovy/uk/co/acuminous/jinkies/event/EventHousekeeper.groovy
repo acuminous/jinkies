@@ -20,21 +20,21 @@ class EventHousekeeper {
 	long timeToLive
 	
 	void run() {				
-		resourceIds.each { String resourceId ->
-			List doomed = listOldEvents(resourceId)
+		sourceIds.each { String sourceId ->
+			List doomed = listOldEvents(sourceId)
 			pardonLastEvent(doomed)
 			deleteOldEvents(doomed)
 		}
 	}
 	
-	List getResourceIds() {
-		Event.executeQuery('select distinct e.resourceId from Event e')
+	List getSourceIds() {
+		Event.executeQuery('select distinct e.sourceId from Event e')
 	}
 	
-	List listOldEvents(String resourceId) {
+	List listOldEvents(String sourceId) {
 		def c = Event.createCriteria()
 		c.list {
-			eq('resourceId', resourceId)
+			eq('sourceId', sourceId)
 			lt('timestamp', System.currentTimeMillis() - timeToLive)
 			order('timestamp', 'desc')
 		}
@@ -42,8 +42,8 @@ class EventHousekeeper {
 	
 	void pardonLastEvent(List doomed) {
 		if (doomed) {
-			String resourceId = doomed.first().resourceId
-			List allEvents = Event.findAllByResourceId(resourceId)
+			String sourceId = doomed.first().sourceId
+			List allEvents = Event.findAllBySourceId(sourceId)
 			if (doomed.size() == allEvents.size()) {
 				doomed.remove(0)
 			}

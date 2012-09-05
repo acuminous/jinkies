@@ -41,8 +41,8 @@ class EventHousekeeperSpec extends IntegrationSpec {
 		
 		given:
 			[cutoff - 5000, cutoff, cutoff + 5000, baseTime, baseTime + 5000].each { long timestamp ->
-				new EventBuilder().build(resourceId: 'job/1', type: success, timestamp: timestamp).save()
-				new EventBuilder().build(resourceId: 'job/2', type: success, timestamp: timestamp).save()
+				new EventBuilder().build(sourceId: 'job/1', type: success, timestamp: timestamp).save()
+				new EventBuilder().build(sourceId: 'job/2', type: success, timestamp: timestamp).save()
 			}
 		
 		when:
@@ -57,8 +57,8 @@ class EventHousekeeperSpec extends IntegrationSpec {
 
 		given:
 			[cutoff - 5000, cutoff].each { long timestamp ->
-				new EventBuilder().build(resourceId: 'job/1', type: success, timestamp: timestamp).save()
-				new EventBuilder().build(resourceId: 'job/2', type: success, timestamp: timestamp).save()
+				new EventBuilder().build(sourceId: 'job/1', type: success, timestamp: timestamp).save()
+				new EventBuilder().build(sourceId: 'job/2', type: success, timestamp: timestamp).save()
 			}
 
 		when:
@@ -72,7 +72,7 @@ class EventHousekeeperSpec extends IntegrationSpec {
 	def "Tollerates no old events"() {
 		given:
 			[cutoff + 5000, baseTime, baseTime + 5000].each { long timestamp ->
-				new EventBuilder().build(resourceId: 'job/1', type: success, timestamp: timestamp).save()
+				new EventBuilder().build(sourceId: 'job/1', type: success, timestamp: timestamp).save()
 			}
 	
 		when:

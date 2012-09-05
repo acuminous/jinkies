@@ -26,10 +26,10 @@ class EventService {
 		event.save(flush:true, failOnError:true)
 	}
 	
-	Event getLastEvent(String resourceId) {
+	Event getLastEvent(String sourceId) {
 		def c = Event.createCriteria()
 		Event previous = c.get {
-			eq('resourceId', resourceId)
+			eq('sourceId', sourceId)
 			maxResults(1)
 			order('timestamp', 'desc')
 		}

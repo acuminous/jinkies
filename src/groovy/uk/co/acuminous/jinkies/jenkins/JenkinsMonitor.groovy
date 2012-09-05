@@ -61,7 +61,7 @@ class JenkinsMonitor {
 	Map createErrorEvent(Job job, Exception e) {
 		[
 			uuid: UUID.randomUUID().toString(),
-			resourceId: job.resourceId,
+			sourceId: job.resourceId,
 			type: Tag.findEventTypeByName('Error'),
 			theme: job.theme,
 			channels: job.channels,

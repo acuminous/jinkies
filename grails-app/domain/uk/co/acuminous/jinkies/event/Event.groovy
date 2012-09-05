@@ -20,13 +20,17 @@ import uk.co.acuminous.jinkies.content.Tag
 class Event implements Serializable {
 
 	String uuid
-	String resourceId
+	String sourceId
 	Tag type
 	Long timestamp
 	
 	static constraints = {
 		uuid blank:false, unique:true
-		resourceId blank:false
+		sourceId blank:false
+	}
+	
+	String getResourceId() {
+		"event/$id"
 	}
 	
 	@Override
@@ -45,7 +49,7 @@ class Event implements Serializable {
 	
 	@Override
 	String toString() {
-		"Event[id=$id, uuid=$uuid, resourceId=$resourceId, type=$type, timestamp=$timestamp"
+		"Event[id=$id, uuid=$uuid, sourceId=$sourceId, type=$type, timestamp=$timestamp"
 	}
 	
 }

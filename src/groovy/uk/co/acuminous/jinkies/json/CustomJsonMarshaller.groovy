@@ -24,7 +24,7 @@ import uk.co.acuminous.jinkies.event.EventService
 
 public class CustomJsonMarshaller {
 		
-	static Closure job = { Job job ->
+	static job = { Job job ->
 		
 		marshall {
 			Map data = [
@@ -43,7 +43,7 @@ public class CustomJsonMarshaller {
 		}
 	}
 	
-	static Closure jobWithLastEvent = { EventService eventService, Job job ->
+	static jobWithLastEvent = { EventService eventService, Job job ->
 		
 		Map data = CustomJsonMarshaller.job(job)
 		if (data.resourceId) {
@@ -56,8 +56,7 @@ public class CustomJsonMarshaller {
 		data
 	}
 
-
-	static Closure content = { Content content ->
+	static content = { Content content ->
 		
 		marshall {
 		
@@ -71,33 +70,41 @@ public class CustomJsonMarshaller {
 				events: content.events ?: []
 			]
 			
-			if (content.id) {
-				data.resourceId = content.resourceId
-				data.dataResourceId = content.dataResourceId
-				if (content.bytes) {
-					data.dataHashCode = content.bytes.hashCode()
-				}
+			data.resourceId = content.resourceId
+			data.dataResourceId = content.dataResourceId
+			if (content.bytes) {
+				data.dataHashCode = content.bytes.hashCode()
 			}
 			
 			data
 		}
 	}
 	
-	static Closure tag = { Tag tag ->
+	static tag = { Tag tag ->
 
 		marshall {
-			Map data = [
+			[
 				name: tag.name,
 				type: tag.type.name(),
-				uri: tag.uri
+				uri: tag.uri,
+				resourceId: "tag/${tag.id}".toString()
 			]
-			
-			if (tag.id) {
-				data.resourceId = "tag/${tag.id}".toString()
-			}
-			
-			data
 		}
+	}
+	
+	static event = { Event event ->
+		
+		marshall {
+			[
+				uuid: event.uuid,
+				sourceId: event.sourceId,				
+				type: event.type,
+				timestamp: event.timestamp,
+				resourceId: event.resourceId
+								
+			]
+		}
+		
 	}
 	
 	static def marshall(Closure marshaller) {		

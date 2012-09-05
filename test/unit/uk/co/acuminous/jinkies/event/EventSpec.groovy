@@ -38,8 +38,8 @@ class EventSpec extends UnitSpec {
 			field         | value | constraint
 			'uuid'		  | null  | 'nullable'
 			'uuid'        | ''    | 'blank'
-			'resourceId'  | null  | 'nullable'	
-			'resourceId'  | ''    | 'blank'
+			'sourceId'    | null  | 'nullable'	
+			'sourceId'    | ''    | 'blank'
 			'type'        | null  | 'nullable'
 			'timestamp'   | null  | 'nullable'
 	}
@@ -48,10 +48,10 @@ class EventSpec extends UnitSpec {
 		
 		given:
 			Tag success = new Tag('Success', TagType.event).save()
-			Event event1 = new Event(uuid: '1', resourceId: 'foo/bar', type: success, timestamp: System.currentTimeMillis()).save()
+			Event event1 = new Event(uuid: '1', sourceId: 'foo/bar', type: success, timestamp: System.currentTimeMillis()).save()
 					
 		when:
-			Event event2 = new Event(uuid: '1', resourceId: 'foo/bar', type: success, timestamp: System.currentTimeMillis())
+			Event event2 = new Event(uuid: '1', sourceId: 'foo/bar', type: success, timestamp: System.currentTimeMillis())
 			
 		then:
 			hasConstraint(event2, 'uuid', 'unique')

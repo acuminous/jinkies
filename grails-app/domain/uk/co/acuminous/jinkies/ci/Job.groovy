@@ -51,7 +51,7 @@ class Job implements Serializable {
 	
 	def afterDelete() {
 		Event.withNewSession {
-			Event.findAllByResourceId(resourceId)*.delete()
+			Event.findAllBySourceId(resourceId)*.delete()
 		}
 	}
 	

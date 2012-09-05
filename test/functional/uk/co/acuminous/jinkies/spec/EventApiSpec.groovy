@@ -59,21 +59,21 @@ class EventApiSpec extends Specification  {
 		
 		given:
 			String uuid = '1234'		
-			String resourceId = 'foo/bar'
-			Map params = [uuid: uuid, resourceId: resourceId, event: success.name, channel: ['test'], timestamp: 123L]
+			String sourceId = 'foo/bar'
+			Map params = [uuid: uuid, sourceId: sourceId, event: success.name, channel: ['test'], timestamp: 123L]
 		
 		expect:
 			client.post(path: '/api/event', body: params).status == 204
 			
 			Map event = remoteEvent
 			event?.uuid == uuid
-			event?.resourceId == resourceId	
+			event?.sourceId == sourceId	
 			event?.timestamp == 123L	
 	}
 	
 	def "Generates a UUID if not specified"() {
 		given:
-			Map params = [resourceId: 'foo/bar', event: success.name, channel: ['test']]
+			Map params = [sourceId: 'foo/bar', event: success.name, channel: ['test']]
 		
 		expect:
 			client.post(path: '/api/event', body: params).status == 204
@@ -87,7 +87,7 @@ class EventApiSpec extends Specification  {
 		
 		given:
 			Long currentTime = System.currentTimeMillis()
-			Map params = [resourceId: 'foo/bar', event: success.name, channel: ['test']]
+			Map params = [sourceId: 'foo/bar', event: success.name, channel: ['test']]
 		
 		expect:
 			client.post(path: '/api/event', body: params).status == 204
@@ -105,7 +105,7 @@ class EventApiSpec extends Specification  {
 				[zoinks, jinkies]
 			}
 			
-			Map params = [resourceId: 'foo/bar', event: success.name, channel: ['test'], content: ["content/${content[0].id}", "content/${content[1].id}"]]
+			Map params = [sourceId: 'foo/bar', event: success.name, channel: ['test'], content: ["content/${content[0].id}", "content/${content[1].id}"]]
 		
 		expect:
 			client.post(path: '/api/event', body: params).status == 204
@@ -123,7 +123,7 @@ class EventApiSpec extends Specification  {
 				Content.build(title: 'Zoinks', filename: 'zoinks.mp3')
 			}
 			
-			Map params = [resourceId: 'foo/bar', event: success.name, channel: ['test'], content: ["content/${content.id}", 'content/999']]
+			Map params = [sourceId: 'foo/bar', event: success.name, channel: ['test'], content: ["content/${content.id}", 'content/999']]
 		
 		when:
 			def response = client.post(path: '/api/event', body: params)
@@ -136,7 +136,7 @@ class EventApiSpec extends Specification  {
 	def "Handles invalid content"() {
 		
 		given:
-			Map params = [resourceId: 'foo/bar', event: success.name, channel: ['test'], content: ['123']]
+			Map params = [sourceId: 'foo/bar', event: success.name, channel: ['test'], content: ['123']]
 		
 		when:
 			def response = client.post(path: '/api/event', body: params)
@@ -149,7 +149,7 @@ class EventApiSpec extends Specification  {
 	def "Handles invalid events"() {
 		
 		given:
-			Map params = [resourceId: 'foo/bar', channel: ['test']]
+			Map params = [sourceId: 'foo/bar', channel: ['test']]
 		
 		when:
 			def response = client.post(path: '/api/event', body: params)
@@ -159,28 +159,28 @@ class EventApiSpec extends Specification  {
 			response.data[0] == "An event is required."				
 	}
 		
-	@Unroll("Reports invalid resourceIds: #resourceId")
-	def "Reports invalid resourceIds"() {
+	@Unroll("Reports invalid sourceIds: #sourceId")
+	def "Reports invalid sourceIds"() {
 		
 		given:
-			Map params = [resourceId: resourceId, event: success.name]
+			Map params = [sourceId: sourceId, event: success.name]
 		
 		when:
 			def response = client.post(path: '/api/event', body: params)
 
 		then: 
 			response.status == 400
-			response.data[0] == "A resource id is required."
+			response.data[0] == "A source id is required."
 						
 		where:
-			resourceId << ['', null]		
+			sourceId << ['', null]		
 	}
 	
 	def "Duplicate events are rejected"() {
 		
 		given:
-			String resourceId = 'foo/bar'		
-			Map params = [uuid: '123', resourceId: 'foo/bar', event: success.name, channel: ['test'], timestamp: 999L]
+			String sourceId = 'foo/bar'		
+			Map params = [uuid: '123', sourceId: 'foo/bar', event: success.name, channel: ['test'], timestamp: 999L]
 		
 		expect:
 			client.post(path: '/api/event', body: params).status == 204

@@ -62,7 +62,7 @@ grails.plugin.quartz2.jobSetup.projectXStandup = { quartzScheduler, ctx ->
 	
 	def job = ClosureJob.createJob('ProjectXStandup', { jobCtx , appCtx->
 		try {
-			Map params = [resourceId: 'project/x', theme: 'Scooby Doo', event: 'Stand-Up', channel: ['audio']]
+			Map params = [sourceId: 'project/x', theme: 'Scooby Doo', event: 'Stand-Up', channel: ['audio']]
 			new HttpClientsFactory().getHttpBuilder('http://localhost:8080/api/event').post(body: params)
 		} catch (Throwable t) {
 			Logger.getLogger('ProjectXStandupJob').error('An error while sounding the Project X standup', t)

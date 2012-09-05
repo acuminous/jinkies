@@ -22,8 +22,8 @@ class QuietException extends RuntimeException {
 	}
 	
 	// Causes propblems with log4j when running stack traces
-//	@Override
-//	public Throwable fillInStackTrace() {
-//		return null
-//	}
+	@Override
+	public Throwable fillInStackTrace() {
+		this
+	}
 }

@@ -33,7 +33,7 @@ class Build {
 	Map toEvent() {
 		[
 			uuid: url,
-			resourceId: job.resourceId,
+			sourceId: job.resourceId,
 			type: Tag.findEventTypeByName(result),
 			theme: job.theme,
 			channels: job.channels,
