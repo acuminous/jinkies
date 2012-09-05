@@ -46,7 +46,7 @@ class RemoteJobRepository {
 	
 	void failJob(Job job) {
 		new RemoteUtils().remote {
-			TagService tagService = app.mainContext.getBean('tagService')
+			TagService tagService = ctx.getBean('tagService')
 			Tag tag = tagService.findOrCreateEvents(['Failure'])[0]
 			
 			Event event = new Event(uuid: UUID.randomUUID().toString(), resourceId: job.resourceId, type: tag, timestamp: System.currentTimeMillis())

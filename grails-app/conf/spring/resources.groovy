@@ -65,7 +65,7 @@ beans = {
 	contentService(ContentServiceFactoryBean)
 	
 	eventHousekeeper(EventHousekeeper) {
-		cutoff = jinkiesConfig.events.ttl.size() ? jinkiesConfig.events.ttl : 24 * 60 * 60 * 1000L
+		timeToLive = jinkiesConfig.events.ttl.size() ? jinkiesConfig.events.ttl : 24 * 60 * 60 * 1000L
 	}
 
 

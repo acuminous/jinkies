@@ -49,7 +49,7 @@ class EventApiSpec extends Specification  {
 		
 	def getRemoteEvent() {
 		remote {
-			TestChannel testChannel = app.mainContext.testSwitch.channel
+			TestChannel testChannel = ctx.testSwitch.channel
 			Map event = testChannel.events.isEmpty() ? null : testChannel.events.last()
 			serializableEntries event
 		}

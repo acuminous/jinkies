@@ -20,7 +20,7 @@ import org.quartz.impl.triggers.SimpleTriggerImpl
 
 grails.plugin.quartz2.jobSetup.jenkinsMonitor = { quartzScheduler, ctx ->
 
-	def job = ClosureJob.createJob([concurrentExectionDisallowed: true]) { jobCtx , appCtx->
+	def job = ClosureJob.createJob([name: 'JenkinsMonitorJob', concurrentExectionDisallowed: true]) { jobCtx , appCtx->
 		try {
 			appCtx.jenkinsMonitor.check()
 		} catch (Throwable t) {
@@ -40,9 +40,9 @@ grails.plugin.quartz2.jobSetup.jenkinsMonitor = { quartzScheduler, ctx ->
 
 grails.plugin.quartz2.jobSetup.eventHouskeeper = { quartzScheduler, ctx ->
 	
-	def job = ClosureJob.createJob([concurrentExectionDisallowed: true]) { jobCtx , appCtx->
+	def job = ClosureJob.createJob([name: 'EventHousekeeperJob', concurrentExectionDisallowed: true]) { jobCtx , appCtx->
 		try {
-			 appCtx.eventHousekeeper().run()
+			 appCtx.eventHousekeeper.run()
 		} catch (Throwable t) {
 			Logger.getLogger('EventHousekeeperJob').error('An error while tidying up old events', t)
 		}
@@ -60,7 +60,7 @@ grails.plugin.quartz2.jobSetup.eventHouskeeper = { quartzScheduler, ctx ->
 /* Uncomment and modify to schedule a daily stand-up notification
 grails.plugin.quartz2.jobSetup.projectXStandup = { quartzScheduler, ctx ->
 	
-	def job = ClosureJob.createJob({ jobCtx , appCtx->
+	def job = ClosureJob.createJob('ProjectXStandup', { jobCtx , appCtx->
 		try {
 			Map params = [resourceId: 'project/x', theme: 'Scooby Doo', event: 'Stand-Up', channel: ['audio']]
 			new HttpClientsFactory().getHttpBuilder('http://localhost:8080/api/event').post(body: params)

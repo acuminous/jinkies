@@ -17,7 +17,7 @@ package uk.co.acuminous.jinkies.event
 
 class EventHousekeeper {
 	
-	long cutoff
+	long timeToLive
 	
 	void run() {				
 		resourceIds.each { String resourceId ->
@@ -35,21 +35,26 @@ class EventHousekeeper {
 		def c = Event.createCriteria()
 		c.list {
 			eq('resourceId', resourceId)
-			lt('timestamp', System.currentTimeMillis() - cutoff)
+			lt('timestamp', System.currentTimeMillis() - timeToLive)
 			order('timestamp', 'desc')
 		}
 	}
 	
 	void pardonLastEvent(List doomed) {
-		String resourceId = doomed.first().resourceId
-		List allEvents = Event.findAllByResourceId(resourceId)
-		if (doomed.size() == allEvents.size()) {
-			doomed.remove(0)
+		if (doomed) {
+			String resourceId = doomed.first().resourceId
+			List allEvents = Event.findAllByResourceId(resourceId)
+			if (doomed.size() == allEvents.size()) {
+				doomed.remove(0)
+			}
 		}
 	}
 	
 	void deleteOldEvents(List doomed) {
-		doomed*.delete()		
+		Event.withSession { def session ->		
+			doomed*.delete()
+			session.flush()
+		}		
 	}
 
 }

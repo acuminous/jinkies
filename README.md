@@ -188,23 +188,25 @@ and set the 'repeatInterval' to the desired number of milliseconds.
     import org.apache.log4j.Logger
     import org.quartz.impl.triggers.SimpleTriggerImpl
 	
-	grails.plugin.quartz2.jobSetup.jenkinsMonitor = { quartzScheduler, ctx ->
-	
-        try {
-            appCtx.jenkinsMonitor.check()
-        } catch (Throwable t) {
-            Logger.getLogger('JenkinsMonitorJob').error('An error while handling Jenkins build events', t)
+    grails.plugin.quartz2.jobSetup.jenkinsMonitor = { quartzScheduler, ctx ->
+    
+        def job = ClosureJob.createJob([name: 'JenkinsMonitorJob', concurrentExectionDisallowed: true]) { jobCtx , appCtx->
+            try {
+                appCtx.jenkinsMonitor.check()
+            } catch (Throwable t) {
+                Logger.getLogger('JenkinsMonitorJob').error('An error while handling Jenkins build events', t)
+            }
         }
-	
-		def trigger = new SimpleTriggerImpl(
-			name: 'Jenkins Monitor Trigger',
-			startTime: new Date(),
-			repeatInterval: 15000,
-			repeatCount: -1
-		)
-	
-		quartzScheduler.scheduleJob(job, trigger)
-	}
+    
+        def trigger = new SimpleTriggerImpl(
+            name: 'Jenkins Monitor Trigger',
+            startTime: new Date(),
+            repeatInterval: 15000,
+            repeatCount: -1
+        )
+    
+        quartzScheduler.scheduleJob(job, trigger)
+    }
 
 ## <a id="schedulingNotifications"></a>Scheduling Notifications
 We use Jinkies to tell everyone it's time for the daily stand-up. Someday we hope 
@@ -217,22 +219,24 @@ paste in the following...
 	import grails.plugin.quartz2.ClosureJob
 	import uk.co.acuminous.jinkies.util.HttpClientsFactory
 
-	grails.plugin.quartz2.jobSetup.projectXStandup = { quartzScheduler, ctx ->
-	
-        try {
-            Map params = [resourceId: 'project/x', theme: 'Scooby Doo', event: 'Stand-Up', channel: ['audio']]
-            new HttpClientsFactory().getHttpBuilder('http://localhost:8080/api/event').post(body: params)
-        } catch (Throwable t) {
-            Logger.getLogger('ProjectXStandupJob').error('An error while sounding the Project X standup', t)
-        }
-	
-		def trigger = new CronTriggerImpl(
-			name: 'ProjectX Stand-up Trigger',
-			cronExpression: '0 30 9 ? * MON-FRI' // 09:30 Monday - Friday
-		)
-	
-		quartzScheduler.scheduleJob(job, trigger)
-	}
+    grails.plugin.quartz2.jobSetup.projectXStandup = { quartzScheduler, ctx ->
+        
+        def job = ClosureJob.createJob('ProjectXStandup', { jobCtx , appCtx->
+            try {
+                Map params = [resourceId: 'project/x', theme: 'Scooby Doo', event: 'Stand-Up', channel: ['audio']]
+                new HttpClientsFactory().getHttpBuilder('http://localhost:8080/api/event').post(body: params)
+            } catch (Throwable t) {
+                Logger.getLogger('ProjectXStandupJob').error('An error while sounding the Project X standup', t)
+            }
+        })
+    
+        def trigger = new CronTriggerImpl(
+            name: 'ProjectX Stand-up Trigger',
+            cronExpression: '0 30 9 ? * MON-FRI' // 09:30 Monday - Friday
+        )
+    
+        quartzScheduler.scheduleJob(job, trigger)
+    }
 
 Substitute 'projectX' with your project name, 'Scooby Doo' with your theme etc and give the trigger a valid cron expression 
 that represents when your Stand-Up event will fire. You can find more information about cron expressions [here](http://quartz-scheduler.org/api/2.0.0/org/quartz/CronExpression.html) 
@@ -286,9 +290,9 @@ into the [external configuration](#external-configuration) file and update the c
 
     grails.plugin.quartz2.jobSetup.eventHouskeeper = { quartzScheduler, ctx ->
         
-        def job = ClosureJob.createJob([concurrentExectionDisallowed: true]) { jobCtx , appCtx->
+        def job = ClosureJob.createJob([name: 'EventHousekeeperJob', concurrentExectionDisallowed: true]) { jobCtx , appCtx->
             try {
-                 appCtx.eventHousekeeper().run()
+                 appCtx.eventHousekeeper.run()
             } catch (Throwable t) {
                 Logger.getLogger('EventHousekeeperJob').error('An error while tidying up old events', t)
             }
@@ -296,7 +300,7 @@ into the [external configuration](#external-configuration) file and update the c
     
         def trigger = new CronTriggerImpl(
             name: 'Event Housekeeper Trigger',
-            cronExpression: '0 10 0 * * ?' // 03:00 Daily
+            cronExpression: '0 29 9 * * ?' // 03:00 Daily
         )
     
         quartzScheduler.scheduleJob(job, trigger)

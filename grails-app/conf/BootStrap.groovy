@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import org.quartz.Scheduler
+
 import uk.co.acuminous.jinkies.content.*
 import uk.co.acuminous.jinkies.json.CustomJsonMarshaller
 import grails.converters.JSON
@@ -24,12 +26,19 @@ import uk.co.acuminous.jinkies.event.EventService
 class BootStrap {
 	
 	EventService eventService
+	Scheduler quartzScheduler
+	def grailsApplication
 	
     def init = { servletContext ->
 		
 		JSON.registerObjectMarshaller(Job,CustomJsonMarshaller.jobWithLastEvent.curry(eventService) )
 		JSON.registerObjectMarshaller(Content, CustomJsonMarshaller.content)
 		JSON.registerObjectMarshaller(Tag, CustomJsonMarshaller.tag)
+		
+
+		if (grailsApplication.config.grails.plugin.quartz2.immediateStandby == true) {
+			quartzScheduler.standby()
+		}
     }
 	
     def destroy = {

@@ -13,11 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
-quartz2.autoStartup = false
-betamax.enabled = true
-betamax.proxyPort = 5556
+package uk.co.acuminous.jinkies.event
 
-jinkies.testChannel.enabled = true
-grails.plugin.quartz2.autoStartup = true
-grails.plugin.quartz2.immediateStandby = true
+import java.util.Map;
+
+import uk.co.acuminous.jinkies.content.Tag
+import uk.co.acuminous.jinkies.content.TagType
+
+class EventBuilder {
+
+	Event build(Map data = [:]) {
+		
+		data.uuid = data.uuid ?: UUID.randomUUID().toString()
+		data.resourceId = data.resourceId ?: randomResourceId
+		data.type = data.type ?: new Tag('Success', TagType.event)
+		data.timestamp = data.timestamp ?: System.currentTimeMillis()
+		
+		println data
+		
+		new Event(data)
+	}
+	
+	String getRandomResourceId() {
+		int number = Math.random() * Integer.MAX_VALUE 
+		"job/$number"
+	}
+	
+}

@@ -34,15 +34,15 @@ class EventHousekeeperSpec extends IntegrationSpec {
 		Long oneDay = 24 * 60 * 60 * 1000L
 		cutoff = baseTime - oneDay
 		
-		housekeeper = new EventHousekeeper(cutoff: oneDay)
+		housekeeper = new EventHousekeeper(timeToLive: oneDay)
 	}
 	
-	def "Deletes old events"() {
+	def "Deletes old events for each resource"() {
 		
 		given:
 			[cutoff - 5000, cutoff, cutoff + 5000, baseTime, baseTime + 5000].each { long timestamp ->
-				makeEvent('a/b', timestamp)
-				makeEvent('x/y', timestamp)
+				new EventBuilder().build(resourceId: 'job/1', type: success, timestamp: timestamp).save()
+				new EventBuilder().build(resourceId: 'job/2', type: success, timestamp: timestamp).save()
 			}
 		
 		when:
@@ -53,12 +53,12 @@ class EventHousekeeperSpec extends IntegrationSpec {
 			Event.list().findAll { it.timestamp < cutoff }.size() == 0
 	}
 	
-	def "Always retains last event no matter what"() {
+	def "Retains last event for each resource"() {
 
 		given:
 			[cutoff - 5000, cutoff].each { long timestamp ->
-				makeEvent('a/b', timestamp)
-				makeEvent('x/y', timestamp)
+				new EventBuilder().build(resourceId: 'job/1', type: success, timestamp: timestamp).save()
+				new EventBuilder().build(resourceId: 'job/2', type: success, timestamp: timestamp).save()
 			}
 
 		when:
@@ -68,8 +68,17 @@ class EventHousekeeperSpec extends IntegrationSpec {
 			Event.count() == 2
 			Event.list().findAll { it.timestamp <= cutoff }.size() == 2
 	}
-		
-	void makeEvent(String resourceId, Long timestamp) {
-		new Event(uuid: UUID.randomUUID().toString(), resourceId: resourceId, type: success, timestamp: timestamp).save()
+	
+	def "Tollerates no old events"() {
+		given:
+			[cutoff + 5000, baseTime, baseTime + 5000].each { long timestamp ->
+				new EventBuilder().build(resourceId: 'job/1', type: success, timestamp: timestamp).save()
+			}
+	
+		when:
+			housekeeper.run()
+			
+		then:
+			Event.count() == 3
 	}
 }

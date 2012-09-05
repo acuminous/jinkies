@@ -47,12 +47,12 @@ class RemoteBetamaxRecorder {
 	}
 		
 	def startProxy = { String tape, Map args ->
-		Recorder recorder = app.mainContext.getBean('recorder')
+		Recorder recorder = ctx.getBean('recorder')
 		recorder.startProxy(tape, args)
 	}
 	
 	def stopProxy = { 
-		Recorder recorder = app.mainContext.getBean('recorder')
+		Recorder recorder = ctx.getBean('recorder')
 		recorder.stopProxy()
 	}
 }
