@@ -18,7 +18,8 @@ var WidgetPanel = Class.$extend({
 		this.freezeMinHeight();		
 		this.clear();		
 		var widgets = this.getWidgets();		
-		this.render(widgets);		
+		this.render(widgets);
+		this.renderFilterName();
 		this.triggerFilter();				
 		this.releaseMinHeight();
 		

@@ -24,10 +24,9 @@
 						<div id="contentContainer" class="widgetContainer">
 						
                             <h1 class="title">
-                                <r:img id="filter" uri="/images/next-filter.png" alt="Next Filter" />
                                 Showing 
                                 <span id="filter-name" data-all="all themes">all themes</span>
-                                <r:img id="refresh" uri="/images/refresh.png" alt="Refresh" />
+                                <r:img id="filter" uri="/images/next-filter.png" alt="Next Filter" />
                             </h1>                            
 						
 							<div class="content widget add fake">

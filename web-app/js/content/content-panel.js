@@ -47,22 +47,18 @@ var ContentPanel = WidgetPanel.$extend({
 	applyThemeFilter: function(filterName) {
 		
 		var filterDisplayName = this.getCurrentFilterDisplayName();
-		
-		if (filterName == 'all') {
-			this.clearFilter();
-		} else {
-			this.getRealWidgets().each(function() {
-				var widget = new ContentWidget($(this));
 
-				var themes = widget.getThemes().split(', ');
-				
-				if ($.inArray(filterDisplayName, themes) >= 0) {						
-					widget.filterIn();
-				} else {
-					widget.filterOut();				
-				}
-			})				
-		}
+		this.getRealWidgets().each(function() {
+			var widget = new ContentWidget($(this));
+
+			var themes = widget.getThemes().split(', ');
+			
+			if ($.inArray(filterDisplayName, themes) >= 0) {						
+				widget.filterIn();
+			} else {
+				widget.filterOut();				
+			}
+		})				
 	},	
 	
 	sort : function(widgets) {
