@@ -36,21 +36,16 @@ class JenkinsServerFunctionalSpec extends Specification {
 	JenkinsServer jenkins = new JenkinsServer(httpClientsFactory: new HttpClientsFactory())	
 	
 	@Betamax(tape="Jenkins Build History")
-	@Unroll("Gets #job.url build history")
-	def "Gets a job's build history"() {
+	@Unroll("Gets #job.url latest build")
+	def "Gets a job's last build"() {
 		
 		when:
-			List<Build> buildHistory = jenkins.getBuildHistory(job)
+			Build build = jenkins.getLatestBuild(job)
 									
 		then:
-			buildHistory.size() == 6
-			buildHistory[0].job == job
-			buildHistory[0].number == 40
-			buildHistory[0].url == 'http://build.acuminous.meh:8080/job/Jinkies/40/'
-			
-			buildHistory[5].job == job
-			buildHistory[5].number == 27
-			buildHistory[5].url == 'http://build.acuminous.meh:8080/job/Jinkies/27/'
+			build.job == job
+			build.number == 40
+			build.url == 'http://build.acuminous.meh:8080/job/Jinkies/40/'
 			
 		where:
 			job << [
@@ -60,57 +55,23 @@ class JenkinsServerFunctionalSpec extends Specification {
 	}	
 	
 	@Betamax(tape="Jenkins Build History")
-	def "getBuildHistory handles jobs with no history"() {
+	def "getLatestBuild handles jobs with no history"() {
 		
 		given:
 			Job job = new Job(displayName: 'NoHistory', url: 'http://build.acuminous.meh:8080/job/NoHistory/')
 
-		when:
-			List buildHistory = jenkins.getBuildHistory(job)
-									
-		then:
-			buildHistory.size() == 0
+		expect:
+			jenkins.getLatestBuild(job) == null
 	}
 	
 	@Betamax(tape="Jenkins Build History")
-	def "getBuildHistory reports missing jobs"() {
+	def "getLatestBuild reports missing jobs"() {
 		
 		given:
 			Job job = new Job(displayName: 'Nada', url: 'http://build.acuminous.meh:8080/job/Nada/')
 		
 		when:
-			jenkins.getBuildHistory(job)
-									
-		then:
-			thrown HttpResponseException
-	}
-	
-	@Betamax(tape="Jenkins Build")
-	def "Reports build details"() {
-		
-		given:
-			Job job = new Job(displayName: 'Jinkies', url: 'http://build.acuminous.meh:8080/job/Jinkies/')		
-			Build build = new Build(job: job, number: 40, url: 'http://build.acuminous.meh:8080/job/Jinkies/40/')
-
-		when:
-			jenkins.populateMissingDetails(build)
-									
-		then:
-			build.url == 'http://build.acuminous.meh:8080/job/Jinkies/40/'
-			build.number == 40
-			build.result == 'FAILURE'
-			build.timestamp == 1338567880176
-	}
-		
-	@Betamax(tape="Jenkins Build")
-	def "getBuild reports missing jobs"() {
-		
-		given:
-			Job job = new Job(displayName: 'Nada', url: 'http://build.acuminous.meh:8080/job/Nada/')		
-			Build build = new Build(job: job, url: 'http://build.acuminous.meh:8080/job/Nada/1/')
-
-		when:
-			jenkins.populateMissingDetails(build)
+			jenkins.getLatestBuild(job)
 									
 		then:
 			thrown HttpResponseException

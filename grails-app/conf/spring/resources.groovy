@@ -122,15 +122,10 @@ beans = {
 		server = ref('jenkinsServer')
 		eventHandler = { DuplicateEventFilter dedupe ->
 			eventService = ref('eventService')
-			nextHandler = ref('jenkinsBuildRetriever')
+			nextHandler = ref('consecutiveSuccessFilter')
 		}
 		errorHandler = ref('consecutiveErrorFilter')
 	}			
-		
-	jenkinsBuildRetriever(JenkinsBuildRetriever) {
-		server = ref('jenkinsServer')
-		nextHandler = ref('consecutiveSuccessFilter')		
-	}
 
 	consecutiveSuccessFilter(ConsecutiveEventFilter) {
 		eventService = ref('eventService')

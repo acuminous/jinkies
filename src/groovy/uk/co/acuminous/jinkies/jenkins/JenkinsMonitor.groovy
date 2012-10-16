@@ -40,10 +40,8 @@ class JenkinsMonitor {
 
 			log.debug("Checking for new $job.displayName builds")
 			
-			List<Build> history = server.getBuildHistory(job)
-			
-			if (history) {
-				Build build = history.first()
+			Build build = server.getLatestBuild(job)
+			if (build) {
 				Map event = build.toEvent()				
 				eventHandler.handle event
 			}

@@ -48,33 +48,33 @@ class JenkinsServer {
 		return results
 	}
 	
-	List<Build> getBuildHistory(Job job) {
+	Build getLatestBuild(Job job) {
+		log.debug("Retrieving latest build for $job.url")
 		
-		log.debug("Requesting build history from $job.url")
-		
-		List<Build> results = []
+		Build build
 		
 		HTTPBuilder httpBuilder = httpClientsFactory.getHttpBuilder()
-		
-		httpBuilder.get(uri: jsonApi(job.url), contentType: JSON) { resp, json ->
-			json.builds.each { build ->
-				results << new Build(job: job, url: build.url, number: build.number)
+		String jobUrl = jsonApi job.url
+		println jobUrl
+		httpBuilder.get(uri: jobUrl, contentType: JSON) { resp, json ->
+			if (json.builds) {
+				build = new Build(job: job)
+				build.url = json.builds[0].url
+				build.number = json.builds[0].number
 			}
 		}
 		
-		return results
-	}
-	
-	void populateMissingDetails(Build build) {
-		
-		log.info("Requesting build details from $build.url")
-				
-		HTTPBuilder httpBuilder = httpClientsFactory.getHttpBuilder()
-		
-		httpBuilder.get(uri: jsonApi(build.url), contentType: JSON) { resp, json ->
-			build.result = json.result ?: 'BUILDING'
-			build.timestamp = json.timestamp
+		if (build) {
+			String buildUrl = jsonApi build.url
+			println buildUrl
+			httpBuilder.get(uri: buildUrl, contentType: JSON) { resp, json ->
+				build.result = json.result ?: 'BUILDING'
+				build.timestamp = json.timestamp
+				build.uuid = build.url + '_' + json.id
+			}
 		}
+		
+		return build
 	}
 	
 	String jsonApi(String url) {

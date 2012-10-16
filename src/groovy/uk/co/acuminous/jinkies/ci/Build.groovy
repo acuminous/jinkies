@@ -19,7 +19,8 @@ import uk.co.acuminous.jinkies.content.Tag
 
 
 class Build {
-	
+
+	String uuid	
 	String url
 	Integer number	
 	String result
@@ -32,7 +33,7 @@ class Build {
 	
 	Map toEvent() {
 		[
-			uuid: url,
+			uuid: uuid,
 			sourceId: job.resourceId,
 			type: Tag.findEventTypeByName(result),
 			theme: job.theme,

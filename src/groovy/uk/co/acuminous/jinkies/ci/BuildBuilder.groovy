@@ -27,6 +27,8 @@ class BuildBuilder {
 		data.url = data.url ?: data.job.url + "${data.number}/"
 		data.result = data.result ?: 'SUCCESS'
 		data.timestamp = data.timestamp ?: System.currentTimeMillis()
+		data.uuid = data.uuid ?: "${data.url}_2012-09-06_08-21-54" 
+		
 		return new Build(data)
 	} 
 	
