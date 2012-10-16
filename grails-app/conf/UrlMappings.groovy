@@ -16,7 +16,7 @@
 class UrlMappings {
 
 	static mappings = {
-		
+				
 		"/api/$controller"(parseRequest: true) {
 			action = [GET:"list", POST:"create"]
 			constraints {
