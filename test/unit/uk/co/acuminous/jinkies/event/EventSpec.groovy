@@ -19,7 +19,7 @@ import spock.lang.Unroll
 import uk.co.acuminous.jinkies.content.Tag
 import uk.co.acuminous.jinkies.content.TagType
 import grails.plugin.spock.UnitSpec
-import grails.test.mixin.*
+import grails.test.mixin.Mock
 import static uk.co.acuminous.jinkies.util.AssertionUtils.*;
 
 @Mock([Event, Tag])

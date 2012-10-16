@@ -37,7 +37,6 @@ class RemoteBetamaxRecorder {
 		}
 	} 
 
-
 	void start(String tape, Map args) {				
 		remote startProxy.curry(tape, args)
 	}
