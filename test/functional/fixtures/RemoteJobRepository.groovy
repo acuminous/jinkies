@@ -28,6 +28,8 @@ import uk.co.acuminous.jinkies.spec.RemoteUtils
 
 class RemoteJobRepository {
 
+	TagService tagService = new TagService()
+	
 	Job buildRandomJob() {
 		buildJob([
 			displayName: randomAlphabetic(10),
@@ -37,71 +39,36 @@ class RemoteJobRepository {
 	}	
 	
 	Job buildJob(Map data) {
-		new RemoteUtils().remote {
-			Job job = JobBuilder.build(data).save(flush:true)
-			assert job.id, job.errors
-			job
-		}
+		Job job = JobBuilder.build(data)
+		job.save(flush:true, failOnError:true)
 	}
 	
-	void failJob(Job job) {
-		new RemoteUtils().remote {
-			TagService tagService = ctx.getBean('tagService')
-			Tag tag = tagService.findOrCreateEvents(['Failure'])[0]
-			
-			Event event = new Event(uuid: UUID.randomUUID().toString(), sourceId: job.resourceId, type: tag, timestamp: System.currentTimeMillis())
-			event.save()			
-		}
+	void fail(Job job) {
+		Tag tag = tagService.findOrCreateEvents(['Failure'])[0]
+		
+		Event event = new Event(uuid: UUID.randomUUID().toString(), sourceId: job.resourceId, type: tag, timestamp: System.currentTimeMillis())
+		event.save(flush: true, failOnError: true)			
 	}
 	
 	Job addChannel(String displayName, String channel) {
-		new RemoteUtils().remote {
-			List results = Job.findAllByDisplayName(displayName)
-			Job job = results ? results[0] : null
-			job.addToChannels(channel)
-			assert job.save(flush:true)
-			return job
-		}
+		
+		// http://jira.grails.org/browse/GRAILS-8915?focusedCommentId=71362#comment-71362
+		List results = Job.findAllByDisplayName(displayName)
+		Job job = results ? results[0] : null
+		
+		job.addToChannels(channel)
+		job.save(flush:true, failOnError: true)
 	}
 	
 	Job setTheme(String displayName, String themeName) {
-		new RemoteUtils().remote {
-			
-			List results = Job.findAllByDisplayName(displayName)
-			Job job = results ? results[0] : null
 
-			TagService tagService = new TagService()
-			job.theme = tagService.findOrCreateTag(themeName, TagType.theme)
-			
-			assert job.save(flush:true)
-			return job
-		}
-	}
-	
-	List<Job> findAllByUrl(String url) {
-		new RemoteUtils().remote {
-			Job.findAllByUrlIlike("$url%")
-		}
-	}
-	
-	Job findByDisplayName(String displayName) {
-		new RemoteUtils().remote {
-			// http://jira.grails.org/browse/GRAILS-8915?focusedCommentId=71362#comment-71362
-			List results = Job.findAllByDisplayName(displayName)		
-			
-			// Avoid LazyInitializationException
-			results.each {
-				"${it.theme}"
-			}
-				
-			results ? results[0] : null
-		}	
-	}
-	
-	Integer count() {
-		new RemoteUtils().remote {
-			Job.count()
-		}
+		// http://jira.grails.org/browse/GRAILS-8915?focusedCommentId=71362#comment-71362
+		List results = Job.findAllByDisplayName(displayName)
+		Job job = results ? results[0] : null
+
+		Tag theme = tagService.findOrCreateTag(themeName, TagType.theme)
+		job.theme = theme						
+		job.save(flush:true, failOnError: true)
 	}
 
 }

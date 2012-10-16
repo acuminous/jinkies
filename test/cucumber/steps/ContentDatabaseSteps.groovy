@@ -33,7 +33,7 @@ Then (~'create the content in the database') { ->
 	
 	Content databaseContent
 	waitFor {
-		databaseContent = contentRepository.findByTitle(content.title)
+		databaseContent = Content.findByTitle(content.title)
 	}
 	verifyDatabaseContent(databaseContent)
 }

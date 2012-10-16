@@ -26,7 +26,7 @@ this.metaClass.mixin(cucumber.runtime.groovy.EN)
 RemoteJobRepository jobRepository = new RemoteJobRepository()
 
 Given (~'that a job called (.*) does not exist') { String displayName ->
-	assert jobRepository.findJobByDisplayName(displayName) == null
+	assert Job.findByDisplayName(displayName) == null
 }
 
 Given (~'that there are (.*) (?:jobs|successful jobs)') { int number ->		
@@ -41,7 +41,7 @@ Given (~'(.*) failing jobs') { int number ->
 	number.times {
 		jobs << jobRepository.buildRandomJob()
 		jobs.each {
-			jobRepository.failJob(it)
+			jobRepository.fail it
 		}
 	}
 }
@@ -75,7 +75,7 @@ Given (~'that (.*) has a (.*) theme') { String jobName, String theme ->
 Then (~'create (.*) jobs in the database') { Integer n ->
 
 	waitFor {
-		jobs = jobRepository.findAllByUrl(job.url)
+		jobs = Job.findAllByUrlIlike("%$job.url%")
 		jobs.size() == n
 	}
 	
@@ -88,7 +88,7 @@ Then (~'create the job in the database') { ->
 
 	Job databaseJob
 	waitFor {
-		databaseJob = jobRepository.findByDisplayName(job.displayName)
+		databaseJob = Job.findByDisplayName(job.displayName) 
 	}	
 	verifyDatabaseJob(databaseJob)
 
@@ -96,26 +96,26 @@ Then (~'create the job in the database') { ->
 
 Then (~'do not create the job in the database') { ->
 	Thread.sleep(500)
-	Job databaseJob = jobRepository.findByDisplayName(job.displayName)
+	Job databaseJob = Job.findByDisplayName(job.displayName)
 	assert databaseJob == null
 }
 
 Then (~'delete (.*) from the database') { String jobName ->
 	waitFor {
-		Job databaseJob = jobRepository.findByDisplayName(job.displayName)
+		Job databaseJob = Job.findByDisplayName(job.displayName)
 		databaseJob == null
 	}
 }
 
 Then (~'update the job in the database') { ->
-	Job databaseJob = jobRepository.findByDisplayName(job.displayName)
+	Job databaseJob = Job.findByDisplayName(job.displayName)
 	
 	verifyDatabaseJob(job)
 
 }
 
 Then (~'do not update the job in the database') { ->
-	Job databaseJob = jobRepository.findByDisplayName(job.displayName)
+	Job databaseJob = Job.findByDisplayName(job.displayName)
 	
 	verifyDatabaseJob(job)
 }

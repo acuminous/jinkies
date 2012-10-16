@@ -55,7 +55,6 @@ class JenkinsServer {
 		
 		HTTPBuilder httpBuilder = httpClientsFactory.getHttpBuilder()
 		String jobUrl = jsonApi job.url
-		println jobUrl
 		httpBuilder.get(uri: jobUrl, contentType: JSON) { resp, json ->
 			if (json.builds) {
 				build = new Build(job: job)
@@ -66,7 +65,6 @@ class JenkinsServer {
 		
 		if (build) {
 			String buildUrl = jsonApi build.url
-			println buildUrl
 			httpBuilder.get(uri: buildUrl, contentType: JSON) { resp, json ->
 				build.result = json.result ?: 'BUILDING'
 				build.timestamp = json.timestamp

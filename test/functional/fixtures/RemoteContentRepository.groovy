@@ -22,40 +22,12 @@ import uk.co.acuminous.jinkies.content.TagType
 import uk.co.acuminous.jinkies.spec.RemoteUtils
 import static org.apache.commons.lang.RandomStringUtils.randomAlphabetic;
 
-
-
 class RemoteContentRepository {
+	
+	TagService tagService = new TagService()
 
 	Content buildRandomContent(String themeName) {
-		new RemoteUtils().remote {
-			
-			TagService tagService = new TagService()
-			Tag theme = tagService.findOrCreateTag(themeName, TagType.theme)
-						
-			Content content = Content.build(title: randomAlphabetic(10), filename: randomAlphabetic(10), themes: [theme])
-			assert content
-						
-			return content
-		}
+		Tag theme = tagService.findOrCreateTag(themeName, TagType.theme)						
+		Content.build(title: randomAlphabetic(10), filename: randomAlphabetic(10), themes: [theme])
 	}	
-	
-	def methodMissing(String name, args) {
-		
-		new RemoteUtils().remote {
-			def domainClass = app.domainClasses.find {
-				it.name == Content.class.simpleName
-			}
-			def results = domainClass.clazz.invokeMethod(name, args)
-			
-			if (results?.class == Content) {	
-				// Avoid LazyInitializationException				
-				'' + results.themes.collect { "$it" }
-				'' + results.events.collect { "$it" }
-			}
-			return results			
-		}
-			
-	}
-
-		
 }
