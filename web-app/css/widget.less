@@ -51,20 +51,24 @@
     &.job {    
         .border(@widget-unknown-border-color);
         .colours(@widget-unknown-text-color, @widget-unknown-background-color);
+        .transparent(0.8, alpha(opacity=80));
         
         &.success {
             .colours(@widget-text-color, @widget-background-color);
-            .border(@widget-border-color);            
+            .border(@widget-border-color);
+            .transparent(1, alpha(opacity=100));                        
         }
 
         &.failure {
             .border(@widget-failure-border-color);
             .colours(@widget-failure-text-color, @widget-failure-background-color);
+            .transparent(1, alpha(opacity=100));
         }
         
         &.error {
             .border(@widget-error-border-color);
             .colours(@widget-error-text-color, @widget-error-background-color);
+            .transparent(1, alpha(opacity=100));
         }        
         
     }
