@@ -27,7 +27,6 @@ class JenkinsMonitor {
 
 	JenkinsServer server
 	EventHandler eventHandler
-	EventHandler errorHandler
 	
 	void check() {
 		List<Job> jobs = Job.findAllByType('jenkins')
@@ -42,7 +41,8 @@ class JenkinsMonitor {
 			
 			Build build = server.getLatestBuild(job)
 			if (build) {
-				Map event = build.toEvent()				
+				Map event = build.toEvent()	
+											
 				eventHandler.handle event
 			}
 						
@@ -52,7 +52,7 @@ class JenkinsMonitor {
 
 			Map event = createErrorEvent(job, e)	
 											
-			errorHandler.handle event				
+			eventHandler.handle event				
 		}
 	}
 	

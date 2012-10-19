@@ -66,12 +66,12 @@ class JenkinsServer {
 		if (build) {
 			String buildUrl = jsonApi build.url
 			httpBuilder.get(uri: buildUrl, contentType: JSON) { resp, json ->
-				build.result = json.result ?: 'BUILDING'
+				build.result = json.building ? 'BUILDING' : json.result
 				build.timestamp = json.timestamp
 				build.uuid = build.url + '_' + json.id
 			}
 		}
-		
+				
 		return build
 	}
 	

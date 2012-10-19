@@ -45,6 +45,7 @@ class JenkinsServerFunctionalSpec extends Specification {
 		then:
 			build.job == job
 			build.number == 40
+			build.result == 'SUCCESS'
 			build.url == 'http://build.acuminous.meh:8080/job/Jinkies/40/'
 			
 		where:
@@ -52,6 +53,19 @@ class JenkinsServerFunctionalSpec extends Specification {
 				new Job(displayName: 'Jinkies', url: 'http://build.acuminous.meh:8080/job/Jinkies/'),
 				new Job(displayName: 'Jinkies', url: 'http://build.acuminous.meh:8080/job/Jinkies')
 			]
+	}
+	
+	@Betamax(tape="Jenkins Build History")
+	def "getLatestBuild supports jobs that are still building"() {
+		
+		given:
+			Job job = new Job(displayName: 'Building', url: 'http://build.acuminous.meh:8080/job/Building/')
+		
+		when:
+			Build build = jenkins.getLatestBuild(job)
+									
+		then:
+			build.result == 'BUILDING'
 	}	
 	
 	@Betamax(tape="Jenkins Build History")
@@ -85,18 +99,6 @@ class JenkinsServerFunctionalSpec extends Specification {
 									
 		then:
 			jobs.size() == 6
-	}
-	
-	@Betamax(tape="Jenkins Build History")
-	def "getJobs also supports a single job url"() {
-		
-		given:
-
-		when:
-			List<Job> jobs = jenkins.getJobs('http://build.acuminous.meh:8080/job/Jinkies/')
-									
-		then:
-			jobs.size() == 1
 	}
 	
 }

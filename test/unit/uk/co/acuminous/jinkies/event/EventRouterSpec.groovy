@@ -16,17 +16,27 @@
 package uk.co.acuminous.jinkies.event
 
 import uk.co.acuminous.jinkies.ci.Job
+
 import uk.co.acuminous.jinkies.content.Tag
 import uk.co.acuminous.jinkies.content.TagType
 import grails.plugin.spock.UnitSpec
+import grails.test.mixin.Mock
 
-class JobEventRouterSpec extends UnitSpec {
+@Mock(Tag)
+class EventRouterSpec extends UnitSpec {
 	
 	EventHandler jobEventHandler = Mock(EventHandler)
+	EventHandler errorEventHandler = Mock(EventHandler)
 	EventHandler otherEventHandler = Mock(EventHandler)
-	JobEventRouter router = new JobEventRouter(jobEventHandler: jobEventHandler, otherEventHandler: otherEventHandler)
+	EventRouter router = new EventRouter(jobEventHandler: jobEventHandler, errorEventHandler: errorEventHandler, otherEventHandler: otherEventHandler)
 	
-	def "Routes job events to correct handler"() {
+	Tag error
+	
+	def setup() {
+		error = new Tag('Error', TagType.event).save()
+	}
+	
+	def "Routes job events to job handler"() {
 		
 		given:
 			Map event = [job: new Job()]
@@ -36,10 +46,26 @@ class JobEventRouterSpec extends UnitSpec {
 			
 		then: 
 			1 * jobEventHandler.handle(event)
+			0 * errorEventHandler._
 			0 * otherEventHandler._
 	}
 	
-	def "Routes other events to correct handler"() {
+	def "Routes error events to the error handler"() {
+		
+		given:
+			Map event = [type: error]
+		
+		when:
+			router.handle event
+			
+		then:
+			1 * errorEventHandler.handle(event)
+			0 * jobEventHandler._			
+			0 * otherEventHandler._
+		
+	}
+	
+	def "Routes other events to other handler"() {
 		
 		given:
 			Map event = [:]
@@ -50,5 +76,6 @@ class JobEventRouterSpec extends UnitSpec {
 		then: 
 			1 * otherEventHandler.handle(event)
 			0 * jobEventHandler._
+			0 * errorEventHandler._
 	}
 }

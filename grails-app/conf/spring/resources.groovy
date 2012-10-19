@@ -126,7 +126,6 @@ beans = {
 	jenkinsMonitor(JenkinsMonitor) {
 		server = ref('jenkinsServer')
 		eventHandler = ref('eventCacheUpdater')
-		errorHandler = ref('consecutiveErrorFilter')
 	}
 	
 	eventCacheUpdater(EventCacheUpdater) {
@@ -136,11 +135,12 @@ beans = {
 	
 	duplicateEventFilter(DuplicateEventFilter) {
 		eventService = ref('eventService')
-		nextHandler = ref('jobEventRouter')
+		nextHandler = ref('eventRouter')
 	}
 	
-	jobEventRouter(JobEventRouter) {
+	eventRouter(EventRouter) {
 		jobEventHandler = ref('consecutiveSuccessFilter')
+		errorEventHandler = ref('consecutiveErrorFilter')
 		otherEventHandler = ref('eventPersistor')
 	}			
 	

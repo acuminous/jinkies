@@ -30,8 +30,7 @@ class JenkinsMonitorSpec extends UnitSpec {
 
 	JenkinsServer jenkinsServer = Mock(JenkinsServer)
 	EventHandler eventHandler = Mock(EventHandler)
-	EventHandler errorHandler = Mock(EventHandler)
-	JenkinsMonitor jenkinsMonitor = new JenkinsMonitor(server: jenkinsServer, eventHandler: eventHandler, errorHandler: errorHandler)
+	JenkinsMonitor jenkinsMonitor = new JenkinsMonitor(server: jenkinsServer, eventHandler: eventHandler)
 
 	def "Checks all known Jenkins jobs"() {
 		
@@ -92,8 +91,12 @@ class JenkinsMonitorSpec extends UnitSpec {
 			
 		then:
 			1 * jenkinsServer.getLatestBuild(_) >> build
-			1 * eventHandler.handle(_) >> { throw new QuietException() }
-			1 * errorHandler.handle({ Map event ->
+			
+			1 * eventHandler.handle({ Map event ->
+				event.error == null
+			}) >> { throw new QuietException() }
+			
+			1 * eventHandler.handle({ Map event ->
 				event.job == job &&
 				event.error == 'This is a test exception. Please ignore.' &&
 				event.sourceId == "job/$job.id" &&
