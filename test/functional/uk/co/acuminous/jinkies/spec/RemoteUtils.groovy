@@ -16,6 +16,8 @@
 package uk.co.acuminous.jinkies.spec
 
 import grails.plugin.remotecontrol.RemoteControl
+import org.apache.log4j.Level
+import org.apache.log4j.Logger
 import uk.co.acuminous.jinkies.test.Nuke
 
 

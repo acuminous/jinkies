@@ -15,9 +15,10 @@
  */
 package uk.co.acuminous.jinkies.ci
 
-import uk.co.acuminous.jinkies.util.CommonValidators;
+import uk.co.acuminous.jinkies.util.CommonValidators
 import uk.co.acuminous.jinkies.content.Tag
 import uk.co.acuminous.jinkies.event.Event
+import uk.co.acuminous.jinkies.event.EventService
 
 
 class Job implements Serializable {
@@ -29,6 +30,7 @@ class Job implements Serializable {
 	String type	
 	Tag theme
 	List<String> channels
+	transient def eventService
 	
 	static constraints = {
 		displayName blank:false
@@ -50,9 +52,7 @@ class Job implements Serializable {
 	}
 	
 	def afterDelete() {
-		Event.withNewSession {
-			Event.findAllBySourceId(resourceId)*.delete()
-		}
+		eventService.purge(resourceId)
 	}
 	
 	@Override

@@ -90,24 +90,6 @@ class EventServiceSpec extends IntegrationSpec {
 			thrown ValidationException
 	}
 	
-	def "Returns last event for each distinct source id"() {
-		given: 
-			new EventBuilder().build(sourceId: 'a/1', type: success, timestamp: 1L).save()
-			new EventBuilder().build(sourceId: 'a/1', type: failure, timestamp: 2L).save()
-			new EventBuilder().build(uuid: 'this-one', sourceId: 'a/1', type: success, timestamp: 3L).save()
-			
-			new EventBuilder().build(sourceId: 'a/2', type: success, timestamp: 1L).save()
-			new EventBuilder().build(uuid: 'and-this-one', sourceId: 'a/2', type: failure, timestamp: 2L).save()
-		
-		when:
-			List events = eventService.getLastEvents()
-			
-		then:
-			events.size() == 2
-			events[0].uuid == 'this-one'
-			events[1].uuid == 'and-this-one'
-	}
-	
 	def "Returns last event for source id"() {
 		
 		given:
@@ -119,6 +101,47 @@ class EventServiceSpec extends IntegrationSpec {
 			eventService.getLastEvent('foo/bar') == event2
 	}
 	
+	def "Purges all events for the given source id"() {
+		
+		given:
+			Event event1 = new Event(uuid: '1', sourceId: 'foo/bar', type: success, timestamp: 1L).save()
+			Event event2 = new Event(uuid: '2', sourceId: 'foo/bar', type: success, timestamp: 2L).save()
+
+		when:
+			eventService.purge('foo/bar')
+			
+		then:
+			Event.count() == 0
+			
+	}
+		
+	def "Does not purges events for other source ids"() {
+		
+		given:
+			Event event1 = new Event(uuid: '1', sourceId: 'foo/bar', type: success, timestamp: 1L).save()
+			Event event2 = new Event(uuid: '2', sourceId: 'foo/bar', type: success, timestamp: 2L).save()
+
+		when:
+			eventService.purge('foo/other')
+			
+		then:
+			Event.count() == 2
+			
+	}
+	
+	
+	def "Purges events from cache for given source id"() {
+		
+		given:
+			eventService.cache = ['foo/bar': 'some-event']
+
+		when:
+			eventService.purge('foo/bar')
+			
+		then:
+			eventService.getCurrentStatus('foo/bar') == null
+			
+	}
 	
 	def "Get last event tollerates no events"() {
 		

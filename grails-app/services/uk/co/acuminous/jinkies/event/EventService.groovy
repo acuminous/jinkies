@@ -15,8 +15,12 @@
  */
 package uk.co.acuminous.jinkies.event
 
+import uk.co.acuminous.jinkies.content.Tag
+
 class EventService {
 
+	Map cache
+	
 	synchronized boolean exists(String uuid) {
 		Event.findByUuid(uuid)
 	}
@@ -25,12 +29,16 @@ class EventService {
 		Event event = new Event(data)
 		event.save(flush:true, failOnError:true)
 	}
-
-	List<Event> getLastEvents() {
-		List sourceIds = Event.executeQuery('select distinct e.sourceId from Event e order by e.sourceId asc')
-		sourceIds.collect { String sourceId ->
-			getLastEvent sourceId
-		}		
+	
+	void purge(String sourceId) {
+		Event.withNewSession {
+			Event.findAllBySourceId(sourceId)*.delete()
+		}
+		cache.remove(sourceId)
+	}
+	
+	Tag getCurrentStatus(String sourceId) {
+		cache.get(sourceId)
 	}
 		
 	Event getLastEvent(String sourceId) {

@@ -22,12 +22,18 @@ import uk.co.acuminous.jinkies.content.TagType
 import uk.co.acuminous.jinkies.spec.RemoteUtils
 import static org.apache.commons.lang.RandomStringUtils.randomAlphabetic;
 
-class RemoteContentRepository {
+class ContentRepository {
 	
 	TagService tagService = new TagService()
 
 	Content buildRandomContent(String themeName) {
-		Tag theme = tagService.findOrCreateTag(themeName, TagType.theme)						
-		Content.build(title: randomAlphabetic(10), filename: randomAlphabetic(10), themes: [theme])
+		
+		Tag theme = tagService.findOrCreateTag(themeName, TagType.theme)
+		
+		Content content = new Content(title: randomAlphabetic(10), filename: randomAlphabetic(10))
+		content.addToThemes theme
+		content.save(flush: true, failOnError: true)		
+		content
+		
 	}	
 }

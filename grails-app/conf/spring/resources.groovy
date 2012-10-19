@@ -13,6 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import java.util.concurrent.ConcurrentHashMap;
+
 import betamax.Recorder
 import uk.co.acuminous.jinkies.ci.*
 import uk.co.acuminous.jinkies.channel.*
@@ -61,9 +63,15 @@ beans = {
 	jenkinsServer(JenkinsServer) {
 		httpClientsFactory = ref('httpClientsFactory')
 	}
-	
+
 	contentService(ContentServiceFactoryBean)
 	
+	eventCache(ConcurrentHashMap)
+	
+	eventService(EventService) {
+		cache = ref('eventCache')
+	}
+		
 	eventHousekeeper(EventHousekeeper) {
 		timeToLive = jinkiesConfig.events.ttl.size() ? jinkiesConfig.events.ttl : 24 * 60 * 60 * 1000L
 	}
@@ -111,22 +119,31 @@ beans = {
 	'uk.co.acuminous.jinkies.event.EventController'(EventController) { bean ->
 		bean.scope = 'prototype'
 		bean.autowire = 'byName'
-		eventHandler = { DuplicateEventFilter dedupe ->
-			eventService = ref('eventService')
-			nextHandler = ref('eventPersistor')
-		}
+		eventHandler = ref('eventCacheUpdater')
 	}
 	
 	// Jenkins build events enter here.
 	jenkinsMonitor(JenkinsMonitor) {
 		server = ref('jenkinsServer')
-		eventHandler = { DuplicateEventFilter dedupe ->
-			eventService = ref('eventService')
-			nextHandler = ref('consecutiveSuccessFilter')
-		}
+		eventHandler = ref('eventCacheUpdater')
 		errorHandler = ref('consecutiveErrorFilter')
+	}
+	
+	eventCacheUpdater(EventCacheUpdater) {
+		cache = ref('eventCache')
+		nextHandler = ref('duplicateEventFilter')
+	}
+	
+	duplicateEventFilter(DuplicateEventFilter) {
+		eventService = ref('eventService')
+		nextHandler = ref('jobEventRouter')
+	}
+	
+	jobEventRouter(JobEventRouter) {
+		jobEventHandler = ref('consecutiveSuccessFilter')
+		otherEventHandler = ref('eventPersistor')
 	}			
-
+	
 	consecutiveSuccessFilter(ConsecutiveEventFilter) {
 		eventService = ref('eventService')
 		type = 'Success'

@@ -26,7 +26,7 @@ import static org.apache.commons.lang.RandomStringUtils.randomAlphabetic;
 
 import uk.co.acuminous.jinkies.spec.RemoteUtils
 
-class RemoteJobRepository {
+class JobRepository {
 
 	TagService tagService = new TagService()
 	

@@ -21,6 +21,7 @@ import geb.Browser
 this.metaClass.mixin (cucumber.runtime.groovy.Hooks)
 this.metaClass.mixin(uk.co.acuminous.jinkies.spec.RemoteUtils)
 import fixtures.HttpStub
+import uk.co.acuminous.jinkies.spec.RemoteUtils;
 import uk.co.acuminous.jinkies.test.Nuke
 
 def bindingUpdater

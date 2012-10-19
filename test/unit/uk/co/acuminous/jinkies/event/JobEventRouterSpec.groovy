@@ -15,26 +15,40 @@
  */
 package uk.co.acuminous.jinkies.event
 
-import java.util.Map;
-
+import uk.co.acuminous.jinkies.ci.Job
 import uk.co.acuminous.jinkies.content.Tag
 import uk.co.acuminous.jinkies.content.TagType
+import grails.plugin.spock.UnitSpec
 
-class EventBuilder {
-
-	Event build(Map data = [:]) {
+class JobEventRouterSpec extends UnitSpec {
+	
+	EventHandler jobEventHandler = Mock(EventHandler)
+	EventHandler otherEventHandler = Mock(EventHandler)
+	JobEventRouter router = new JobEventRouter(jobEventHandler: jobEventHandler, otherEventHandler: otherEventHandler)
+	
+	def "Routes job events to correct handler"() {
 		
-		data.uuid = data.uuid ?: UUID.randomUUID().toString()
-		data.resourceId = data.resourceId ?: randomResourceId
-		data.type = data.type ?: new Tag('Success', TagType.event)
-		data.timestamp = data.timestamp ?: System.currentTimeMillis()
-				
-		new Event(data)
+		given:
+			Map event = [job: new Job()]
+		
+		when:
+			router.handle event
+			
+		then: 
+			1 * jobEventHandler.handle(event)
+			0 * otherEventHandler._
 	}
 	
-	String getRandomResourceId() {
-		int number = Math.random() * Integer.MAX_VALUE 
-		"job/$number"
+	def "Routes other events to correct handler"() {
+		
+		given:
+			Map event = [:]
+		
+		when:
+			router.handle event
+			
+		then: 
+			1 * otherEventHandler.handle(event)
+			0 * jobEventHandler._
 	}
-	
 }

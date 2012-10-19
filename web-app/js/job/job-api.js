@@ -98,7 +98,7 @@ function JobApi(baseUrl) {
 	
 	this.checkStatus = function(onSuccess) {
 		
-		var url = this.baseUrl + '/event';
+		var url = this.baseUrl + '/job'; 
 		
 		$.ajax(url, {
 			type: 'GET',

@@ -29,11 +29,6 @@ class EventController extends JinkiesErrorRenderer {
 	EventHandler eventHandler
 	EventService eventService
 	
-	def list() {
-		List events = eventService.getLastEvents()
-		render events as JSON
-	}
-	
 	def create(EventCommand cmd) {
 		
 		if (!report(cmd.errors)) { 

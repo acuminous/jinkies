@@ -15,13 +15,11 @@ var JobStatusChecker = Class.$extend({
 	run : function() {
 		this.dataSource.checkStatus(function(data) {
 			_this = this;
-			$.each(data, function(index, event) {
-				var status = event.type.name;
-				var resourceId = event.sourceId;
-				var resourceIdElement = $('input[name=resourceId][value="' + resourceId + '"]', _this.element);
+			$.each(data, function(index, job) {
+				var resourceIdElement = $('input[name=resourceId][value="' + job.resourceId + '"]', _this.element);
 				var widgetElement = resourceIdElement.parent('.job.widget');
 				var widget = new JobWidget(widgetElement);
-				widget.setStatus(status);
+				widget.setStatus(job.status);
 			});
 		});
 	},

@@ -102,7 +102,7 @@ log4j = {
 		environments {
 			
 			production {
-				rollingFile name: 'file', file: "jinkies.log", maxFileSize:'1MB', layout: pattern(conversionPattern: '%d{ISO8601} [%t] %p %c{2} %m%n')
+				rollingFile name: 'file', file: "jinkies.log", maxFileSize:'1MB', layout: pattern(conversionPattern: '%d{ISO8601} [%t] %p %c %m%n')
 				'null' name: 'stacktrace'
 				'null' name: 'stdout'
 			}

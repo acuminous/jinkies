@@ -16,11 +16,11 @@
 package steps
 
 import uk.co.acuminous.jinkies.content.Content
-import fixtures.RemoteContentRepository
+import fixtures.ContentRepository
 
 this.metaClass.mixin(cucumber.runtime.groovy.EN)
 
-RemoteContentRepository contentRepository = new RemoteContentRepository()
+ContentRepository contentRepository = new ContentRepository()
 
 Given (~'(?:that there are )?(\\d+) mp3s with the (.*) theme') { int number, String theme ->
 	content = []

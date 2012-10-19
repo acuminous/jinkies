@@ -58,6 +58,29 @@ class JobApiSpec extends Specification  {
 			result.channels.collect { it } == job.channels 		
 	}
 	
+	def "Job json representation may include current status"() {
+		
+		given:
+			Job job = remote {
+				Job job = new Job(displayName: 'Julez', url: '../job/julez', type:'jenkins', channels: ['audio']).save()
+				
+				Tag event = new Tag('Alive', TagType.event).save()
+				Map eventCache = ctx.getBean('eventCache')
+				eventCache[job.resourceId] = event
+				
+				job
+			}
+		
+		when:
+			def response = client.get(path: "/api/job/${job.id}")
+			def result = response.data
+		
+		then:
+			response.status == 200
+			
+			result.status == 'Alive'
+	}
+	
 	def "Responds with 404 if job does not exist"() {
 		
 		expect:
@@ -140,7 +163,7 @@ class JobApiSpec extends Specification  {
 	}
 	
 	
-	def "Creatinga job responds with a json represenation"() {
+	def "Creating a job responds with a json represenation"() {
 		
 		given:
 			Map params = [displayName: 'Julez', url: '../job/julez', type: 'jenkins', theme: 'Star Wars', channel: ['audio', 'video']]
@@ -208,8 +231,7 @@ class JobApiSpec extends Specification  {
 			Job job = remote { 
 				Job job = Job.get(id)
 				job.theme
-				job
-				 
+				job 
 			}
 			
 			job.displayName == params.displayName

@@ -16,14 +16,14 @@
 package steps
 
 import uk.co.acuminous.jinkies.ci.Job
-import fixtures.RemoteJobRepository
+import fixtures.JobRepository
 import modules.JobWidget
 import pages.JobsPage
 import modules.JobDialog
 
 this.metaClass.mixin(cucumber.runtime.groovy.EN)
 
-RemoteJobRepository jobRepository = new RemoteJobRepository()
+JobRepository jobRepository = new JobRepository()
 
 Given (~'that a job called (.*) does not exist') { String displayName ->
 	assert Job.findByDisplayName(displayName) == null

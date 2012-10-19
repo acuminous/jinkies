@@ -47,12 +47,12 @@ public class CustomJsonMarshaller {
 		
 		Map data = CustomJsonMarshaller.job(job)
 		if (data.resourceId) {
-			Event lastEvent = eventService.getLastEvent(data.resourceId)
-			if (lastEvent) {
-				data.lastEvent = lastEvent.type.name
-			} 
+			Tag currentStatus = eventService.getCurrentStatus(data.resourceId)
+			if (currentStatus) {
+				data.status = currentStatus.name
+			}
 		}
-		
+				
 		data
 	}
 
