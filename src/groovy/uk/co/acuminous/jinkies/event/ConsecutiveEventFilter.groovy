@@ -38,20 +38,30 @@ class ConsecutiveEventFilter extends ChainedEventHandler {
 		}
 	}
 	
-	boolean shouldSuppress(Map current) {
+	boolean shouldSuppress(Map currentEvent) {
 		
-		Event previous = eventService.getLastEvent(current.sourceId)
+		boolean result = false
 		
-		previous && 
-		isRequiredType(current.type) &&
-		isRecent(previous) &&		
-		isConsecutive(previous, current)		
+		if (isRequiredType(currentEvent.type)) {
+			
+			Event previousEvent = eventService.getLastEvent(currentEvent.sourceId)
+			
+			result = has(previousEvent) && 
+					 isConsecutive(previousEvent, currentEvent) &&
+					 isRecent(previousEvent)
+		}
+		
+		result				
 	}
 	
 	boolean isRequiredType(Tag tag) {
 		tag.name == type
 	}
 		
+	boolean has(Event previous) {
+		previous != null
+	}	
+	
 	boolean isRecent(Event previous) {
 		previous.timestamp >= (System.currentTimeMillis() - cutoff)
 	}

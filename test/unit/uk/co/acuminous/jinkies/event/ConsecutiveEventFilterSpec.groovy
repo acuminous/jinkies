@@ -51,7 +51,6 @@ class ConsecutiveEventFilterSpec extends UnitSpec {
 			filter.handle event
 		
 		then:
-			1 * eventService.getLastEvent(event.sourceId) >> null
 			1 * nextHandler.handle(event)
 	}
 	
@@ -107,7 +106,6 @@ class ConsecutiveEventFilterSpec extends UnitSpec {
 			filter.handle event
 		
 		then:
-			1 * eventService.getLastEvent(event.sourceId) >> previous
 			1 * nextHandler.handle(event)
 	}
 	
