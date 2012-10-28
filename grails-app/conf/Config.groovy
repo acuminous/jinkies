@@ -142,7 +142,8 @@ grails.resources.modules = {
 		dependsOn 'jquery'
 		dependsOn '960'
 		dependsOn 'modal'
-		dependsOn 'classy'		
+		dependsOn 'classy'	
+		dependsOn 'md5'	
 		resource url:'/css/error.less', attrs:[rel: "stylesheet/less", type:'css']	
 		resource url:'/css/comic.less', attrs:[rel: "stylesheet/less", type:'css']
 		resource url:'/css/dialog.less', attrs:[rel: "stylesheet/less", type:'css']
@@ -165,6 +166,9 @@ grails.resources.modules = {
 	}
 	classy {
 		resource url:'/js/classy/classy-1.4.js', attrs:[type:'js']
+	}
+	md5 {
+		resource url:'/js/md5/jquery.md5.js', attrs:[type:'js']
 	}
 	splash {
 		dependsOn 'core'

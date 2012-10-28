@@ -36,7 +36,7 @@ var ContentPanel = WidgetPanel.$extend({
 		var filters = ['all'];
 		
 		$.each(displayNames, function(index, displayName) {
-			var filterName = 'filter-' + index;
+			var filterName = 'filter-' + $.md5(displayName);
 			filters.push(filterName);
 			$('#filter-name').data(filterName, displayName)
 		});
@@ -58,7 +58,7 @@ var ContentPanel = WidgetPanel.$extend({
 			} else {
 				widget.filterOut();				
 			}
-		})				
+		})
 	},	
 	
 	sort : function(widgets) {
@@ -93,8 +93,7 @@ var ContentPanel = WidgetPanel.$extend({
 		var title2 = widget2.title;		
 		return title1 > title2 ? 1 : title1 < title2 ? -1 : 0;		
 	},
-	
-		
+			
 	bindEventHandlers: function() {
 		
 		this.$super();

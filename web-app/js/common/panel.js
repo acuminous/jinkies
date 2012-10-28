@@ -8,7 +8,6 @@ var WidgetPanel = Class.$extend({
 		this.renderer = renderer;
 		this.filters = [];		
 		this.currentFilterName;
-
 		
 		this.bindEventHandlers();
 	},
@@ -17,7 +16,7 @@ var WidgetPanel = Class.$extend({
 		
 		this.freezeMinHeight();		
 		this.clear();		
-		var widgets = this.getWidgets();		
+		var widgets = this.getWidgets();
 		this.render(widgets);
 		this.renderFilterName();
 		this.triggerFilter();				
@@ -100,7 +99,7 @@ var WidgetPanel = Class.$extend({
 		}
 	},
 	
-	nextFilter: function() {
+	nextFilter: function() {		
 		var currentIndex = $.inArray(this.currentFilterName, this.filters);
 		if (currentIndex == -1) {
 			this.currentFilterName = this.filters[0];
