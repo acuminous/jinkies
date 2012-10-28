@@ -23,8 +23,8 @@ class RecoveryEventGenerator extends ChainedEventHandler {
 	}
 	
 	boolean hasRecovered(Map currentEvent, Event previousEvent) {
-		Tag error = Tag.findEventTypeByName('Error')		
-		currentEvent.type != error && previousEvent?.type == error
+		Tag error = Tag.findEventTypeByName('Error')	
+		currentEvent.type != error && previousEvent && previousEvent.type == error
 	}
 	
 	Map makeRecoveryEvent(Map currentEvent, Event previousEvent) {
