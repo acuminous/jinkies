@@ -1,1 +1,1 @@
-Error processing build result for project ${project.displayName}. Error message is: ${error}
+Error processing build result for project ${job.displayName}. Error message is: ${error}
