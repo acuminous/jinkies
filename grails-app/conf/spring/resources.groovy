@@ -130,6 +130,11 @@ beans = {
 	
 	eventCacheUpdater(EventCacheUpdater) {
 		cache = ref('eventCache')
+		nextHandler = ref('recoveryEventGenerator')
+	}
+	
+	recoveryEventGenerator(RecoveryEventGenerator) {
+		eventService = ref('eventService')
 		nextHandler = ref('duplicateEventFilter')
 	}
 	

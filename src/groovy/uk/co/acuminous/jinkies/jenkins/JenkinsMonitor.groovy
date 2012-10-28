@@ -36,7 +36,7 @@ class JenkinsMonitor {
 	def checkLatestBuild = { Job job ->
 				
 		try {
-
+			
 			log.debug("Checking for new $job.displayName builds")
 			
 			Build build = server.getLatestBuild(job)

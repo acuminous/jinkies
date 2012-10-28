@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
     			   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
-    
-    <include file="/release-1.0.xml"/>
-    <include file="/release-1.1.xml"/>    
-    <include file="/release-1.2.xml"/>
-    <include file="/release-1.3.xml"/>
+
+	<changeSet author="steve" id="ADD_RECOVERY_EVENT">	
+        <customChange class="uk.co.acuminous.jinkies.liquibase.InsertTag">
+            <param name="names" value="Recovery"/>
+            <param name="type" value="event"/>
+        </customChange>          
+	</changeSet>
     
 </databaseChangeLog>
