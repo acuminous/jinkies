@@ -45,7 +45,7 @@ Jinkies <a href="http://www.jinkies.co.uk/binaries/executable/jinkies.war">execu
 file after download but we recommend starting it by typing:<br/>
 <br/>
 <code>
-    java -jar jinkies.war
+    java -Dhost=&lt;host&gt; -Dport=&lt;port&gt; -jar jinkies.war
 </code><br/>
 <br/>
 This way you can stop Jinkies using CTRL+C instead of finding and killing the process.<br/>

@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 import grails.util.Environment
+import org.apache.commons.lang.StringUtils
 
 String environmentName = Environment.current.name.toLowerCase()
 println "Using ${environmentName} configuration"
@@ -83,7 +84,12 @@ grails.exceptionresolver.params.exclude = ['password']
 // enable query caching by default
 grails.hibernate.cache.queries = true
 
-grails.app.context = '/'
+
+String host = System.properties['host'] ?: 'localhost'
+String port = System.properties['port'] ?: '8080'
+String context = System.properties['context'] ? StringUtils.stripStart(System.properties['context'], '/') : ''
+grails.serverURL = StringUtils.stripEnd("http://$host:$port/$context", '/')
+grails.app.context = "/$context"
 
 grails.gorm.failOnError=false
 
@@ -186,6 +192,7 @@ grails.resources.modules = {
 		resource url:'/js/job/job-api.js', attrs:[type:'js']
 		resource url:'/js/job/job-widget.js', attrs:[type:'js']
 		resource url:'/js/job/job-dialog.js', attrs:[type:'js']
+		resource url:'/js/job/schedule-dialog.js', attrs:[type:'js']
 	}
 	content {
 		dependsOn 'core'

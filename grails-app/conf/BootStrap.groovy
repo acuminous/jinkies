@@ -40,6 +40,8 @@ class BootStrap {
 		if (grailsApplication.config.grails.plugin.quartz2.immediateStandby == true) {
 			quartzScheduler.standby()
 		}
+		
+		println "Jinkies has started successfully and can be accessed on ${grailsApplication.config.grails.serverURL}"
     }
 	
     def destroy = {

@@ -32,34 +32,28 @@ need a computer capable of playing sound, on which to install Jinkies.
 
 ## <a id="installation"></a>Installation
 
-### Option 1 - Executable War with default settings
+### Option 1 - Executable War
 1. Download the [executable binaries](http://www.jinkies.co.uk/binaries/executable/jinkies.war)
-2. Run 'java -jar jinkies.war'
-3. Give it a few moments to start then test it by opening [http://localhost:8080](http://localhost:8080)
+2. Run 'java -Dhost=&lt;host&gt; -Dport=&lt;port&gt; -jar jinkies.war'
+3. Wait for the embedded application server to start (you will see a line like the following)
 
-### Option 2 - Executable War with custom port
-1. Download the [executable binaries](http://www.jinkies.co.uk/binaries/executable/jinkies.war)
-2. Create an [external configuration](#external-configuration) file and add the line 
+   Jinkies has started successfully and can be accessed on http://server:port/
+   
+4. Point your preferred web browser at the specified host & port 
 
-    grails.serverURL = 'http://localhost:NNNN'
-    
-3. Run 'java -Dport=NNNN -jar jinkies.war'
-3. Give it a few moments to start then test it by opening [http://localhost:NNNN](http://localhost:NNNN) 
-
-### Option 3 - Deploying to an Application Server under the root context and port 8080
-1. Download the [deployable binaries](http://www.jinkies.co.uk/binaries/deployable/jinkies.war)
-2. Deploy the war file to your app server
-3. Give it a few moments to start then test it by opening [http://localhost:8080](http://localhost:8080)
-
-### Option 4 - Deploying to an Application Server using a custom context and/or different port
+### Option 2 - Deploying to an Application Server
 1. Download the [deployable binaries](http://www.jinkies.co.uk/binaries/deployable/jinkies.war)
 2. Create an [external configuration](#external-configuration) file and add the line
 
-    grails.serverURL = 'http://localhost:NNNN/context'
-    
-3. Deploy the war file to your app server
-4. Give it a few moments to start then test it by opening [http://localhost:NNN/context](http://localhost:NNNN)
+    grails.serverURL = 'http://&lt;host&gt;:&lt;port&gt;[/&lt;context&gt;]'
 
+3. Deploy the war file to your app server
+4. Wait for the embedded application server to start (you will see a line like the following)
+
+   Jinkies has started successfully and can be accessed on http://server:port/context
+   
+5. Point your preferred web browser at the specified host, context and port
+ 
 ### Troubleshooting
 
 * The first time you start Jinkies, it will take a little time to initialise it's database, please be patient. 
@@ -252,11 +246,11 @@ supression duration.
     jinkies.events.suppressRepeatedErrors = 60 * 60 * 1000
 
 When Jinkies recovers from an error (e.g. the build server came back online) 
-it generates an internal 'Recovery' event, however there is no default mp3 
-this, so if your job is setup to use audio alerts, no sound will be played.
-This is because recoveries could easily be confused for successes, while
-your build status might still be failure. Of course you can still upload 
-your own mp3s and assign them to the 'Recovery' event if you so wish.
+it triggers an internal 'Recovery' event, however there is no default content 
+this, so no notification will be given. We did this because recovery notifications  
+could easily be mistaken for successes, and while the build server is now 
+available again, the a job's status might still be failure. You can still upload 
+your own content and assign them to the 'Recovery' event if you so wish.
 
 ## <a id="customEvents"></a>Custom Events</a>
 If you want to use Jinkies to report other events, you need to POST a request to /api/event with the following parameters...
