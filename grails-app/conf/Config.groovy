@@ -192,7 +192,6 @@ grails.resources.modules = {
 		resource url:'/js/job/job-api.js', attrs:[type:'js']
 		resource url:'/js/job/job-widget.js', attrs:[type:'js']
 		resource url:'/js/job/job-dialog.js', attrs:[type:'js']
-		resource url:'/js/job/schedule-dialog.js', attrs:[type:'js']
 	}
 	content {
 		dependsOn 'core'
