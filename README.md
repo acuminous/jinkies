@@ -218,7 +218,7 @@ paste in the following...
         def job = ClosureJob.createJob('ProjectXStandup', { jobCtx , appCtx->
             try {
                 Map params = [sourceId: 'project/x', theme: 'Scooby Doo', event: 'Stand-Up', channel: ['audio']]
-                new HttpClientsFactory().getHttpBuilder('http://localhost:8080/api/event').post(body: params)
+                new HttpClientsFactory().getHttpBuilder().post(uri: 'http://localhost:8080/api/event', body: params)
             } catch (Throwable t) {
                 Logger.getLogger('ProjectXStandupJob').error('An error while sounding the Project X standup', t)
             }

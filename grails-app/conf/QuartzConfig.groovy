@@ -17,6 +17,7 @@ import grails.plugin.quartz2.ClosureJob
 import org.apache.log4j.Logger
 import org.quartz.impl.triggers.CronTriggerImpl
 import org.quartz.impl.triggers.SimpleTriggerImpl
+import uk.co.acuminous.jinkies.util.HttpClientsFactory
 
 grails.plugin.quartz2.jobSetup.jenkinsMonitor = { quartzScheduler, ctx ->
 
